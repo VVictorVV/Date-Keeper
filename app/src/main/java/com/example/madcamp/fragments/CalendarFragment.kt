@@ -1,4 +1,4 @@
-package com.example.madcamp
+package com.example.madcamp.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.madcamp.databinding.FragmentCalendarBinding
-import com.example.madcamp.databinding.FragmentHomeBinding // 자동으로 생성된 바인딩 클래스
 
 class CalendarFragment : Fragment() {
 

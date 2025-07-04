@@ -1,21 +1,15 @@
 package com.example.madcamp
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.madcamp.ui.theme.MadCampTheme
 import androidx.fragment.app.Fragment
 import com.example.madcamp.databinding.ActivityMainBinding
 import android.util.Log
+import com.example.madcamp.fragments.CalendarFragment
+import com.example.madcamp.fragments.GalleryFragment
+import com.example.madcamp.fragments.HomeFragment
+import com.example.madcamp.fragments.PeopleFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
