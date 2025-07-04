@@ -4,12 +4,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp.data.Person
-import com.example.madcamp.databinding.PersonListBinding
+import com.example.madcamp.databinding.PeopleListBinding
 
 class PeopleAdapter(private val people: List<Person>) :
     RecyclerView.Adapter<PeopleAdapter.PersonViewHolder>() {
 
-    inner class PersonViewHolder(private val binding: PersonListBinding) :
+    inner class PersonViewHolder(private val binding: PeopleListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(person: Person) {
@@ -20,7 +20,7 @@ class PeopleAdapter(private val people: List<Person>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
-        val binding = PersonListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = PeopleListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PersonViewHolder(binding)
     }
 
