@@ -3,28 +3,28 @@
 
     <item
         android:id="@+id/menu_home"
-        android:title="홈"
+        android:title="@string/menu_home"
         android:enabled="true"
         android:icon="@drawable/menu_home"
         />
 
     <item
         android:id="@+id/menu_calendar"
-        android:title="달력"
+        android:title="@string/menu_calendar"
         android:enabled="true"
         android:icon="@drawable/menu_calendar"
         />
 
     <item
         android:id="@+id/menu_people"
-        android:title="사람들"
+        android:title="@string/menu_people"
         android:enabled="true"
         android:icon="@drawable/menu_people"
         />
 
     <item
         android:id="@+id/menu_gallery"
-        android:title="추억 보기"
+        android:title="@string/menu_gallery"
         android:enabled="true"
         android:icon="@drawable/menu_gallery"
         />
