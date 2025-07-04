@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_home"
+        android:title="홈"
+        android:enabled="true"
+        android:icon="@drawable/menu_home"
+        />
+
+    <item
+        android:id="@+id/menu_calendar"
+        android:title="달력"
+        android:enabled="true"
+        android:icon="@drawable/menu_calendar"
+        />
+
+    <item
+        android:id="@+id/menu_people"
+        android:title="사람들"
+        android:enabled="true"
+        android:icon="@drawable/menu_people"
+        />
+
+    <item
+        android:id="@+id/menu_gallery"
+        android:title="추억 보기"
+        android:enabled="true"
+        android:icon="@drawable/menu_gallery"
+        />
+
+</menu>

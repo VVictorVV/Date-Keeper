@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-
-    <style name="Theme.MadCamp" parent="android:Theme.Material.Light.NoActionBar" />
+<!-- themes.xml -->
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.MadCamp" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    </style>
 </resources>
