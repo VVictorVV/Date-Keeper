@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.madcamp.ui.theme.MadCampTheme
 import androidx.fragment.app.Fragment
 import com.example.madcamp.databinding.ActivityMainBinding
+import android.util.Log
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -38,14 +39,16 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.menu_home -> {
                     replaceFragment(HomeFragment())
+                    Log.d("MyTag", "test")
                     true
                 }
                 R.id.menu_calendar -> {
-                    //replaceFragment(calendarFragment())
+                    replaceFragment(CalendarFragment())
+                    Log.d("MyTag", "test2")
                     true
                 }
                 R.id.menu_people -> {
-                    //replaceFragment(peopleFragment())
+                    replaceFragment(PeopleFragment())
                     true
                 }
                 R.id.menu_gallery -> {
