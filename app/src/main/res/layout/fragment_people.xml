@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".fragments.PeopleFragment">
 
+    <ImageView
+        android:id="@+id/people_image_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/dogtest"
+        android:layout_marginTop="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+        android:focusable="true" />
+
     <TextView
         android:id="@+id/anniversary_text_view"
         android:layout_width="wrap_content"
