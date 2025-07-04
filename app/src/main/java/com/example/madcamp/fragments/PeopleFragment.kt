@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.madcamp.PeopleAdapter
 import com.example.madcamp.PeopleManager
@@ -35,7 +36,7 @@ class PeopleFragment : Fragment() {
         val peopleList = PeopleManager.getPeople() // 여기에 현재 등록된 사람 목록이 있다고 가정
         val adapter = PeopleAdapter(peopleList)
 
-        binding.rvPeopleList.layoutManager = LinearLayoutManager(requireContext())
+        binding.rvPeopleList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvPeopleList.adapter = adapter
 
         return binding.root

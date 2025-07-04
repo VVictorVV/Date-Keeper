@@ -1,32 +1,43 @@
 package com.example.madcamp
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp.data.Person
 import com.example.madcamp.databinding.PeopleListBinding
 
-class PeopleAdapter(private val people: List<Person>) :
+class PeopleAdapter(private val peopleList: List<Person>) :
     RecyclerView.Adapter<PeopleAdapter.PersonViewHolder>() {
 
-    inner class PersonViewHolder(private val binding: PeopleListBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(person: Person) {
-            binding.plName.text = person.name
-            binding.plPhone.text = person.phoneNumber
-            binding.plNickname.text = person.nickname
-        }
+    // 각 카드 뷰의 구성요소를 보관하는 클래스
+    class PersonViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val profileImage: ImageView = view.findViewById(R.id.card_profile_image)
+        val profileName: TextView = view.findViewById(R.id.card_profile_name)
+        val profilePhoneNumber: TextView = view.findViewById(R.id.card_profile_phone_number)
     }
 
+    // ViewHolder를 생성하는 함수 (person_card_item.xml 레이아웃을 inflate)
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PersonViewHolder {
-        val binding = PeopleListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PersonViewHolder(binding)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.people_person_card_item, parent, false)
+        return PersonViewHolder(view)
     }
 
-    override fun getItemCount(): Int = people.size
-
+    // ViewHolder에 데이터를 바인딩하는 함수
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
-        holder.bind(people[position])
+        val person = peopleList[position]
+        val showName = "${person.name} (${person.nickname})"
+        holder.profileName.text = showName
+        holder.profilePhoneNumber.text = person.phoneNumber
+        // person 객체에 아이콘 정보가 있다면 설정 (예: person.iconResId)
+        // holder.profileImage.setImageResource(person.iconResId)
+    }
+
+    // 전체 아이템 개수 반환
+    override fun getItemCount(): Int {
+        return peopleList.size
     }
 }
