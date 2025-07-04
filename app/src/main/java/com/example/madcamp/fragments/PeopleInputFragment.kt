@@ -40,13 +40,21 @@ class PeopleInputFragment : Fragment(){
             val nickname = binding.editNickname.text.toString().trim()
 
             if (name.isNotEmpty() && phone.isNotEmpty() && nickname.isNotEmpty()) {
-                // 선호하는 선물 리스트
-                val giftList = mutableListOf<String>()
+                // 아직 등록되지 않은 선물 입력창이 있는지 확인
+                val hasUnregisteredGift = (0 until binding.giftInput.childCount).any { i ->
+                    val child = binding.giftInput.getChildAt(i) as? ViewGroup
+                    child?.let {
+                        (0 until it.childCount).any { j -> it.getChildAt(j) is EditText }
+                    } ?: false
+                }
 
-                if (giftList.isEmpty()) {
-                    Toast.makeText(requireContext(), "선물 항목은 등록 버튼을 누르거나 입력 후 등록해주세요.", Toast.LENGTH_SHORT).show()
+                if (hasUnregisteredGift) {
+                    Toast.makeText(requireContext(), "선물 항목은 '등록' 버튼을 눌러 추가해 주세요.", Toast.LENGTH_SHORT).show()
                     return@setOnClickListener
                 }
+
+                // 선호하는 선물 리스트
+                val giftList = mutableListOf<String>()
 
                 for (i in 0 until binding.giftInput.childCount) {
                     val row = binding.giftInput.getChildAt(i) as ViewGroup
@@ -94,18 +102,44 @@ class PeopleInputFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         binding.addGift.setOnClickListener {
-            if (binding.giftInput.childCount == 0) {
-                addGiftInputRow()
-            } else {
-                // 현재 입력 중인 선물 입력창 포함해서 전부 제거
-                binding.giftInput.removeAllViews()
-                binding.giftInput.visibility = View.GONE
+            val hasInputRow = (0 until binding.giftInput.childCount).any { i ->
+                val child = binding.giftInput.getChildAt(i) as? ViewGroup
+                child?.let {
+                    (0 until it.childCount).any { j -> it.getChildAt(j) is EditText }
+                } ?: false
+            }
+
+            if (hasInputRow) {
+                // 입력창만 찾아서 제거
+                val inputRow = (0 until binding.giftInput.childCount).firstOrNull { i ->
+                    val child = binding.giftInput.getChildAt(i) as? ViewGroup
+                    child?.let {
+                        (0 until it.childCount).any { j -> it.getChildAt(j) is EditText }
+                    } ?: false
+                }
+                inputRow?.let {
+                    binding.giftInput.removeViewAt(inputRow)
+                }
+
+                // 버튼 복원
                 binding.addGift.text = "+"
+            } else {
+                addGiftInputRow()
             }
         }
     }
 
     private fun addGiftInputRow() {
+        // 이미 입력창이 있으면 또 만들지 않음
+        val alreadyHasInput = (0 until binding.giftInput.childCount).any { i ->
+            val child = binding.giftInput.getChildAt(i) as? ViewGroup
+            child?.let {
+                (0 until it.childCount).any { j -> it.getChildAt(j) is EditText }
+            } ?: false
+        }
+
+        if (alreadyHasInput) return
+
         val rowLayout = LinearLayout(requireContext()).apply {
             orientation = LinearLayout.HORIZONTAL
             layoutParams = LinearLayout.LayoutParams(
@@ -160,6 +194,17 @@ class PeopleInputFragment : Fragment(){
                 rowLayout.removeView(registerButton)
                 rowLayout.addView(giftTextView)
                 rowLayout.addView(deleteButton)
+
+                // 모든 row를 확인해보고 EditText가 하나도 없으면 + 버튼으로 바꿈
+                val hasInputRow = (0 until binding.giftInput.childCount).any { i ->
+                    val child = binding.giftInput.getChildAt(i) as? ViewGroup
+                    child?.let {
+                        (0 until it.childCount).any { j -> it.getChildAt(j) is EditText }
+                    } ?: false
+                }
+                if (!hasInputRow) {
+                    binding.addGift.text = "+"
+                }
             }
         }
 
