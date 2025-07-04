@@ -1,15 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.PeopleFragment">
 
     <TextView
+        android:id="@+id/anniversary_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="여기는 사람들 화면입니다"
-        android:textSize="24sp" />
+        android:text="선택된 기념일이 없습니다."
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="100dp" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/add_anniversary_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="기념일 추가"
+        app:layout_constraintStart_toStartOf="@id/anniversary_text_view"
+        app:layout_constraintTop_toBottomOf="@id/anniversary_text_view"
+        android:layout_marginTop="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
