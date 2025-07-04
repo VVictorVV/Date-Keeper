@@ -13,6 +13,9 @@ import com.example.madcamp.PeopleManager
 import com.example.madcamp.R
 import com.example.madcamp.data.Person
 import com.example.madcamp.databinding.PeopleInputBinding
+import com.google.android.material.datepicker.MaterialDatePicker
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class PeopleInputFragment : Fragment(){
 
