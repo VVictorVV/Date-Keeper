@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.menu_gallery -> {
-                    //replaceFragment(galleryFragment())
+                    replaceFragment(GalleryFragment())
                     true
                 }
                 else -> false
