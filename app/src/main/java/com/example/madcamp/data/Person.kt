@@ -9,7 +9,7 @@ data class Person(
     val nickname: String,
     val representativeIcon: String,
     val phoneNumber: String,
-    val anniversary: List<String>,
-    val giftInfo: List<String>,
-    val memories: List<Long>
+    val anniversary: MutableList<String>,
+    val giftInfo: MutableList<String>,
+    val memories: MutableList<Long>
 ) : Serializable
