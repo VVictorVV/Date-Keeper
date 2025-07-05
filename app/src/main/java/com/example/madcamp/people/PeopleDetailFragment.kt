@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.madcamp.R
 import com.example.madcamp.databinding.PeopleDetailBinding
@@ -37,13 +38,26 @@ class PeopleDetailFragment : Fragment(){
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.btnEdit.setOnClickListener {
-            person?.let {
-                val fragment = PeopleInputFragment.newInstance(it)
+        person?.let { person ->
+            binding.textName.text = "이름: ${person.name}"
+            binding.textNickname.text = "별명: ${person.nickname}"
+            binding.textPhone.text = "전화번호: ${person.phoneNumber}"
+            binding.textGifts.text = "선호하는 선물: ${person.giftInfo.joinToString(", ")}"
+
+            // 수정 버튼
+            binding.btnEdit.setOnClickListener {
+                val editFragment = PeopleInputFragment.newInstance(person)
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.bottom_layout, fragment)  // 현재 프래그먼트를 입력 폼으로 바꿈
+                    .replace(R.id.bottom_layout, editFragment)
                     .addToBackStack(null)
                     .commit()
+            }
+
+            // 🔥 삭제 버튼 처리
+            binding.btnDelete.setOnClickListener {
+                PeopleManager.removePerson(person)
+                Toast.makeText(requireContext(), "삭제되었습니다", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.popBackStack()  // 목록으로 돌아가기
             }
         }
     }

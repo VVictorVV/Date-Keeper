@@ -27,7 +27,7 @@ object PeopleManager {
         }
     }
 
-    fun deletePerson(personId: Long) {
-        peopleList.removeIf { it.id == personId }
+    fun removePerson(person: Person) {
+        peopleList.remove(person)
     }
 }

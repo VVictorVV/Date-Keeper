@@ -36,11 +36,11 @@ class PeopleInputFragment : Fragment(){
         _binding = PeopleInputBinding.inflate(inflater, container, false)
 
         binding.btnSave.setOnClickListener {
-            val name = binding.editName.text.toString().trim()
+            val personName = binding.editName.text.toString().trim()
             val phone = binding.editPhone.text.toString().trim()
-            val nickname = binding.editNickname.text.toString().trim()
+            val nickName = binding.editNickname.text.toString().trim()
 
-            if (name.isNotEmpty() && phone.isNotEmpty() && nickname.isNotEmpty()) {
+            if (personName.isNotEmpty() && phone.isNotEmpty() && nickName.isNotEmpty()) {
                 // 아직 등록되지 않은 선물 입력창이 있는지 확인
                 val hasUnregisteredGift = (0 until binding.giftInput.childCount).any { i ->
                     val child = binding.giftInput.getChildAt(i) as? ViewGroup
@@ -61,7 +61,7 @@ class PeopleInputFragment : Fragment(){
                     val row = binding.giftInput.getChildAt(i) as ViewGroup
                     for (j in 0 until row.childCount) {
                         val view = row.getChildAt(j)
-                        // ✅ bullet이 아닌 "등록된 선물 TextView"만 추출
+                        // bullet이 아닌 "등록된 선물 TextView"만 추출
                         if (view is TextView && view.tag == "giftText") {
                             giftList.add(view.text.toString())
                         }
@@ -69,7 +69,7 @@ class PeopleInputFragment : Fragment(){
                 }
 
                 if (existingPerson != null) {
-                    // 수정 모드: 기존 person 수정$
+                    // 수정 모드: 기존 person 수정
                     existingPerson?.apply {
                         name = this@PeopleInputFragment.binding.editName.text.toString().trim()
                         nickname = this@PeopleInputFragment.binding.editNickname.text.toString().trim()
@@ -82,8 +82,8 @@ class PeopleInputFragment : Fragment(){
                     // 추가 모드
                     val newPerson = Person(
                         id = PeopleManager.generateId(),
-                        name = name,
-                        nickname = nickname,
+                        name = personName,
+                        nickname = nickName,
                         representativeIcon = "",
                         phoneNumber = phone,
                         anniversary = mutableListOf(),
@@ -92,6 +92,7 @@ class PeopleInputFragment : Fragment(){
                     )
                     PeopleManager.addPerson(newPerson)
                     Toast.makeText(requireContext(), "사람이 추가되었습니다!", Toast.LENGTH_SHORT).show()
+                    parentFragmentManager.popBackStack()
                 }
 
                 val allPeople = PeopleManager.getPeople()
