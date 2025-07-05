@@ -143,7 +143,13 @@ class CalendarFragment : Fragment() {
                 val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 positiveButton.setOnClickListener{
                     val anniversaryName = anniversaryNameEdit.text.toString().trim()
-                    val selectedGift = giftSpinner.selectedItem.toString()
+                    val currentSelectedItem = giftSpinner.selectedItem
+                    val selectedGift: String
+                    if (currentSelectedItem != null) {
+                        selectedGift = currentSelectedItem.toString()
+                    } else {
+                        selectedGift = ""
+                    }
 
                     if (selectedPerson == null){
                         android.widget.Toast.makeText(requireContext(), "사람을 선택해주세요.", android.widget.Toast.LENGTH_SHORT).show()

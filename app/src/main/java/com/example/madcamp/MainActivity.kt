@@ -18,35 +18,39 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "홈"
         supportFragmentManager.beginTransaction().replace(R.id.bottom_layout, HomeFragment()).commit()
 
         navigation()
 
-        enableEdgeToEdge()
+        // enableEdgeToEdge()
     }
 
     private fun navigation() {
         val bottomNavigationView = binding.bottomNavigation
-        bottomNavigationView.selectedItemId = R.id.menu_home
+        // bottomNavigationView.selectedItemId = R.id.menu_home
 
         bottomNavigationView.setOnNavigationItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.menu_home -> {
                     replaceFragment(HomeFragment())
-                    Log.d("MyTag", "test")
+                    supportActionBar?.title = "홈" // 타이틀 변경
                     true
                 }
                 R.id.menu_calendar -> {
                     replaceFragment(CalendarFragment())
-                    Log.d("MyTag", "test2")
+                    supportActionBar?.title = "캘린더" // 타이틀 변경
                     true
                 }
                 R.id.menu_people -> {
                     replaceFragment(PeopleFragment())
+                    supportActionBar?.title = "연락처" // 타이틀 변경
                     true
                 }
                 R.id.menu_gallery -> {
                     replaceFragment(GalleryFragment())
+                    supportActionBar?.title = "갤러리" // 타이틀 변경
                     true
                 }
                 else -> false

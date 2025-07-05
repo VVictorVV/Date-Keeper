@@ -45,7 +45,11 @@ class AnniversaryAdapter(
             val anniversary = details.anniversary
 
             holder.nameText.text = "${person.name}님의 ${anniversary.name}"
-            holder.giftText.text = "선물: ${anniversary.gift}"
+            if (anniversary.gift.isEmpty()) {
+                holder.giftText.text = "주고 싶은 선물을 아직 고르지 않았습니다!"
+            } else {
+                holder.giftText.text = "선물: ${anniversary.gift}"
+            }
             holder.checkBox.visibility = if (isManagementMode) View.VISIBLE else View.INVISIBLE
             holder.checkBox.isChecked = checkedItems.contains(details)
 
