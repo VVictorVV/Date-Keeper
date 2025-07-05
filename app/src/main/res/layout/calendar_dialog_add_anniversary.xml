@@ -3,33 +3,37 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="16dp">
 
     <TextView
+        android:id="@+id/title_select_person"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="누구의 기념일인가요?"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textSize="16sp"/>
+        android:layout_marginBottom="8dp"/>
 
-    <Spinner
-        android:id="@+id/spinner_people"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_people_selection"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:layout_height="200dp" />
 
     <TextView
+        android:id="@+id/title_select_gift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="어떤 선물을 기록할까요?"
+        android:textSize="18sp"
         android:textStyle="bold"
-        android:textSize="16sp"/>
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"/>
 
     <Spinner
-        android:id="@+id/spinner_gifts"
+        android:id="@+id/spinner_gifts_selection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp" />
+        android:visibility="gone" />
 
 </LinearLayout>

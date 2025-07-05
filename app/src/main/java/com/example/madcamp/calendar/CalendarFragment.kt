@@ -2,12 +2,20 @@ package com.example.madcamp.calendar
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.madcamp.people.PeopleManager
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.madcamp.AnniversaryAdapter
+import com.example.madcamp.AnniversaryInfo
+import com.example.madcamp.people.PeopleAdapter
+import com.example.madcamp.people.Person
 import com.example.madcamp.R
 import com.example.madcamp.databinding.FragmentCalendarBinding
 import com.kizitonwose.calendar.core.CalendarDay
@@ -18,12 +26,13 @@ import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.util.Date
 
 class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
 
-    private val anniversaryDates = mutableSetOf<LocalDate>()
+    private val anniversaryMap = mutableMapOf<LocalDate, MutableList<Person>>()
     private var selectedDate: LocalDate? = null
 
     override fun onCreateView(
@@ -34,6 +43,9 @@ class CalendarFragment : Fragment() {
 
         // 기념일 데이터 가져오기
         loadAnniversaries()
+
+        val anniversaryRecyclerView = binding.rvAnniversaryList
+        anniversaryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
         // 달력 설정
         val calendarView = binding.calendarView
@@ -64,12 +76,12 @@ class CalendarFragment : Fragment() {
                             calendarView.notifyDateChanged(day.date)
                             oldDate?.let { calendarView.notifyDateChanged(it) }
                         }
-                        updateRegisterButtonVisibility()
+                        updateUIBasedOnSelection()
                     }
 
                     textView.isSelected = selectedDate == day.date
 
-                    if (anniversaryDates.contains(day.date)) {
+                    if (anniversaryMap.containsKey(day.date)) {
                         dotView.visibility = View.VISIBLE
                     } else {
                         dotView.visibility = View.INVISIBLE
@@ -81,15 +93,69 @@ class CalendarFragment : Fragment() {
             }
         }
 
+        // 기념일 등록 버튼 클릭 시
         binding.registerAnniversaryButton.setOnClickListener {
-            selectedDate?.let { date ->
-                AlertDialog.Builder(requireContext())
-                    .setTitle("${date.monthValue}월 ${date.dayOfMonth}일 기념일 등록")
-                    .setMessage("여기에 기념일과 선물 정보를 입력하는 UI가 들어갑니다.")
-                    .setPositiveButton("저장", null) // null은 버튼 클릭 시 창이 닫히지 않게 함
-                    .setNegativeButton("취소", null)
-                    .show()
+            val date = selectedDate ?: return@setOnClickListener
+
+            // 다이얼로그 View, UI 세팅
+            val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.calendar_dialog_add_anniversary, null)
+            val peopleRecyclerView = dialogView.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rv_people_selection)
+            val giftTitle = dialogView.findViewById<TextView>(R.id.title_select_gift)
+            val giftSpinner = dialogView.findViewById<android.widget.Spinner>(R.id.spinner_gifts_selection)
+
+            var selectedPerson: Person? = null
+
+            val dialog = AlertDialog.Builder(requireContext())
+                .setTitle("${date.monthValue}월 ${date.dayOfMonth}일 기념일 등록")
+                .setView(dialogView)
+                .setPositiveButton("저장") { _, _ ->
+                }
+                .setNegativeButton("취소", null)
+                .create()
+
+            val peopleList = PeopleManager.getPeople()
+            val peopleAdapter = PeopleAdapter(peopleList) { person ->
+                selectedPerson = person
+
+                peopleRecyclerView.visibility = View.GONE
+                giftTitle.visibility = View.VISIBLE
+                giftSpinner.visibility = View.VISIBLE
+
+                val giftAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, person.giftInfo)
+                giftSpinner.adapter = giftAdapter
             }
+
+            peopleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
+            peopleRecyclerView.adapter = peopleAdapter
+
+            dialog.setOnShowListener {
+                val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                positiveButton.setOnClickListener{
+                    if (selectedPerson == null){
+                        android.widget.Toast.makeText(requireContext(), "사람을 선택해주세요.", android.widget.Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+
+                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                    val dateString = date.format(formatter)
+
+                    if (!selectedPerson!!.anniversary.contains(dateString)) {
+                        selectedPerson!!.anniversary.add(dateString)
+                        android.widget.Toast.makeText(requireContext(), "기념일이 등록되었습니다.", android.widget.Toast.LENGTH_SHORT).show()
+                    }
+
+                    anniversaryMap.getOrPut(date) { mutableListOf() }.add(selectedPerson!!)
+                    binding.calendarView.notifyDateChanged(date)
+                    updateUIBasedOnSelection()
+
+                    selectedDate = null
+                    updateUIBasedOnSelection()
+
+                    dialog.dismiss()
+                }
+            }
+
+            dialog.show()
         }
 
         // 월 이동 시 상단 텍스트를 업데이트
@@ -104,6 +170,31 @@ class CalendarFragment : Fragment() {
         return binding.root
     }
 
+    // 날짜 선택에 따라 UI를 업데이트하는 함수
+    private fun updateUIBasedOnSelection() {
+        val date = selectedDate
+        if (date != null) {
+            binding.registerAnniversaryButton.visibility = View.VISIBLE
+
+            val peopleWithAnniversary = anniversaryMap[date]
+            if (!peopleWithAnniversary.isNullOrEmpty()) {
+                val anniversaryInfoList = peopleWithAnniversary.map {
+                    AnniversaryInfo(it, "기념일") // 기념일 파트를 나중에 구체적인 내용으로 바꿔야 함.
+                }
+                binding.rvAnniversaryList.adapter = AnniversaryAdapter(anniversaryInfoList)
+                binding.anniversaryListTitle.visibility = View.VISIBLE
+                binding.rvAnniversaryList.visibility = View.VISIBLE
+            } else {
+                binding.anniversaryListTitle.visibility = View.GONE
+                binding.rvAnniversaryList.visibility = View.GONE
+            }
+        } else { // 날짜 선택이 해제 됨
+            binding.registerAnniversaryButton.visibility = View.INVISIBLE
+            binding.anniversaryListTitle.visibility = View.GONE
+            binding.rvAnniversaryList.visibility = View.GONE
+        }
+    }
+
     private fun updateRegisterButtonVisibility() {
         if (selectedDate != null) {
             binding.registerAnniversaryButton.visibility = View.VISIBLE
@@ -114,16 +205,17 @@ class CalendarFragment : Fragment() {
 
     //모든 사람의 모든 기념일 불러오기
     private fun loadAnniversaries(){
+        anniversaryMap.clear()
         val people = PeopleManager.getPeople()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         people.forEach { person ->
-            try {
-                for (dateStr in person.anniversary) {
+            person.anniversary.forEach { dateStr ->
+                try {
                     val date = LocalDate.parse(dateStr, formatter)
-                    anniversaryDates.add(date)
+                    anniversaryMap.getOrPut(date) { mutableListOf() }.add(person)
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
-            } catch (e: Exception) {
-                e.printStackTrace()
             }
         }
     }
