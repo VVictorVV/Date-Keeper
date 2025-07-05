@@ -7,13 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.madcamp.people.PeopleManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.madcamp.AnniversaryAdapter
-import com.example.madcamp.AnniversaryInfo
 import com.example.madcamp.people.PeopleAdapter
 import com.example.madcamp.people.Person
 import com.example.madcamp.R
@@ -22,17 +22,21 @@ import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.ViewContainer
+import org.w3c.dom.Text
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Date
+import com.example.madcamp.calendar.Anniversary
+
+data class AnniversaryDetails(val person: Person, val anniversary: Anniversary)
 
 class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null
     private val binding get() = _binding!!
 
-    private val anniversaryMap = mutableMapOf<LocalDate, MutableList<Person>>()
+    private val anniversaryMap = mutableMapOf<LocalDate, MutableList<AnniversaryDetails>>()
     private var selectedDate: LocalDate? = null
 
     override fun onCreateView(
@@ -100,6 +104,8 @@ class CalendarFragment : Fragment() {
             // 다이얼로그 View, UI 세팅
             val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.calendar_dialog_add_anniversary, null)
             val peopleRecyclerView = dialogView.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rv_people_selection)
+            val anniversaryNameTitle = dialogView.findViewById<TextView>(R.id.title_anniversary_name)
+            val anniversaryNameEdit = dialogView.findViewById<EditText>(R.id.edit_anniversary_name)
             val giftTitle = dialogView.findViewById<TextView>(R.id.title_select_gift)
             val giftSpinner = dialogView.findViewById<android.widget.Spinner>(R.id.spinner_gifts_selection)
 
@@ -118,6 +124,8 @@ class CalendarFragment : Fragment() {
                 selectedPerson = person
 
                 peopleRecyclerView.visibility = View.GONE
+                anniversaryNameTitle.visibility = View.VISIBLE
+                anniversaryNameEdit.visibility = View.VISIBLE
                 giftTitle.visibility = View.VISIBLE
                 giftSpinner.visibility = View.VISIBLE
 
@@ -131,20 +139,30 @@ class CalendarFragment : Fragment() {
             dialog.setOnShowListener {
                 val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 positiveButton.setOnClickListener{
+                    val anniversaryName = anniversaryNameEdit.text.toString().trim()
+                    val selectedGift = giftSpinner.selectedItem.toString()
+
                     if (selectedPerson == null){
                         android.widget.Toast.makeText(requireContext(), "사람을 선택해주세요.", android.widget.Toast.LENGTH_SHORT).show()
+                        return@setOnClickListener
+                    }
+                    if (anniversaryName.isEmpty()) {
+                        android.widget.Toast.makeText(requireContext(), "기념일 이름을 입력해주세요.", android.widget.Toast.LENGTH_SHORT).show()
                         return@setOnClickListener
                     }
 
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val dateString = date.format(formatter)
+                    val newAnniversary = Anniversary (
+                        date = dateString,
+                        name = anniversaryName,
+                        gift = selectedGift
+                    )
+                    selectedPerson!!.anniversary.add(newAnniversary)
 
-                    if (!selectedPerson!!.anniversary.contains(dateString)) {
-                        selectedPerson!!.anniversary.add(dateString)
-                        android.widget.Toast.makeText(requireContext(), "기념일이 등록되었습니다.", android.widget.Toast.LENGTH_SHORT).show()
-                    }
+                    val details = AnniversaryDetails(selectedPerson!!, newAnniversary)
+                    anniversaryMap.getOrPut(date) { mutableListOf() }.add(details)
 
-                    anniversaryMap.getOrPut(date) { mutableListOf() }.add(selectedPerson!!)
                     binding.calendarView.notifyDateChanged(date)
                     updateUIBasedOnSelection()
 
@@ -176,12 +194,9 @@ class CalendarFragment : Fragment() {
         if (date != null) {
             binding.registerAnniversaryButton.visibility = View.VISIBLE
 
-            val peopleWithAnniversary = anniversaryMap[date]
-            if (!peopleWithAnniversary.isNullOrEmpty()) {
-                val anniversaryInfoList = peopleWithAnniversary.map {
-                    AnniversaryInfo(it, "기념일") // 기념일 파트를 나중에 구체적인 내용으로 바꿔야 함.
-                }
-                binding.rvAnniversaryList.adapter = AnniversaryAdapter(anniversaryInfoList)
+            val anniversaryDetailsList = anniversaryMap[date]
+            if (!anniversaryDetailsList.isNullOrEmpty()) {
+                binding.rvAnniversaryList.adapter = AnniversaryAdapter(anniversaryDetailsList)
                 binding.anniversaryListTitle.visibility = View.VISIBLE
                 binding.rvAnniversaryList.visibility = View.VISIBLE
             } else {
@@ -195,24 +210,17 @@ class CalendarFragment : Fragment() {
         }
     }
 
-    private fun updateRegisterButtonVisibility() {
-        if (selectedDate != null) {
-            binding.registerAnniversaryButton.visibility = View.VISIBLE
-        } else {
-            binding.registerAnniversaryButton.visibility = View.INVISIBLE
-        }
-    }
-
     //모든 사람의 모든 기념일 불러오기
     private fun loadAnniversaries(){
         anniversaryMap.clear()
         val people = PeopleManager.getPeople()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         people.forEach { person ->
-            person.anniversary.forEach { dateStr ->
+            person.anniversary.forEach { anniversary ->
                 try {
-                    val date = LocalDate.parse(dateStr, formatter)
-                    anniversaryMap.getOrPut(date) { mutableListOf() }.add(person)
+                    val date = LocalDate.parse(anniversary.date, formatter)
+                    val details = AnniversaryDetails(person, anniversary)
+                    anniversaryMap.getOrPut(date) { mutableListOf() }.add(details)
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

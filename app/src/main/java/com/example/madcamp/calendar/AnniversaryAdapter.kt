@@ -7,11 +7,9 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp.people.Person // Person 모델 클래스 import
+import com.example.madcamp.calendar.AnniversaryDetails
 
-// Person 객체와 기념일 설명을 담을 데이터 클래스
-data class AnniversaryInfo(val person: Person, val description: String)
-
-class AnniversaryAdapter(private val anniversaryList: List<AnniversaryInfo>) :
+class AnniversaryAdapter(private val anniversaryList: List<AnniversaryDetails>) :
     RecyclerView.Adapter<AnniversaryAdapter.ViewHolder>() {
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

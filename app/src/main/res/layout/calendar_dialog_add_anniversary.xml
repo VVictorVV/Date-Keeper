@@ -20,6 +20,26 @@
         android:layout_height="200dp" />
 
     <TextView
+        android:id="@+id/title_anniversary_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="어떤 기념일인가요?"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:layout_marginBottom="8dp"/>
+
+    <EditText
+        android:id="@+id/edit_anniversary_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="예: 생일, 1주년"
+        android:visibility="gone"
+        android:inputType="text"
+        android:maxLines="1"/>
+
+    <TextView
         android:id="@+id/title_select_gift"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
