@@ -24,8 +24,8 @@ class AnniversaryAdapter(private val anniversaryList: List<AnniversaryDetails>) 
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val info = anniversaryList[position]
-            holder.text.text = "${info.person.name}님의 ${info.description}"
+            val details = anniversaryList[position]
+            holder.text.text = "${details.person.name}님의 ${details.anniversary.name}"
             // 아이콘 설정 로직 추가 가능
             // holder.icon.setImageResource(...)
         }
