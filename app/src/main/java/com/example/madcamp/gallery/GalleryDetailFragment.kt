@@ -27,7 +27,7 @@ class GalleryDetailFragment : Fragment() {
             )
             person?.memories?.add(newGallery)
 
-            adapter.submitList(person?.memories?.toList())
+            person?.memories?.toList()?.let { it1 -> adapter.submitList(it1) }
             binding.tvNoPhotos.visibility = View.GONE
             binding.viewPager.visibility = View.VISIBLE
 
@@ -57,7 +57,7 @@ class GalleryDetailFragment : Fragment() {
         } else {
             binding.tvNoPhotos.visibility = View.GONE
             binding.viewPager.visibility = View.VISIBLE
-            adapter.submitList(person?.memories?.toList())
+            person?.memories?.toList()?.let { adapter.submitList(it) }
 
             // ViewPager 페이지 바뀔 때 화살표 보이기 설정
             binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {

@@ -1,11 +1,31 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/gallery_image_view"
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
-</FrameLayout>
+        android:layout_height="wrap_content">
+
+        <!-- 사진 -->
+        <ImageView
+            android:id="@+id/gallery_image_view"
+            android:layout_width="match_parent"
+            android:layout_height="500dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="사진" />
+
+        <!-- 설명 입력란 -->
+        <EditText
+            android:id="@+id/gallery_description_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="설명을 입력하세요"
+            android:padding="8dp"
+            android:layout_marginTop="12dp"
+            android:inputType="text"
+            android:maxLines="2"
+            android:textSize="14sp"/>
+    </LinearLayout>
+</ScrollView>

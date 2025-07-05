@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 data class Gallery(
     val id: Long,
     val imageUri: String,
-    val description: String = "",
+    var description: String = "",
     val timestamp: Long = System.currentTimeMillis()
 ) : Parcelable
 
