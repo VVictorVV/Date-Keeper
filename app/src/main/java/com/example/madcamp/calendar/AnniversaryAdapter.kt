@@ -14,6 +14,7 @@ import org.w3c.dom.Text
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
+import android.annotation.SuppressLint
 
 class AnniversaryAdapter(
     private var anniversaryList: List<AnniversaryDetails>,
@@ -37,6 +38,7 @@ class AnniversaryAdapter(
             return ViewHolder(view)
         }
 
+        @SuppressLint("DiscouragedApi")
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             val details = anniversaryList.get(position)
             val person = details.person
@@ -73,7 +75,18 @@ class AnniversaryAdapter(
             }
 
             // 아이콘 설정 로직 추가 가능
-            // holder.icon.setImageResource(...)
+            if (person.representativeIcon.isNotEmpty()) {
+                val context = holder.itemView.context
+                val resourceId = context.resources.getIdentifier(person.representativeIcon, "drawable", context.packageName)
+
+                if (resourceId != 0) {
+                    holder.icon.setImageResource(resourceId)
+                } else {
+                    holder.icon.setImageResource(R.drawable.icon_heart)
+                }
+            } else {
+                holder.icon.setImageResource(R.drawable.icon_heart)
+            }
         }
 
         override fun getItemCount(): Int = anniversaryList.size

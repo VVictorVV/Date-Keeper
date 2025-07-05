@@ -1,5 +1,6 @@
 package com.example.madcamp.people
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +31,7 @@ class PeopleAdapter(
     }
 
     // ViewHolder에 데이터를 바인딩하는 함수
+    @SuppressLint("DiscouragedApi")
     override fun onBindViewHolder(holder: PersonViewHolder, position: Int) {
         val person = peopleList[position]
         val showName = "${person.name} (${person.nickname})"
@@ -38,8 +40,19 @@ class PeopleAdapter(
         holder.profilePhoneNumber.text = person.phoneNumber
         holder.profileGiftInfo.text =
             if (person.giftInfo.isNotEmpty()) "선물 있음 🎁" else "선물 없음"
-        // person 객체에 아이콘 정보가 있다면 설정 (예: person.iconResId)
-        // holder.profileImage.setImageResource(person.iconResId)
+
+        if (person.representativeIcon.isNotEmpty()) {
+            val context = holder.itemView.context
+            val resourceId = context.resources.getIdentifier(person.representativeIcon, "drawable", context.packageName)
+
+            if (resourceId != 0) {
+                holder.profileImage.setImageResource(resourceId)
+            } else {
+                holder.profileImage.setImageResource(R.drawable.icon_heart)
+            }
+        } else {
+            holder.profileImage.setImageResource(R.drawable.icon_heart)
+        }
 
         // 프로필 클릭 리스너 생성
         holder.itemView.setOnClickListener {

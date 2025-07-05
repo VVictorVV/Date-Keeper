@@ -1,5 +1,6 @@
 package com.example.madcamp.people
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.InputType
 import android.util.Log
@@ -15,12 +16,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.madcamp.databinding.PeopleInputBinding
+import android.app.AlertDialog
+import android.widget.GridView
+import com.example.madcamp.R
 
 class PeopleInputFragment : Fragment(){
-
     private var _binding: PeopleInputBinding? = null
     private val binding get() = _binding!!
     private var existingPerson: Person? = null
+    private var selectedIconName: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +79,7 @@ class PeopleInputFragment : Fragment(){
                         nickname = this@PeopleInputFragment.binding.editNickname.text.toString().trim()
                         phoneNumber = this@PeopleInputFragment.binding.editPhone.text.toString().trim()
                         giftInfo = giftList
+                        representativeIcon = selectedIconName ?: ""
                     }
 
                     Toast.makeText(requireContext(), "사람 정보가 수정되었습니다!", Toast.LENGTH_SHORT).show()
@@ -84,7 +89,7 @@ class PeopleInputFragment : Fragment(){
                         id = PeopleManager.generateId(),
                         name = personName,
                         nickname = nickName,
-                        representativeIcon = "",
+                        representativeIcon = selectedIconName ?: "",
                         phoneNumber = phone,
                         anniversary = mutableListOf(),
                         giftInfo = giftList,
@@ -116,8 +121,13 @@ class PeopleInputFragment : Fragment(){
         return binding.root
     }
 
+    @SuppressLint("DiscouragedApi")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.imageProfile.setOnClickListener {
+            showIconSelectionDialog()
+        }
 
         binding.addGift.setOnClickListener {
             val hasInputRow = (0 until binding.giftInput.childCount).any { i ->
@@ -152,11 +162,59 @@ class PeopleInputFragment : Fragment(){
             binding.editPhone.setText(it.phoneNumber)
             binding.editNickname.setText(it.nickname)
 
+            if (it.representativeIcon.isNotEmpty()) {
+                selectedIconName = it.representativeIcon
+                val resourceId = resources.getIdentifier(selectedIconName, "drawable", requireContext().packageName)
+                if (resourceId != 0) {
+                    binding.imageProfile.setImageResource(resourceId)
+                }
+            }
+
             it.giftInfo.forEach { gift ->
                 addGiftDisplayRow(gift)
             }
         }
+    }
 
+    private fun getIconList(): List<Pair<String, Int>> {
+        val iconList = mutableListOf<Pair<String, Int>>()
+
+        for (field in R.drawable::class.java.fields) {
+            if (field.name.startsWith("icon_")) {
+                val resourceId = field.getInt(null)
+                iconList.add(Pair(field.name, resourceId))
+            }
+        }
+
+        return iconList
+    }
+
+    private fun showIconSelectionDialog() {
+        val iconList = getIconList()
+        if (iconList.isEmpty()) {
+            Toast.makeText(requireContext(), "선택할 수 있는 아이콘이 없습니다. (res/drawable에 'icon_'으로 시작하는 파일을 추가하세요)", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val gridView = GridView(requireContext()).apply {
+            numColumns = 4
+            adapter = IconAdapter(requireContext(), iconList)
+        }
+
+        val dialog = AlertDialog.Builder(requireContext())
+            .setTitle("아이콘 선택")
+            .setView(gridView)
+            .setNegativeButton("취소",null)
+            .create()
+
+        gridView.setOnItemClickListener { _, _, position, _ ->
+            val (name, id) = iconList[position]
+            selectedIconName = name
+            binding.imageProfile.setImageResource(id)
+            dialog.dismiss()
+        }
+
+        dialog.show()
     }
 
     private fun addGiftInputRow() {
