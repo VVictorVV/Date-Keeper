@@ -50,6 +50,14 @@
             android:textSize="14sp"
             android:textColor="#666666" />
 
+        <TextView
+            android:id="@+id/anniversary_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="선물 정보"
+            android:textSize="14sp"
+            android:textColor="#666666" />
+
     </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -21,6 +21,7 @@ class PeopleAdapter(
         val profileName: TextView = view.findViewById(R.id.card_profile_name)
         val profilePhoneNumber: TextView = view.findViewById(R.id.card_profile_phone_number)
         val profileGiftInfo: TextView = view.findViewById(R.id.card_gift_info)
+        val profileAnniversaryInfo: TextView = view.findViewById(R.id.anniversary_info)
     }
 
     // ViewHolder를 생성하는 함수 (person_card_item.xml 레이아웃을 inflate)
@@ -40,6 +41,8 @@ class PeopleAdapter(
         holder.profilePhoneNumber.text = person.phoneNumber
         holder.profileGiftInfo.text =
             if (person.giftInfo.isNotEmpty()) "선물 있음 🎁" else "선물 없음"
+        holder.profileAnniversaryInfo.text =
+            if (person.anniversary.isNotEmpty()) "기념일 있음 O" else "기념일 없음"
 
         if (person.representativeIcon.isNotEmpty()) {
             val context = holder.itemView.context
