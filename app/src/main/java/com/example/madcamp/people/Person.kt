@@ -1,4 +1,4 @@
-package com.example.madcamp.data
+package com.example.madcamp.people
 
 import java.io.Serializable
 

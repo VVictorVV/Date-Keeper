@@ -1,6 +1,4 @@
-package com.example.madcamp
-
-import com.example.madcamp.data.Person
+package com.example.madcamp.people
 
 object PeopleManager {
     private val peopleList = mutableListOf<Person>()

@@ -6,10 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.madcamp.databinding.ActivityMainBinding
 import android.util.Log
-import com.example.madcamp.fragments.CalendarFragment
-import com.example.madcamp.fragments.GalleryFragment
-import com.example.madcamp.fragments.HomeFragment
-import com.example.madcamp.fragments.PeopleFragment
+import com.example.madcamp.calendar.CalendarFragment
+import com.example.madcamp.gallery.GalleryFragment
+import com.example.madcamp.home.HomeFragment
+import com.example.madcamp.people.PeopleFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

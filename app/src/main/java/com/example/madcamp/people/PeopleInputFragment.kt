@@ -1,4 +1,4 @@
-package com.example.madcamp.fragments
+package com.example.madcamp.people
 
 import android.os.Bundle
 import android.text.InputType
@@ -14,13 +14,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.madcamp.PeopleManager
-import com.example.madcamp.R
-import com.example.madcamp.data.Person
 import com.example.madcamp.databinding.PeopleInputBinding
-import com.google.android.material.datepicker.MaterialDatePicker
-import java.text.SimpleDateFormat
-import java.util.Locale
 
 class PeopleInputFragment : Fragment(){
 
@@ -73,9 +67,9 @@ class PeopleInputFragment : Fragment(){
                     nickname = nickname,
                     representativeIcon = "", // 아직 없으니 빈 문자열
                     phoneNumber = phone,
-                    anniversary = listOf(),
+                    anniversary = mutableListOf(),
                     giftInfo = giftList,
-                    memories = listOf()
+                    memories = mutableListOf()
                 )
                 PeopleManager.addPerson(newPerson)
 

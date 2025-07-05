@@ -1,4 +1,4 @@
-package com.example.madcamp.fragments
+package com.example.madcamp.calendar
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -6,22 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import com.example.madcamp.PeopleManager
+import com.example.madcamp.people.PeopleManager
 import com.example.madcamp.R
 import com.example.madcamp.databinding.FragmentCalendarBinding
 import com.kizitonwose.calendar.core.CalendarDay
 import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.ViewContainer
-import org.w3c.dom.Text
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
-import java.util.Locale
 
 class CalendarFragment : Fragment() {
     private var _binding: FragmentCalendarBinding? = null

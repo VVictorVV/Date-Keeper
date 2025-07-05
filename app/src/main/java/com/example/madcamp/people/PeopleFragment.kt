@@ -1,4 +1,4 @@
-package com.example.madcamp.fragments
+package com.example.madcamp.people
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,12 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.madcamp.PeopleAdapter
-import com.example.madcamp.PeopleManager
 import com.example.madcamp.R
 import com.example.madcamp.databinding.FragmentPeopleBinding
-import com.example.madcamp.fragments.PeopleInputFragment
 
 class PeopleFragment : Fragment() {
 

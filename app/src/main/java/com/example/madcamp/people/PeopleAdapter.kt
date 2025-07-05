@@ -1,4 +1,4 @@
-package com.example.madcamp
+package com.example.madcamp.people
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,10 +6,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.madcamp.data.Person
-import com.example.madcamp.databinding.PeopleListBinding
+import com.example.madcamp.R
 
-class PeopleAdapter(private val peopleList: List<Person>) :
+class PeopleAdapter(
+    private val peopleList: List<Person>,
+    private val onItemClick: (Person) -> Unit
+) :
     RecyclerView.Adapter<PeopleAdapter.PersonViewHolder>() {
 
     // 각 카드 뷰의 구성요소를 보관하는 클래스
