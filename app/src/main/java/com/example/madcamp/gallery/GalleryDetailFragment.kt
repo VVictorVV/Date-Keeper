@@ -48,7 +48,18 @@ class GalleryDetailFragment : Fragment() {
 
         binding.tvPersonName.text = "${person?.name} (${person?.nickname})"
 
-        adapter = GalleryPagerAdapter()
+        adapter = GalleryPagerAdapter { galleryItem ->
+            person?.memories?.remove(galleryItem)
+            person?.memories?.toList()?.let { adapter.submitList(it) }  // 갱신
+            Toast.makeText(requireContext(), "사진이 삭제되었습니다", Toast.LENGTH_SHORT).show()
+
+            // 현재 리스트가 비어 있으면 안내 문구 표시
+            if (person?.memories.isNullOrEmpty()) {
+                binding.viewPager.visibility = View.GONE
+                binding.tvNoPhotos.visibility = View.VISIBLE
+            }
+        }
+
         binding.viewPager.adapter = adapter
 
         if (person?.memories.isNullOrEmpty()) {

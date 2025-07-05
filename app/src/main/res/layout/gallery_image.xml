@@ -16,6 +16,18 @@
             android:scaleType="centerCrop"
             android:contentDescription="사진" />
 
+        <!-- 삭제 버튼 -->
+        <ImageButton
+            android:id="@+id/btnDelete"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="top|end"
+            android:layout_margin="8dp"
+            android:background="@android:color/transparent"
+            android:src="@android:drawable/ic_menu_delete"
+            android:contentDescription="삭제"
+            />
+
         <!-- 설명 입력란 -->
         <EditText
             android:id="@+id/gallery_description_input"

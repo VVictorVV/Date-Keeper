@@ -15,6 +15,7 @@ class GalleryAdapter(
 
     class MemoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textName: TextView = view.findViewById(R.id.memory_card_name)
+        val photoCountText: TextView = view.findViewById(R.id.memory_card_photo_count)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoryViewHolder {
@@ -26,6 +27,7 @@ class GalleryAdapter(
     override fun onBindViewHolder(holder: MemoryViewHolder, position: Int) {
         val person = peopleList[position]
         holder.textName.text = "${person.name} (${person.nickname})"
+        holder.photoCountText.text = "사진 ${person.memories.size}장"
 
         holder.itemView.setOnClickListener {
             onItemClick(person)

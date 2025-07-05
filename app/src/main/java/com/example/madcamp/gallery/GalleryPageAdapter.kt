@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.madcamp.R
 
-class GalleryPagerAdapter : RecyclerView.Adapter<GalleryPagerAdapter.GalleryViewHolder>() {
+class GalleryPagerAdapter(
+    private val onDelete: (Gallery) -> Unit  // 삭제 콜백 받기
+) : RecyclerView.Adapter<GalleryPagerAdapter.GalleryViewHolder>() {
 
     private val items = mutableListOf<Gallery>()
 
@@ -27,6 +30,7 @@ class GalleryPagerAdapter : RecyclerView.Adapter<GalleryPagerAdapter.GalleryView
     inner class GalleryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.gallery_image_view)
         val descriptionInput: EditText = view.findViewById(R.id.gallery_description_input)
+        val btnDelete: ImageButton = view.findViewById(R.id.btnDelete)  // 삭제 버튼
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
@@ -54,6 +58,11 @@ class GalleryPagerAdapter : RecyclerView.Adapter<GalleryPagerAdapter.GalleryView
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        // 삭제 버튼 클릭 시 처리
+        holder.btnDelete.setOnClickListener {
+            onDelete(item)
+        }
     }
 
     override fun getItemCount(): Int = items.size
