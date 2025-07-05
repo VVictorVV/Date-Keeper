@@ -5,25 +5,40 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.madcamp.R
 import com.example.madcamp.databinding.FragmentGalleryBinding
+import com.example.madcamp.people.PeopleManager
 
 class GalleryFragment : Fragment() {
-    // View Binding 인스턴스를 저장할 변수
     private var _binding: FragmentGalleryBinding? = null
-    // _binding을 null 체크 없이 편하게 사용하기 위한 getter
     private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // XML 레이아웃을 인플레이트하고 바인딩 객체를 초기화
+    ): View {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
-        // 생성된 뷰를 반환
         return binding.root
     }
 
-    // View가 파괴될 때 바인딩 객체를 정리하여 메모리 누수 방지
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val peopleList = PeopleManager.getPeople()
+
+        val adapter = GalleryAdapter(peopleList) { person ->
+            val fragment = GalleryDetailFragment.newInstance(person)  // 🔧 수정
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.bottom_layout, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.rvMemoryList.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.rvMemoryList.adapter = adapter
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
