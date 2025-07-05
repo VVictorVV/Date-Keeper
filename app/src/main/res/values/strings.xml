@@ -4,4 +4,6 @@
     <string name="menu_calendar">달력</string>
     <string name="menu_people">사람들</string>
     <string name="menu_gallery">추억 보기</string>
+    <string name="calendar_anniversary_management">기념일 관리</string>
+    <string name="calendar_delete_selected">선택한 기념일 삭제</string>
 </resources>

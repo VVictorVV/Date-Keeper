@@ -3,6 +3,7 @@ package com.example.madcamp
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,12 +15,18 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class AnniversaryAdapter(private val anniversaryList: List<AnniversaryDetails>) :
-    RecyclerView.Adapter<AnniversaryAdapter.ViewHolder>() {
+class AnniversaryAdapter(
+    private var anniversaryList: List<AnniversaryDetails>,
+    private val onCheckedStateChanged: (Int) -> Unit
+) : RecyclerView.Adapter<AnniversaryAdapter.ViewHolder>() {
+
+        private var isManagementMode: Boolean = false
+        private val checkedItems = mutableSetOf<AnniversaryDetails>()
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val icon: ImageView = view.findViewById(R.id.anniversary_icon)
             val nameText: TextView = view.findViewById(R.id.anniversary_name_text)
+            val checkBox: CheckBox = view.findViewById(R.id.checkbox_anniversary_select)
             val ddayText: TextView = view.findViewById(R.id.anniversary_dday_text)
             val giftText: TextView = view.findViewById(R.id.anniversary_gift_text)
         }
@@ -37,6 +44,17 @@ class AnniversaryAdapter(private val anniversaryList: List<AnniversaryDetails>) 
 
             holder.nameText.text = "${person.name}님의 ${anniversary.name}"
             holder.giftText.text = "선물: ${anniversary.gift}"
+            holder.checkBox.visibility = if (isManagementMode) View.VISIBLE else View.INVISIBLE
+            holder.checkBox.isChecked = checkedItems.contains(details)
+
+            holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    checkedItems.add(details)
+                } else {
+                    checkedItems.remove(details)
+                }
+                onCheckedStateChanged(checkedItems.size)
+            }
             // D-day 계산
             try {
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -59,4 +77,25 @@ class AnniversaryAdapter(private val anniversaryList: List<AnniversaryDetails>) 
         }
 
         override fun getItemCount(): Int = anniversaryList.size
+
+        // Fragment에서 기념일 관리 모드를 설정하는 함수
+        fun setManagementMode(isEnabled: Boolean) {
+            isManagementMode = isEnabled
+            if (!isEnabled) {
+                checkedItems.clear()
+                onCheckedStateChanged(0)
+            }
+            notifyDataSetChanged()
+        }
+
+        // Fragment에서 체크된 아이템 목록을 가져가는 함수
+        fun getCheckedItems(): Set<AnniversaryDetails> {
+            return checkedItems
+        }
+
+        // 데이터 변경 후 목록을 갱신하는 함수
+        fun updateData(newList: List<AnniversaryDetails>) {
+            anniversaryList = newList
+            notifyDataSetChanged()
+        }
     }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -38,6 +39,8 @@ class CalendarFragment : Fragment() {
 
     private val anniversaryMap = mutableMapOf<LocalDate, MutableList<AnniversaryDetails>>()
     private var selectedDate: LocalDate? = null
+    private var isAnniversaryManagementMode: Boolean = false
+    private var anniversaryAdapter: AnniversaryAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -176,6 +179,25 @@ class CalendarFragment : Fragment() {
             dialog.show()
         }
 
+        binding.btnManageAnniversaries.setOnClickListener {
+            // 1. 상태 변수를 확인하여 관리 모드에 진입하거나 액션을 수행합니다.
+            if (!isAnniversaryManagementMode) {
+                // 관리 모드가 아닐 때 -> 관리 모드로 진입
+                isAnniversaryManagementMode = true
+                anniversaryAdapter?.setManagementMode(true)
+            } else {
+                // 관리 모드일 때 -> 체크된 아이템이 있으면 삭제, 없으면 관리 모드 취소
+                val checkedCount = anniversaryAdapter?.getCheckedItems()?.size ?: 0
+                if (checkedCount > 0) {
+                    deleteSelectedAnniversaries()
+                } else {
+                    // 체크된 아이템 없이 '기념일 관리' 버튼을 다시 누르면 관리 모드 취소
+                    isAnniversaryManagementMode = false
+                    anniversaryAdapter?.setManagementMode(false)
+                }
+            }
+        }
+
         // 월 이동 시 상단 텍스트를 업데이트
         calendarView.monthScrollListener = { calendarMonth ->
             val formatter = DateTimeFormatter.ofPattern("yyyy년 M월")
@@ -191,23 +213,67 @@ class CalendarFragment : Fragment() {
     // 날짜 선택에 따라 UI를 업데이트하는 함수
     private fun updateUIBasedOnSelection() {
         val date = selectedDate
+        isAnniversaryManagementMode = false
+        anniversaryAdapter?.setManagementMode(false)
+        binding.btnManageAnniversaries.text = getString(R.string.calendar_anniversary_management)
         if (date != null) {
             binding.registerAnniversaryButton.visibility = View.VISIBLE
-
             val anniversaryDetailsList = anniversaryMap[date]
             if (!anniversaryDetailsList.isNullOrEmpty()) {
-                binding.rvAnniversaryList.adapter = AnniversaryAdapter(anniversaryDetailsList)
-                binding.anniversaryListTitle.visibility = View.VISIBLE
+                binding.anniversaryListHeader.visibility = View.VISIBLE
+
+                anniversaryAdapter = AnniversaryAdapter(anniversaryDetailsList) { checkedCount ->
+                    binding.btnManageAnniversaries.text = if (checkedCount > 0) {
+                        getString(R.string.calendar_delete_selected)
+                    } else {
+                        getString(R.string.calendar_anniversary_management)
+                    }
+                }
+
+                binding.rvAnniversaryList.adapter = anniversaryAdapter
                 binding.rvAnniversaryList.visibility = View.VISIBLE
             } else {
-                binding.anniversaryListTitle.visibility = View.GONE
+                binding.anniversaryListHeader.visibility = View.GONE
                 binding.rvAnniversaryList.visibility = View.GONE
             }
         } else { // 날짜 선택이 해제 됨
             binding.registerAnniversaryButton.visibility = View.INVISIBLE
-            binding.anniversaryListTitle.visibility = View.GONE
+            binding.anniversaryListHeader.visibility = View.GONE
             binding.rvAnniversaryList.visibility = View.GONE
         }
+    }
+
+    // 선택된 기념일 삭제
+    private fun deleteSelectedAnniversaries() {
+        val itemsToDelete = anniversaryAdapter?.getCheckedItems() ?: return
+        if (itemsToDelete.isEmpty()) return
+
+        // PeopleManager에서 데이터 삭제
+        itemsToDelete.forEach { details ->
+            val person = PeopleManager.getPersonById(details.person.id)
+            val anniversary = details.anniversary
+            person?.anniversary?.remove(anniversary)
+        }
+
+        // 데이터 로드
+        loadAnniversaries()
+
+        // UI 갱신
+        isAnniversaryManagementMode = false
+        val updatedList = anniversaryMap[selectedDate] ?: emptyList()
+        anniversaryAdapter?.updateData(updatedList)
+
+        if (updatedList.isEmpty()) {
+            binding.anniversaryListHeader.visibility = View.GONE
+            binding.rvAnniversaryList.visibility = View.GONE
+            binding.calendarView.notifyCalendarChanged()
+        } else {
+            binding.calendarView.notifyDateChanged(selectedDate!!)
+        }
+
+        // 버튼 텍스트 초기화
+        binding.btnManageAnniversaries.text = getString(R.string.calendar_anniversary_management)
+        anniversaryAdapter?.setManagementMode(false)
     }
 
     //모든 사람의 모든 기념일 불러오기
