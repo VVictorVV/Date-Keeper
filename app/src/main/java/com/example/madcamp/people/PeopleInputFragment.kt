@@ -20,7 +20,14 @@ class PeopleInputFragment : Fragment(){
 
     private var _binding: PeopleInputBinding? = null
     private val binding get() = _binding!!
-    private var isGiftInputVisible = false
+    private var existingPerson: Person? = null
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // 여기에서 arguments로 전달받은 Person을 받아옴
+        existingPerson = arguments?.getSerializable("person") as? Person
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,17 +68,31 @@ class PeopleInputFragment : Fragment(){
                     }
                 }
 
-                val newPerson = Person(
-                    id = PeopleManager.generateId(),
-                    name = name,
-                    nickname = nickname,
-                    representativeIcon = "", // 아직 없으니 빈 문자열
-                    phoneNumber = phone,
-                    anniversary = mutableListOf(),
-                    giftInfo = giftList,
-                    memories = mutableListOf()
-                )
-                PeopleManager.addPerson(newPerson)
+                if (existingPerson != null) {
+                    // 수정 모드: 기존 person 수정$
+                    existingPerson?.apply {
+                        name = this@PeopleInputFragment.binding.editName.text.toString().trim()
+                        nickname = this@PeopleInputFragment.binding.editNickname.text.toString().trim()
+                        phoneNumber = this@PeopleInputFragment.binding.editPhone.text.toString().trim()
+                        giftInfo = giftList
+                    }
+
+                    Toast.makeText(requireContext(), "사람 정보가 수정되었습니다!", Toast.LENGTH_SHORT).show()
+                } else {
+                    // 추가 모드
+                    val newPerson = Person(
+                        id = PeopleManager.generateId(),
+                        name = name,
+                        nickname = nickname,
+                        representativeIcon = "",
+                        phoneNumber = phone,
+                        anniversary = mutableListOf(),
+                        giftInfo = giftList,
+                        memories = mutableListOf()
+                    )
+                    PeopleManager.addPerson(newPerson)
+                    Toast.makeText(requireContext(), "사람이 추가되었습니다!", Toast.LENGTH_SHORT).show()
+                }
 
                 val allPeople = PeopleManager.getPeople()
                 Log.d("PeopleDebug", "현재 PeopleManager 목록: $allPeople")
@@ -84,6 +105,8 @@ class PeopleInputFragment : Fragment(){
                 binding.editNickname.text.clear()
                 binding.giftInput.removeAllViews()
                 binding.giftInput.visibility = View.GONE
+
+                parentFragmentManager.popBackStack()  // 이전 화면으로 돌아가기
             } else {
                 Toast.makeText(requireContext(), "모든 칸을 입력해주세요", Toast.LENGTH_SHORT).show()
             }
@@ -121,6 +144,18 @@ class PeopleInputFragment : Fragment(){
                 addGiftInputRow()
             }
         }
+
+        val existingPerson = arguments?.getSerializable("person") as? Person
+        existingPerson?.let {
+            binding.editName.setText(it.name)
+            binding.editPhone.setText(it.phoneNumber)
+            binding.editNickname.setText(it.nickname)
+
+            it.giftInfo.forEach { gift ->
+                addGiftDisplayRow(gift)
+            }
+        }
+
     }
 
     private fun addGiftInputRow() {
@@ -211,10 +246,64 @@ class PeopleInputFragment : Fragment(){
         binding.giftInput.visibility = View.VISIBLE
     }
 
+    private fun addGiftDisplayRow(gift: String) {
+        val rowLayout = LinearLayout(requireContext()).apply {
+            orientation = LinearLayout.HORIZONTAL
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            gravity = Gravity.CENTER_VERTICAL
+        }
+
+        val bulletTextView = TextView(requireContext()).apply {
+            text = "●"
+            textSize = 12f
+            setPadding(0, 0, 16, 0)
+        }
+
+        val giftTextView = TextView(requireContext()).apply {
+            text = gift
+            textSize = 16f
+            layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f)
+            tag = "giftText" // 나중에 저장할 때 giftText만 추출하기 위한 tag
+        }
+
+        val deleteButton = Button(requireContext()).apply {
+            text = "삭제"
+            setOnClickListener {
+                binding.giftInput.removeView(rowLayout)
+
+                // 모두 제거되었을 때 giftInput 숨기기 + + 버튼 복원
+                if (binding.giftInput.childCount == 0) {
+                    binding.giftInput.visibility = View.GONE
+                    binding.addGift.text = "+"
+                }
+            }
+        }
+
+        rowLayout.addView(bulletTextView)
+        rowLayout.addView(giftTextView)
+        rowLayout.addView(deleteButton)
+
+        binding.giftInput.addView(rowLayout)
+        binding.giftInput.visibility = View.VISIBLE
+        binding.addGift.text = "+"
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        fun newInstance(person: Person): PeopleInputFragment {
+            val fragment = PeopleInputFragment()
+            val args = Bundle()
+            args.putSerializable("person", person)
+            fragment.arguments = args
+            return fragment
+        }
     }
 
 }
