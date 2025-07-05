@@ -36,6 +36,11 @@ class PeopleAdapter(
         holder.profilePhoneNumber.text = person.phoneNumber
         // person 객체에 아이콘 정보가 있다면 설정 (예: person.iconResId)
         // holder.profileImage.setImageResource(person.iconResId)
+
+        // 프로필 클릭 리스너 생성
+        holder.itemView.setOnClickListener {
+            onItemClick(person)
+        }
     }
 
     // 전체 아이템 개수 반환
