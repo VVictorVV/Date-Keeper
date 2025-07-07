@@ -27,16 +27,24 @@ class GalleryFragment : Fragment() {
 
         val peopleList = PeopleManager.getPeople()
 
-        val adapter = GalleryAdapter(peopleList) { person ->
-            val fragment = GalleryDetailFragment.newInstance(person)  // 🔧 수정
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.bottom_layout, fragment)
-                .addToBackStack(null)
-                .commit()
-        }
+        if (peopleList.isEmpty()) {
+            binding.rvMemoryList.visibility = View.GONE
+            binding.tvEmptyMessage.visibility = View.VISIBLE
+        } else {
+            binding.rvMemoryList.visibility = View.VISIBLE
+            binding.tvEmptyMessage.visibility = View.GONE
 
-        binding.rvMemoryList.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.rvMemoryList.adapter = adapter
+            val adapter = GalleryAdapter(peopleList) { person ->
+                val fragment = GalleryDetailFragment.newInstance(person)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.bottom_layout, fragment)
+                    .addToBackStack(null)
+                    .commit()
+            }
+
+            binding.rvMemoryList.layoutManager = GridLayoutManager(requireContext(), 2)
+            binding.rvMemoryList.adapter = adapter
+        }
     }
 
     override fun onDestroyView() {

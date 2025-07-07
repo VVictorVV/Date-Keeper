@@ -20,9 +20,9 @@ class PeopleAdapter(
         val profileImage: ImageView = view.findViewById(R.id.card_profile_image)
         val profileName: TextView = view.findViewById(R.id.card_profile_name)
         val profilePhoneNumber: TextView = view.findViewById(R.id.card_profile_phone_number)
-        val profileGiftInfo: TextView = view.findViewById(R.id.card_gift_info)
-        val profileAnniversaryInfo: TextView = view.findViewById(R.id.anniversary_info)
-        val memoryStatusTextView: TextView = view.findViewById(R.id.memory_status)
+        val iconGift: ImageView = view.findViewById(R.id.icon_gift)
+        val iconAnniversary: ImageView = view.findViewById(R.id.icon_anniversary)
+        val iconMemory: ImageView = view.findViewById(R.id.icon_memory)
     }
 
     // ViewHolder를 생성하는 함수 (person_card_item.xml 레이아웃을 inflate)
@@ -40,10 +40,18 @@ class PeopleAdapter(
 
         holder.profileName.text = showName
         holder.profilePhoneNumber.text = person.phoneNumber
-        holder.profileGiftInfo.text =
-            if (person.giftInfo.isNotEmpty()) "선물 있음 🎁" else "선물 없음"
-        holder.profileAnniversaryInfo.text =
-            if (person.anniversary.isNotEmpty()) "기념일 있음 O" else "기념일 없음"
+
+        // 선물 여부 아이콘 설정
+        holder.iconGift.setImageResource(
+            if (person.giftInfo.isNotEmpty()) R.drawable.people_gift_color
+            else R.drawable.people_gift
+        )
+
+        // 기념일 여부 아이콘 설정
+        holder.iconAnniversary.setImageResource(
+            if (person.anniversary.isNotEmpty()) R.drawable.people_celebration_color
+            else R.drawable.people_celebration
+        )
 
         if (person.representativeIcon.isNotEmpty()) {
             val context = holder.itemView.context
@@ -58,9 +66,11 @@ class PeopleAdapter(
             holder.profileImage.setImageResource(R.drawable.icon_heart)
         }
 
-        // 추억 여부 텍스트 설정
-        val memoryStatusText = if (person.memories.isNullOrEmpty()) "추억 없음" else "추억 있음"
-        holder.memoryStatusTextView.text = memoryStatusText
+        // 추억 여부 아이콘 설정
+        holder.iconMemory.setImageResource(
+            if (person.memories.isNullOrEmpty()) R.drawable.people_gallery_color
+            else R.drawable.people_gallery
+        )
 
         // 프로필 클릭 리스너 생성
         holder.itemView.setOnClickListener {

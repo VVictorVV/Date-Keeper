@@ -45,12 +45,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.menu_people -> {
                     replaceFragment(PeopleFragment())
-                    supportActionBar?.title = "연락처" // 타이틀 변경
+                    supportActionBar?.title = "사람들" // 타이틀 변경
                     true
                 }
                 R.id.menu_gallery -> {
                     replaceFragment(GalleryFragment())
-                    supportActionBar?.title = "갤러리" // 타이틀 변경
+                    supportActionBar?.title = "추억 보기" // 타이틀 변경
                     true
                 }
                 else -> false

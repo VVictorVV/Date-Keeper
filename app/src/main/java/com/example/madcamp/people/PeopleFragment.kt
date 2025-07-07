@@ -29,8 +29,9 @@ class PeopleFragment : Fragment() {
                 .commit()
         }
 
-        // 사람 목록 RecyclerView 설정
-        val peopleList = PeopleManager.getPeople() // 여기에 현재 등록된 사람 목록이 있다고 가정
+        val peopleList = PeopleManager.getPeople()
+
+        // RecyclerView 어댑터 설정
         val adapter = PeopleAdapter(peopleList) { selectedPerson ->
             val fragment = PeopleDetailFragment().apply {
                 arguments = Bundle().apply {
@@ -45,6 +46,15 @@ class PeopleFragment : Fragment() {
 
         binding.rvPeopleList.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.rvPeopleList.adapter = adapter
+
+        // 등록된 사람이 없을 때 안내 문구 보여주기
+        if (peopleList.isEmpty()) {
+            binding.rvPeopleList.visibility = View.GONE
+            binding.tvEmptyPeople.visibility = View.VISIBLE
+        } else {
+            binding.rvPeopleList.visibility = View.VISIBLE
+            binding.tvEmptyPeople.visibility = View.GONE
+        }
 
         return binding.root
     }

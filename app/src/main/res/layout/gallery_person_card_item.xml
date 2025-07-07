@@ -1,24 +1,39 @@
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_margin="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:elevation="4dp"
-    android:padding="16dp">
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    android:backgroundTint="#FAFAFA"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <!-- 이름 (별명) -->
+        <!-- 대표 아이콘 -->
+        <ImageView
+            android:id="@+id/card_profile_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/dogtest"
+            tools:src="@tools:sample/avatars" />
+
+        <!-- 별명 -->
         <TextView
             android:id="@+id/memory_card_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="이름 (별명)"
-            android:textSize="18sp"
+            android:text="별명"
+            android:textSize="20sp"
             android:textStyle="bold"
+            android:textColor="#222222"
             android:maxLines="1"
             android:ellipsize="end" />
 
@@ -27,9 +42,12 @@
             android:id="@+id/memory_card_photo_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="사진 2장"
+            android:text="2장"
             android:textSize="14sp"
-            android:textColor="#666666"
+            android:textColor="#888888"
+            android:drawableStart="@drawable/gallery_image"
+            android:drawablePadding="4dp"
             android:layout_marginTop="4dp" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>
