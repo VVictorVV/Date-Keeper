@@ -15,6 +15,10 @@ import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import android.annotation.SuppressLint
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 
 class AnniversaryAdapter(
     private var anniversaryList: List<AnniversaryDetails>,
@@ -44,7 +48,30 @@ class AnniversaryAdapter(
             val person = details.person
             val anniversary = details.anniversary
 
-            holder.nameText.text = "${person.name}님의 ${anniversary.name}"
+            val personName = person.name
+            val anniversaryName = anniversary.name
+            val fullText = "${personName}님의 ${anniversaryName}"
+            val spannable = SpannableStringBuilder(fullText)
+            val nameColor = Color.parseColor("#00008B")
+            val nameStartIndex = 0
+            val nameEndIndex = personName.length
+            spannable.setSpan(
+                ForegroundColorSpan(nameColor),
+                nameStartIndex,
+                nameEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            val anniversaryColor = Color.parseColor("#008000")
+            val anniversaryStartIndex = fullText.indexOf(anniversaryName)
+            val anniversaryEndIndex = anniversaryStartIndex + anniversaryName.length
+            spannable.setSpan(
+                ForegroundColorSpan(anniversaryColor),
+                anniversaryStartIndex,
+                anniversaryEndIndex,
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+            )
+            holder.nameText.text = spannable
+
             if (anniversary.gift.isEmpty()) {
                 holder.giftText.text = "주고 싶은 선물을 아직 고르지 않았습니다!"
             } else {
