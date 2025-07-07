@@ -33,25 +33,29 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="8dp" />
 
-    <TextView
-        android:id="@+id/anniversary_name_text"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="홍길동님의 생일"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:orientation="vertical"
         android:layout_toEndOf="@id/anniversary_icon"
         android:layout_toStartOf="@id/checkbox_anniversary_select"
-        android:layout_alignTop="@id/anniversary_icon"
-        android:layout_marginStart="16dp" />
+        android:layout_marginStart="16dp"
+        android:layout_centerVertical="true">
 
-    <TextView
-        android:id="@+id/anniversary_gift_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="선물: 케이크"
-        android:textSize="14sp"
-        android:layout_below="@id/anniversary_name_text"
-        android:layout_alignStart="@id/anniversary_name_text" />
+        <TextView
+            android:id="@+id/anniversary_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="홍길동님의 생일"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/anniversary_gift_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="선물: 케이크"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 </RelativeLayout>
