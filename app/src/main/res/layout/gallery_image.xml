@@ -2,45 +2,85 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f0f0f0">
 
-    <!-- 사진 -->
+    <!-- 상단 회색 배경 (아이콘 + 닉네임) -->
+    <LinearLayout
+        android:id="@+id/header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="#CCCCCC"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/ivRepresentativeIcon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_heart"
+            android:background="@drawable/rounded_white_background"
+            android:scaleType="centerInside"
+            android:layout_marginEnd="8dp" />
+
+        <TextView
+            android:id="@+id/tvNickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="별명"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- 중앙 사진 -->
     <ImageView
         android:id="@+id/gallery_image_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
         android:contentDescription="사진"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/btnDelete"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@id/footer"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintDimensionRatio="3:4" />
 
-    <!-- 삭제 버튼 -->
+    <!-- 삭제 버튼 (사진 오른쪽 하단) -->
     <ImageButton
         android:id="@+id/btnDelete"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_margin="8dp"
         android:background="@android:color/transparent"
-        android:contentDescription="삭제"
         android:src="@android:drawable/ic_menu_delete"
-        app:layout_constraintTop_toBottomOf="@id/gallery_image_view"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:contentDescription="삭제"
+        app:layout_constraintBottom_toBottomOf="@id/gallery_image_view"
+        app:layout_constraintEnd_toEndOf="@id/gallery_image_view" />
 
-    <!-- 설명 입력란 -->
-    <EditText
-        android:id="@+id/gallery_description_input"
+    <!-- 하단 회색 배경 + 텍스트 -->
+    <LinearLayout
+        android:id="@+id/footer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:hint="설명을 입력하세요"
-        android:inputType="text"
-        android:maxLines="2"
-        android:textSize="14sp"
-        app:layout_constraintTop_toBottomOf="@id/btnDelete"
+        android:orientation="vertical"
+        android:background="#CCCCCC"
+        android:padding="12dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <EditText
+            android:id="@+id/gallery_description_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="추억 노트: 추억이다"
+            android:textSize="16sp" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

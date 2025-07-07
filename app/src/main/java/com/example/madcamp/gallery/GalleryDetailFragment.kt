@@ -54,8 +54,6 @@ class GalleryDetailFragment : Fragment() {
     ): View {
         _binding = GalleryDetailBinding.inflate(inflater, container, false)
 
-        binding.tvPersonName.text = "${person?.name} (${person?.nickname})"
-
         adapter = GalleryPagerAdapter { galleryItem ->
             person?.memories?.remove(galleryItem)
             person?.memories?.toList()?.let { adapter.submitList(it) }  // 갱신
