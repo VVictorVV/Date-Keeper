@@ -33,7 +33,6 @@ class PeopleDetailFragment : Fragment(){
             binding.textName.text = "이름: ${it.name}"
             binding.textNickname.text = "별명: ${it.nickname}"
             binding.textPhone.text = "전화번호: ${it.phoneNumber}"
-            binding.textGifts.text = "선물 목록: ${it.giftInfo.joinToString(", ")}"
         }
 
         return binding.root
@@ -46,7 +45,13 @@ class PeopleDetailFragment : Fragment(){
             binding.textName.text = "이름: ${person.name}"
             binding.textNickname.text = "별명: ${person.nickname}"
             binding.textPhone.text = "전화번호: ${person.phoneNumber}"
-            binding.textGifts.text = "선호하는 선물: ${person.giftInfo.joinToString(", ")}"
+            if (person.giftInfo.isNotEmpty()) {
+                val giftAdapter = GiftAdapter(person.giftInfo)
+                binding.rvGift.apply {
+                    layoutManager = LinearLayoutManager(requireContext())
+                    adapter = giftAdapter
+                }
+            }
 
             if (person.anniversary.isNotEmpty()) {
                 val anniversaryDetails = person.anniversary.map { AnniversaryDetails(person, it) }
