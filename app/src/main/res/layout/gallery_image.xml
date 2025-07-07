@@ -58,7 +58,7 @@
         android:layout_height="40dp"
         android:layout_margin="8dp"
         android:background="@android:color/transparent"
-        android:src="@android:drawable/ic_menu_delete"
+        android:src="@drawable/ic_delete"
         android:contentDescription="삭제"
         app:layout_constraintBottom_toBottomOf="@id/gallery_image_view"
         app:layout_constraintEnd_toEndOf="@id/gallery_image_view" />
