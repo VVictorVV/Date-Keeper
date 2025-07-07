@@ -18,16 +18,17 @@
         android:layout_marginStart="16dp" />
 
     <!-- + 버튼 -->
-    <Button
+    <ImageButton
         android:id="@+id/btnAddPhoto"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:text="+"
-        android:textSize="24sp"
-        android:gravity="center"
+        android:scaleType="centerInside"
+        android:contentDescription="추억 추가"
+        android:src="@drawable/ic_add"
         app:layout_constraintTop_toTopOf="@id/tvPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"/>
+
 
     <!-- ViewPager2 + 화살표 -->
     <FrameLayout

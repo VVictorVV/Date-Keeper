@@ -27,8 +27,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="이름"
-            android:textSize="16sp"
+            android:text="이름(별명)"
+            android:textSize="25sp"
             android:textStyle="bold"
             tools:text="홍길동"/>
 
@@ -38,32 +38,45 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="연락처"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold"
             tools:text="010-xxxx-xxxx"/>
 
-        <!-- 선물 아이콘 -->
-        <ImageView
-            android:id="@+id/icon_gift"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="선물 아이콘" />
+        <LinearLayout
+            android:id="@+id/icon_row"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp">
 
-        <!-- 기념일 아이콘 -->
-        <ImageView
-            android:id="@+id/icon_anniversary"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginEnd="8dp"
-            android:contentDescription="기념일 아이콘" />
+            <!-- 선물 아이콘 -->
+            <ImageView
+                android:id="@+id/icon_gift"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="8dp"
+                android:contentDescription="선물 여부" />
 
-        <!-- 추억 아이콘 -->
-        <ImageView
-            android:id="@+id/icon_memory"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:contentDescription="추억 아이콘" />
+            <!-- 기념일 아이콘 -->
+            <ImageView
+                android:id="@+id/icon_anniversary"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="8dp"
+                android:contentDescription="기념일 여부" />
+
+            <!-- 추억 아이콘 -->
+            <ImageView
+                android:id="@+id/icon_memory"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginHorizontal="8dp"
+                android:contentDescription="추억 여부" />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
