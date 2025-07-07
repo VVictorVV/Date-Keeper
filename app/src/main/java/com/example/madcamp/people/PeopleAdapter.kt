@@ -68,8 +68,8 @@ class PeopleAdapter(
 
         // 추억 여부 아이콘 설정
         holder.iconMemory.setImageResource(
-            if (person.memories.isNullOrEmpty()) R.drawable.people_gallery_color
-            else R.drawable.people_gallery
+            if (person.memories.isEmpty()) R.drawable.people_gallery
+            else R.drawable.people_gallery_color
         )
 
         // 프로필 클릭 리스너 생성
