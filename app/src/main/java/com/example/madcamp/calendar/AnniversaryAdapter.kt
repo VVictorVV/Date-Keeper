@@ -24,9 +24,9 @@ import java.util.Date
 
 class AnniversaryAdapter(
     private var anniversaryList: List<AnniversaryDetails>,
+    private val isCalendarMode: Boolean,
     private val onCheckedStateChanged: (Int) -> Unit
 ) : RecyclerView.Adapter<AnniversaryAdapter.ViewHolder>() {
-        private var isManagementMode: Boolean = false
         private val checkedItems = mutableSetOf<AnniversaryDetails>()
         private var showDday: Boolean = true
         private var isDetailViewMode: Boolean = false
@@ -57,7 +57,8 @@ class AnniversaryAdapter(
             } else {
                 holder.giftText.text = "선물: ${anniversary.gift}"
             }
-            holder.checkBox.visibility = if (isManagementMode) View.VISIBLE else View.INVISIBLE
+            holder.checkBox.visibility = if (isDetailViewMode) View.INVISIBLE else View.VISIBLE
+            holder.checkBox.visibility = if (isCalendarMode) View.VISIBLE else View.INVISIBLE
             holder.checkBox.isChecked = checkedItems.contains(details)
 
             holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
@@ -158,16 +159,6 @@ class AnniversaryAdapter(
         }
 
         override fun getItemCount(): Int = anniversaryList.size
-
-        // Fragment에서 기념일 관리 모드를 설정하는 함수
-        fun setManagementMode(isEnabled: Boolean) {
-            isManagementMode = isEnabled
-            if (!isEnabled) {
-                checkedItems.clear()
-                onCheckedStateChanged(0)
-            }
-            notifyDataSetChanged()
-        }
 
     fun setDisplayMode(showDdayMode: Boolean) {
         showDday = showDdayMode

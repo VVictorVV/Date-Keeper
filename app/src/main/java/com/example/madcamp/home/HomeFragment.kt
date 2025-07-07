@@ -43,7 +43,7 @@ class HomeFragment : Fragment() {
 
     // 기존 AnniversaryAdapter 재사용
     private fun setupRecyclerView() {
-        anniversaryAdapter = AnniversaryAdapter(emptyList()) {}
+        anniversaryAdapter = AnniversaryAdapter(emptyList(), isCalendarMode = false) {}
         recyclerView.adapter = anniversaryAdapter
         recyclerView.layoutManager = LinearLayoutManager(context)
     }

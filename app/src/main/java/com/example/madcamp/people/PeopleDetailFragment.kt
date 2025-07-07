@@ -55,7 +55,7 @@ class PeopleDetailFragment : Fragment(){
 
             if (person.anniversary.isNotEmpty()) {
                 val anniversaryDetails = person.anniversary.map { AnniversaryDetails(person, it) }
-                val anniversaryAdapter = AnniversaryAdapter(anniversaryDetails) {}
+                val anniversaryAdapter = AnniversaryAdapter(anniversaryDetails, isCalendarMode = false) {}
 
                 anniversaryAdapter.setDetailViewMode(true)
 

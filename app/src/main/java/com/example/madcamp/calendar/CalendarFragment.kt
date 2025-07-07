@@ -1,6 +1,7 @@
 package com.example.madcamp.calendar
 
 import android.app.AlertDialog
+import android.graphics.Typeface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.madcamp.people.PeopleManager
 import androidx.recyclerview.widget.GridLayoutManager
@@ -40,7 +42,6 @@ class CalendarFragment : Fragment() {
 
     private val anniversaryMap = mutableMapOf<LocalDate, MutableList<AnniversaryDetails>>()
     private var selectedDate: LocalDate? = null
-    private var isAnniversaryManagementMode: Boolean = false
     private var anniversaryAdapter: AnniversaryAdapter? = null
 
     override fun onCreateView(
@@ -69,8 +70,19 @@ class CalendarFragment : Fragment() {
                 container.day = day
                 val textView = container.textView
                 val dotView = container.dotView
+                val todayBackground = container.todayBackground
 
                 textView.text = day.date.dayOfMonth.toString()
+
+                if (day.date == LocalDate.now()) {
+                    textView.setTextColor(ContextCompat.getColor(requireContext(),R.color.today_color))
+                    textView.typeface = Typeface.DEFAULT_BOLD
+                    todayBackground.visibility = View.VISIBLE
+                } else {
+                    textView.setTextColor(ContextCompat.getColor(requireContext(),R.color.default_day_color))
+                    textView.typeface = Typeface.DEFAULT
+                    todayBackground.visibility = View.INVISIBLE
+                }
 
                 if (day.position == DayPosition.MonthDate) {
                     textView.visibility = View.VISIBLE
@@ -193,21 +205,9 @@ class CalendarFragment : Fragment() {
         }
 
         binding.btnManageAnniversaries.setOnClickListener {
-            // 1. 상태 변수를 확인하여 관리 모드에 진입하거나 액션을 수행합니다.
-            if (!isAnniversaryManagementMode) {
-                // 관리 모드가 아닐 때 -> 관리 모드로 진입
-                isAnniversaryManagementMode = true
-                anniversaryAdapter?.setManagementMode(true)
-            } else {
-                // 관리 모드일 때 -> 체크된 아이템이 있으면 삭제, 없으면 관리 모드 취소
-                val checkedCount = anniversaryAdapter?.getCheckedItems()?.size ?: 0
-                if (checkedCount > 0) {
-                    deleteSelectedAnniversaries()
-                } else {
-                    // 체크된 아이템 없이 '기념일 관리' 버튼을 다시 누르면 관리 모드 취소
-                    isAnniversaryManagementMode = false
-                    anniversaryAdapter?.setManagementMode(false)
-                }
+            val checkedCount = anniversaryAdapter?.getCheckedItems()?.size ?: 0
+            if (checkedCount > 0) {
+                deleteSelectedAnniversaries()
             }
         }
 
@@ -239,23 +239,17 @@ class CalendarFragment : Fragment() {
     private fun updateUIBasedOnSelection() {
         val date = selectedDate
 
-        isAnniversaryManagementMode = false
-        anniversaryAdapter?.setManagementMode(false)
-        binding.btnManageAnniversaries.text = getString(R.string.calendar_anniversary_management)
         if (date != null) {
             binding.registerAnniversaryButton.visibility = View.VISIBLE
             val anniversaryDetailsList = anniversaryMap[date]
             if (!anniversaryDetailsList.isNullOrEmpty()) {
                 binding.anniversaryListHeader.visibility = View.VISIBLE
+                binding.btnManageAnniversaries.isEnabled = false
 
                 binding.anniversaryListTitle.text = "${date.monthValue}월 ${date.dayOfMonth}일의 기념일"
 
-                anniversaryAdapter = AnniversaryAdapter(anniversaryDetailsList) { checkedCount ->
-                    binding.btnManageAnniversaries.text = if (checkedCount > 0) {
-                        getString(R.string.calendar_delete_selected)
-                    } else {
-                        getString(R.string.calendar_anniversary_management)
-                    }
+                anniversaryAdapter = AnniversaryAdapter(anniversaryDetailsList, isCalendarMode = true) { checkedCount ->
+                    binding.btnManageAnniversaries.isEnabled = checkedCount > 0
                 }
 
                 binding.rvAnniversaryList.adapter = anniversaryAdapter
@@ -287,7 +281,6 @@ class CalendarFragment : Fragment() {
         loadAnniversaries()
 
         // UI 갱신
-        isAnniversaryManagementMode = false
         val updatedList = anniversaryMap[selectedDate] ?: emptyList()
         anniversaryAdapter?.updateData(updatedList)
 
@@ -300,8 +293,7 @@ class CalendarFragment : Fragment() {
         }
 
         // 버튼 텍스트 초기화
-        binding.btnManageAnniversaries.text = getString(R.string.calendar_anniversary_management)
-        anniversaryAdapter?.setManagementMode(false)
+        binding.btnManageAnniversaries.isEnabled = false
     }
 
     //모든 사람의 모든 기념일 불러오기
@@ -331,5 +323,6 @@ class CalendarFragment : Fragment() {
 class DayViewContainer(view: View) : ViewContainer(view) {
     val textView = view.findViewById<TextView>(R.id.calendar_day_text)
     val dotView = view.findViewById<View>(R.id.calendar_day_dot)
-    lateinit var day: CalendarDay // 날짜 정보 저장
+    val todayBackground = view.findViewById<View>(R.id.today_background_view) // 배경 View 참조 추가
+    lateinit var day: CalendarDay
 }

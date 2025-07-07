@@ -22,15 +22,18 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp">
 
-            <Button
+            <ImageButton
                 android:id="@+id/register_anniversary_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="기념일 등록"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerInside"
+                android:contentDescription="기념일 등록"
+                android:src="@drawable/ic_add"
+                android:background="@color/navigation"
                 android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:visibility="visible" />
+                tools:visibility="visible"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <LinearLayout
@@ -94,7 +97,7 @@
             <com.kizitonwose.calendar.view.CalendarView
                 android:id="@+id/calendar_view"
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_height="300dp"
                 app:cv_dayViewResource="@layout/calendar_day_layout" />
         </LinearLayout>
 
@@ -129,13 +132,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/btn_manage_anniversaries"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="기념일 관리"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:scaleType="centerInside"
+                android:contentDescription="기념일 관리"
+                android:src="@drawable/ic_delete"
+                android:background="@color/navigation"
+                android:visibility="visible"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
