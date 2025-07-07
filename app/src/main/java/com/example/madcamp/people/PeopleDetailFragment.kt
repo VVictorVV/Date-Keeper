@@ -30,8 +30,7 @@ class PeopleDetailFragment : Fragment(){
         _binding = PeopleDetailBinding.inflate(inflater, container, false)
 
         person?.let {
-            binding.textName.text = "이름: ${it.name}"
-            binding.textNickname.text = "별명: ${it.nickname}"
+            binding.textName.text = "${it.name} (${it.nickname})"
             binding.textPhone.text = "전화번호: ${it.phoneNumber}"
         }
 
@@ -42,9 +41,8 @@ class PeopleDetailFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         person?.let { person ->
-            binding.textName.text = "이름: ${person.name}"
-            binding.textNickname.text = "별명: ${person.nickname}"
-            binding.textPhone.text = "전화번호: ${person.phoneNumber}"
+            binding.textName.text = "${person.name} (${person.nickname})"
+            binding.textPhone.text = "${person.phoneNumber}"
             if (person.giftInfo.isNotEmpty()) {
                 val giftAdapter = GiftAdapter(person.giftInfo)
                 binding.rvGift.apply {
