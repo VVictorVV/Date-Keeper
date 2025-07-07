@@ -76,8 +76,9 @@
                 <Button
                     android:id="@+id/add_gift"
                     android:text="+"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@color/navigation"/>
             </LinearLayout>
 
             <!-- 선물 입력창이 추가될 컨테이너 -->
@@ -94,6 +95,7 @@
             <Button
                 android:id="@+id/btn_save"
                 android:text="저장"
+                android:background="@color/navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

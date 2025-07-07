@@ -7,5 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="my_pink">#FFEAE0</color>
+
+
+    <color name="my_pink">#FAD6EC</color>         <!-- 연한 핑크 -->
+    <color name="background">#F7EAFE</color>      <!-- 보라+핑크 섞인 밝은 배경 -->
+    <color name="navigation">#D59BEB</color>      <!-- 파스텔 보라, 부드러운 강조 -->
+
 </resources>

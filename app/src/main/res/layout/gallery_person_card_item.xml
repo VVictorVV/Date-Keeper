@@ -15,7 +15,8 @@
         android:gravity="center_horizontal"
         android:padding="24dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/my_pink">
 
         <!-- 대표 아이콘 -->
         <ImageView

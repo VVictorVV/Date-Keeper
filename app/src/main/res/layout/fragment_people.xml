@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".people.PeopleFragment">
+    tools:context=".people.PeopleFragment"
+    android:background="@color/background">
 
     <!-- + 버튼 (상단 고정) -->
     <ImageButton
@@ -16,6 +17,7 @@
         android:layout_gravity="end"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
+        android:background="@color/navigation"
         android:scaleType="center" />
 
     <!-- RecyclerView + 안내 메시지 겹치기 -->
