@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
@@ -108,7 +109,7 @@ class CalendarFragment : Fragment() {
             // 다이얼로그 View, UI 세팅
             val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.calendar_dialog_add_anniversary, null)
             val peopleTitle = dialogView.findViewById<TextView>(R.id.title_select_person)
-            val peopleRecyclerView = dialogView.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.rv_people_selection)
+            val peopleSpinner = dialogView.findViewById<android.widget.Spinner>(R.id.spinner_people_selection)
             val anniversaryNameTitle = dialogView.findViewById<TextView>(R.id.title_anniversary_name)
             val anniversaryNameEdit = dialogView.findViewById<EditText>(R.id.edit_anniversary_name)
             val giftTitle = dialogView.findViewById<TextView>(R.id.title_select_gift)
@@ -125,33 +126,40 @@ class CalendarFragment : Fragment() {
                 .create()
 
             val peopleList = PeopleManager.getPeople()
-            val peopleAdapter = PeopleAdapter(peopleList) { person ->
-                selectedPerson = person
+            val peopleAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,peopleList.map { it.name })
+            peopleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            peopleSpinner.adapter = peopleAdapter
 
-                peopleTitle.visibility = View.GONE
-                peopleRecyclerView.visibility = View.GONE
-                anniversaryNameTitle.visibility = View.VISIBLE
-                anniversaryNameEdit.visibility = View.VISIBLE
-                giftTitle.visibility = View.VISIBLE
-                giftSpinner.visibility = View.VISIBLE
+            peopleSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                    selectedPerson = peopleList[position]
 
-                val giftAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, person.giftInfo)
-                giftSpinner.adapter = giftAdapter
+                    val giftList = selectedPerson?.giftInfo
+                    val displayGiftList = if (giftList.isNullOrEmpty()) {
+                        listOf("없음")
+                    } else {
+                        giftList
+                    }
+                    val giftAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, displayGiftList)
+                    giftSpinner.adapter = giftAdapter
+
+                }
+
+                override fun onNothingSelected(p0: AdapterView<*>?) {
+                    selectedPerson = null
+                    giftSpinner.adapter = null
+                }
             }
-
-            peopleRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
-            peopleRecyclerView.adapter = peopleAdapter
 
             dialog.setOnShowListener {
                 val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
                 positiveButton.setOnClickListener{
                     val anniversaryName = anniversaryNameEdit.text.toString().trim()
-                    val currentSelectedItem = giftSpinner.selectedItem
-                    val selectedGift: String
-                    if (currentSelectedItem != null) {
-                        selectedGift = currentSelectedItem.toString()
+                    val selectedGiftItem = giftSpinner.selectedItem?.toString()
+                    val selectedGift = if (selectedGiftItem == "없음") {
+                        ""
                     } else {
-                        selectedGift = ""
+                        selectedGiftItem ?: ""
                     }
 
                     if (selectedPerson == null){

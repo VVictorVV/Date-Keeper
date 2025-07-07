@@ -53,7 +53,7 @@ class AnniversaryAdapter(
 
             // 주고 싶은 선물 출력
             if (anniversary.gift.isEmpty()) {
-                holder.giftText.text = "주고 싶은 선물을 아직 고르지 않았습니다!"
+                holder.giftText.text = "주고 싶은 선물이 없습니다!"
             } else {
                 holder.giftText.text = "선물: ${anniversary.gift}"
             }
