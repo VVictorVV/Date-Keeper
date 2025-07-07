@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
 
     <color name="today_background_color">#FFCDD2</color>
+    <color name="fab_background_color">#FF7E57C2</color>
     <color name="today_color">#FF5722</color>
     <color name="default_day_color">#FF000000</color>
     <color name="my_pink">#FAD6EC</color>         <!-- 연한 핑크 -->
