@@ -20,9 +20,11 @@
     <!-- + 버튼 -->
     <Button
         android:id="@+id/btnAddPhoto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:text="+"
+        android:textSize="24sp"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="@id/tvPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="16dp"/>
@@ -53,7 +55,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_vertical|start"
             android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_media_previous"
+            android:src="@drawable/gallery_leftarrow"
             android:visibility="gone"
             app:tint="#000000" />
 
@@ -63,7 +65,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_vertical|end"
             android:background="@android:color/transparent"
-            android:src="@android:drawable/ic_media_next"
+            android:src="@drawable/gallery_rightarrow"
             android:visibility="gone"
             app:tint="#000000" />
     </FrameLayout>

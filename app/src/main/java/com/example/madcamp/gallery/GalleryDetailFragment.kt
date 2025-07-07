@@ -27,9 +27,17 @@ class GalleryDetailFragment : Fragment() {
             )
             person?.memories?.add(newGallery)
 
-            person?.memories?.toList()?.let { it1 -> adapter.submitList(it1) }
+            val updatedList = person?.memories?.toList() ?: emptyList()
+            adapter.submitList(updatedList)
+
             binding.tvNoPhotos.visibility = View.GONE
             binding.viewPager.visibility = View.VISIBLE
+
+            // 마지막 페이지로 이동
+            binding.viewPager.setCurrentItem(updatedList.lastIndex, true)
+
+            // 화살표 상태 업데이트
+            updateArrowVisibility(updatedList.lastIndex)
 
             Toast.makeText(requireContext(), "이미지가 추가되었습니다", Toast.LENGTH_SHORT).show()
         }
@@ -84,12 +92,18 @@ class GalleryDetailFragment : Fragment() {
         // 좌우 버튼 동작
         binding.btnLeft.setOnClickListener {
             val prev = binding.viewPager.currentItem - 1
-            if (prev >= 0) binding.viewPager.currentItem = prev
+            if (prev >= 0) {
+                binding.viewPager.currentItem = prev
+                updateArrowVisibility(prev)
+            }
         }
 
         binding.btnRight.setOnClickListener {
             val next = binding.viewPager.currentItem + 1
-            if (next < adapter.itemCount) binding.viewPager.currentItem = next
+            if (next < adapter.itemCount) {
+                binding.viewPager.currentItem = next
+                updateArrowVisibility(next)
+            }
         }
 
         // + 버튼 동작
