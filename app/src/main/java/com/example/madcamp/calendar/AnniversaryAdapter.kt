@@ -24,9 +24,9 @@ class AnniversaryAdapter(
     private var anniversaryList: List<AnniversaryDetails>,
     private val onCheckedStateChanged: (Int) -> Unit
 ) : RecyclerView.Adapter<AnniversaryAdapter.ViewHolder>() {
-
         private var isManagementMode: Boolean = false
         private val checkedItems = mutableSetOf<AnniversaryDetails>()
+        private var showDday: Boolean = true
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val icon: ImageView = view.findViewById(R.id.anniversary_icon)
@@ -92,14 +92,21 @@ class AnniversaryAdapter(
             try {
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 val anniversaryDate = LocalDate.parse(anniversary.date, formatter)
-                val currentDate = LocalDate.now()
-                val daysUntil = ChronoUnit.DAYS.between(currentDate, anniversaryDate)
 
-                holder.ddayText.text = when {
-                    daysUntil > 0 -> "D-$daysUntil"
-                    daysUntil < 0 -> ""
-                    else -> "D-Day"
+                if (showDday) {
+                    val currentDate = LocalDate.now()
+                    val daysUntil = ChronoUnit.DAYS.between(currentDate, anniversaryDate)
+
+                    holder.ddayText.text = when {
+                        daysUntil > 0 -> "D-$daysUntil"
+                        daysUntil < 0 -> ""
+                        else -> "D-Day"
+                    }
+                } else {
+                    val displayFormatter = DateTimeFormatter.ofPattern("M월 d일")
+                    holder.ddayText.text = anniversaryDate.format(displayFormatter)
                 }
+
             } catch (e: Exception) {
                 holder.ddayText.text = ""
                 e.printStackTrace()
@@ -131,6 +138,11 @@ class AnniversaryAdapter(
             }
             notifyDataSetChanged()
         }
+
+    fun setDisplayMode(showDdayMode: Boolean) {
+        showDday = showDdayMode
+        notifyDataSetChanged()
+    }
 
         // Fragment에서 체크된 아이템 목록을 가져가는 함수
         fun getCheckedItems(): Set<AnniversaryDetails> {

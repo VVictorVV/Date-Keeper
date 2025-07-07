@@ -32,7 +32,11 @@ class HomeFragment : Fragment() {
 
         recyclerView = binding.rvUpcomingAnniversaries
         setupRecyclerView()
-        loadAndSortAnniveraries()
+        loadAndSortAnniversaries()
+
+        binding.checkboxShowDday.setOnCheckedChangeListener { _, isChecked ->
+            anniversaryAdapter.setDisplayMode(isChecked)
+        }
 
         return binding.root
     }
@@ -45,7 +49,7 @@ class HomeFragment : Fragment() {
     }
 
     // 데이터 가져오기
-    private fun loadAndSortAnniveraries() {
+    private fun loadAndSortAnniversaries() {
         val allAnniversaries = loadAllAnniversaryDetails()
 
         val today = LocalDate.now()
