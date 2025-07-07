@@ -22,6 +22,7 @@ class PeopleAdapter(
         val profilePhoneNumber: TextView = view.findViewById(R.id.card_profile_phone_number)
         val profileGiftInfo: TextView = view.findViewById(R.id.card_gift_info)
         val profileAnniversaryInfo: TextView = view.findViewById(R.id.anniversary_info)
+        val memoryStatusTextView: TextView = view.findViewById(R.id.memory_status)
     }
 
     // ViewHolder를 생성하는 함수 (person_card_item.xml 레이아웃을 inflate)
@@ -56,6 +57,10 @@ class PeopleAdapter(
         } else {
             holder.profileImage.setImageResource(R.drawable.icon_heart)
         }
+
+        // 추억 여부 텍스트 설정
+        val memoryStatusText = if (person.memories.isNullOrEmpty()) "추억 없음" else "추억 있음"
+        holder.memoryStatusTextView.text = memoryStatusText
 
         // 프로필 클릭 리스너 생성
         holder.itemView.setOnClickListener {

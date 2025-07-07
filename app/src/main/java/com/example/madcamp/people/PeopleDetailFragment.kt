@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.madcamp.R
 import com.example.madcamp.databinding.PeopleDetailBinding
+import com.example.madcamp.gallery.GalleryDetailFragment
 
 class PeopleDetailFragment : Fragment(){
     private var _binding: PeopleDetailBinding? = null
@@ -53,11 +54,20 @@ class PeopleDetailFragment : Fragment(){
                     .commit()
             }
 
-            // 🔥 삭제 버튼 처리
+            // 삭제 버튼 처리
             binding.btnDelete.setOnClickListener {
                 PeopleManager.removePerson(person)
                 Toast.makeText(requireContext(), "삭제되었습니다", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()  // 목록으로 돌아가기
+            }
+
+            binding.btnViewMemory.setOnClickListener {
+                val fragment = GalleryDetailFragment.newInstance(person)
+
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.bottom_layout, fragment)
+                    .addToBackStack(null)
+                    .commit()
             }
         }
     }
