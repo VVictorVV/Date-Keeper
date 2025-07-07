@@ -68,7 +68,16 @@ class HomeFragment : Fragment() {
             .sortedBy {it.second}
             .map {it.first}
 
-        anniversaryAdapter.updateData(sortedList)
+        if (sortedList.isEmpty()) {
+            binding.rvUpcomingAnniversaries.visibility = View.GONE
+            binding.homeHeaderLayout.visibility = View.GONE
+            binding.emptyView.visibility = View.VISIBLE
+        } else {
+            binding.rvUpcomingAnniversaries.visibility = View.VISIBLE
+            binding.homeHeaderLayout.visibility = View.VISIBLE
+            binding.emptyView.visibility = View.GONE
+            anniversaryAdapter.updateData(sortedList)
+        }
     }
 
     private fun loadAllAnniversaryDetails(): List<AnniversaryDetails> {

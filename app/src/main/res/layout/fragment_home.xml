@@ -8,6 +8,7 @@
     tools:context=".home.HomeFragment">
 
     <LinearLayout
+        android:id="@+id/home_header_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -27,12 +28,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="남은 날 보기"
-            android:checked="true" /> </LinearLayout>
+            android:checked="true" />
+    </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_upcoming_anniversaries"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/calendar_anniversary_item" />
+        android:layout_height="match_parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_upcoming_anniversaries"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/calendar_anniversary_item" />
+
+        <TextView
+            android:id="@+id/empty_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="나만의 기념일을 추가해보세요!"
+            android:textSize="18sp"
+            android:textColor="@android:color/darker_gray"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            tools:visibility="visible"/>
+
+    </RelativeLayout>
 </LinearLayout>

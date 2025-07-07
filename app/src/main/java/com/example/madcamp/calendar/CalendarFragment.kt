@@ -203,6 +203,18 @@ class CalendarFragment : Fragment() {
             }
         }
 
+        binding.btnPreviousMonth.setOnClickListener {
+            calendarView.findFirstVisibleMonth()?.let {
+                calendarView.smoothScrollToMonth(it.yearMonth.minusMonths(1))
+            }
+        }
+
+        binding.btnNextMonth.setOnClickListener {
+            calendarView.findFirstVisibleMonth()?.let {
+                calendarView.smoothScrollToMonth(it.yearMonth.plusMonths(1))
+            }
+        }
+
         // 월 이동 시 상단 텍스트를 업데이트
         calendarView.monthScrollListener = { calendarMonth ->
             val formatter = DateTimeFormatter.ofPattern("yyyy년 M월")
