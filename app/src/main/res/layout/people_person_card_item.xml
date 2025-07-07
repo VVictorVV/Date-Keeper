@@ -1,84 +1,96 @@
-<?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    android:layout_margin="8dp">
+    android:layout_margin="12dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="8dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="#FAD6EC"
+    app:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
-        android:background="@color/my_pink"
-        android:padding="16dp">
+        android:background="@drawable/card_background_gradient"
+        android:padding="24dp">
 
+        <!-- 프로필 이미지 (둥글게 + 그림자) -->
         <ImageView
             android:id="@+id/card_profile_image"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:src="@drawable/dogtest"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_white_background"
+            android:elevation="4dp"
+            android:padding="4dp"
             tools:src="@tools:sample/avatars" />
 
+        <!-- 이름 -->
         <TextView
             android:id="@+id/card_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="이름(별명)"
-            android:textSize="25sp"
+            android:textColor="#222222"
+            android:textSize="22sp"
             android:textStyle="bold"
-            tools:text="홍길동"/>
+            tools:text="홍길동" />
 
+        <!-- 전화번호 -->
         <TextView
             android:id="@+id/card_profile_phone_number"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="6dp"
             android:text="연락처"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            tools:text="010-xxxx-xxxx"/>
+            android:textColor="#555555"
+            android:textSize="16sp"
+            tools:text="010-xxxx-xxxx" />
 
+        <!-- 아이콘 라인 -->
         <LinearLayout
             android:id="@+id/icon_row"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp">
+            android:layout_marginTop="16dp">
 
-            <!-- 선물 아이콘 -->
             <ImageView
                 android:id="@+id/icon_gift"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="3dp"
+                android:src="@drawable/people_gift"
+                android:background="@drawable/icon_background"
+                android:padding="4dp"
                 android:contentDescription="선물 여부" />
 
-            <!-- 기념일 아이콘 -->
             <ImageView
                 android:id="@+id/icon_anniversary"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="3dp"
+                android:src="@drawable/people_celebration"
+                android:background="@drawable/icon_background"
+                android:padding="4dp"
                 android:contentDescription="기념일 여부" />
 
-            <!-- 추억 아이콘 -->
             <ImageView
                 android:id="@+id/icon_memory"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:layout_marginHorizontal="8dp"
+                android:layout_marginHorizontal="3dp"
+                android:src="@drawable/people_gallery"
+                android:background="@drawable/icon_background"
+                android:padding="4dp"
                 android:contentDescription="추억 여부" />
-
         </LinearLayout>
-
-
     </LinearLayout>
-
 </com.google.android.material.card.MaterialCardView>

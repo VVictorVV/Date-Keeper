@@ -1,0 +1,9 @@
+<!-- res/drawable/memory_card_background.xml -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="16dp"/>
+    <gradient
+        android:startColor="#F5B0DC"
+        android:endColor="#FFE6F3"
+        android:angle="270" />
+</shape>
