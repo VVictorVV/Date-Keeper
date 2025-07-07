@@ -6,7 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.madcamp.AnniversaryAdapter
 import com.example.madcamp.R
+import com.example.madcamp.calendar.AnniversaryDetails
 import com.example.madcamp.databinding.PeopleDetailBinding
 import com.example.madcamp.gallery.GalleryDetailFragment
 
@@ -44,6 +47,18 @@ class PeopleDetailFragment : Fragment(){
             binding.textNickname.text = "별명: ${person.nickname}"
             binding.textPhone.text = "전화번호: ${person.phoneNumber}"
             binding.textGifts.text = "선호하는 선물: ${person.giftInfo.joinToString(", ")}"
+
+            if (person.anniversary.isNotEmpty()) {
+                val anniversaryDetails = person.anniversary.map { AnniversaryDetails(person, it) }
+                val anniversaryAdapter = AnniversaryAdapter(anniversaryDetails) {}
+
+                anniversaryAdapter.setDetailViewMode(true)
+
+                binding.rvPersonAnniversaries.apply {
+                    layoutManager = LinearLayoutManager(requireContext())
+                    adapter = anniversaryAdapter
+                }
+            }
 
             // 수정 버튼
             binding.btnEdit.setOnClickListener {
