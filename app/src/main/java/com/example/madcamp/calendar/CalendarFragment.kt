@@ -127,81 +127,112 @@ class CalendarFragment : Fragment() {
             val giftTitle = dialogView.findViewById<TextView>(R.id.title_select_gift)
             val giftSpinner = dialogView.findViewById<android.widget.Spinner>(R.id.spinner_gifts_selection)
 
-            var selectedPerson: Person? = null
-
-            val dialog = AlertDialog.Builder(requireContext())
-                .setTitle("${date.monthValue}월 ${date.dayOfMonth}일 기념일 등록")
-                .setView(dialogView)
-                .setPositiveButton("저장") { _, _ ->
-                }
-                .setNegativeButton("취소", null)
-                .create()
-
-            val peopleList = PeopleManager.getPeople()
-            val peopleAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item,peopleList.map { it.name })
-            peopleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            peopleSpinner.adapter = peopleAdapter
-
-            peopleSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    selectedPerson = peopleList[position]
-
-                    val giftList = selectedPerson?.giftInfo
-                    val displayGiftList = if (giftList.isNullOrEmpty()) {
-                        listOf("없음")
-                    } else {
-                        giftList
+            val peopleListCheck = PeopleManager.getPeople()
+            if (peopleListCheck.isEmpty()){
+                AlertDialog.Builder(requireContext())
+                    .setTitle("알림")
+                    .setMessage("사람들 프로필을 등록해주세요!")
+                    .setPositiveButton("확인") { dialog, _ ->
+                        dialog.dismiss()
                     }
-                    val giftAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, displayGiftList)
-                    giftSpinner.adapter = giftAdapter
+                    .show()
+            } else {
+                var selectedPerson: Person? = null
 
+                val dialog = AlertDialog.Builder(requireContext())
+                    .setTitle("${date.monthValue}월 ${date.dayOfMonth}일 기념일 등록")
+                    .setView(dialogView)
+                    .setPositiveButton("저장") { _, _ ->
+                    }
+                    .setNegativeButton("취소", null)
+                    .create()
+
+                val peopleList = PeopleManager.getPeople()
+                val peopleAdapter = ArrayAdapter(
+                    requireContext(),
+                    android.R.layout.simple_spinner_item,
+                    peopleList.map { it.name })
+                peopleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                peopleSpinner.adapter = peopleAdapter
+
+                peopleSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                    override fun onItemSelected(
+                        parent: AdapterView<*>?,
+                        view: View?,
+                        position: Int,
+                        id: Long
+                    ) {
+                        selectedPerson = peopleList[position]
+
+                        val giftList = selectedPerson?.giftInfo
+                        val displayGiftList = if (giftList.isNullOrEmpty()) {
+                            listOf("없음")
+                        } else {
+                            giftList
+                        }
+                        val giftAdapter = ArrayAdapter(
+                            requireContext(),
+                            android.R.layout.simple_spinner_item,
+                            displayGiftList
+                        )
+                        giftSpinner.adapter = giftAdapter
+
+                    }
+
+                    override fun onNothingSelected(p0: AdapterView<*>?) {
+                        selectedPerson = null
+                        giftSpinner.adapter = null
+                    }
                 }
 
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    selectedPerson = null
-                    giftSpinner.adapter = null
+                dialog.setOnShowListener {
+                    val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    positiveButton.setOnClickListener {
+                        val anniversaryName = anniversaryNameEdit.text.toString().trim()
+                        val selectedGiftItem = giftSpinner.selectedItem?.toString()
+                        val selectedGift = if (selectedGiftItem == "없음") {
+                            ""
+                        } else {
+                            selectedGiftItem ?: ""
+                        }
+
+                        if (selectedPerson == null) {
+                            android.widget.Toast.makeText(
+                                requireContext(),
+                                "사람을 선택해주세요.",
+                                android.widget.Toast.LENGTH_SHORT
+                            ).show()
+                            return@setOnClickListener
+                        }
+                        if (anniversaryName.isEmpty()) {
+                            android.widget.Toast.makeText(
+                                requireContext(),
+                                "기념일 이름을 입력해주세요.",
+                                android.widget.Toast.LENGTH_SHORT
+                            ).show()
+                            return@setOnClickListener
+                        }
+
+                        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                        val dateString = date.format(formatter)
+                        val newAnniversary = Anniversary(
+                            date = dateString,
+                            name = anniversaryName,
+                            gift = selectedGift
+                        )
+                        selectedPerson!!.anniversary.add(newAnniversary)
+
+                        val details = AnniversaryDetails(selectedPerson!!, newAnniversary)
+                        anniversaryMap.getOrPut(date) { mutableListOf() }.add(details)
+
+                        binding.calendarView.notifyDateChanged(date)
+                        updateUIBasedOnSelection()
+
+                        dialog.dismiss()
+                    }
                 }
+                dialog.show()
             }
-
-            dialog.setOnShowListener {
-                val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
-                positiveButton.setOnClickListener{
-                    val anniversaryName = anniversaryNameEdit.text.toString().trim()
-                    val selectedGiftItem = giftSpinner.selectedItem?.toString()
-                    val selectedGift = if (selectedGiftItem == "없음") {
-                        ""
-                    } else {
-                        selectedGiftItem ?: ""
-                    }
-
-                    if (selectedPerson == null){
-                        android.widget.Toast.makeText(requireContext(), "사람을 선택해주세요.", android.widget.Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
-                    }
-                    if (anniversaryName.isEmpty()) {
-                        android.widget.Toast.makeText(requireContext(), "기념일 이름을 입력해주세요.", android.widget.Toast.LENGTH_SHORT).show()
-                        return@setOnClickListener
-                    }
-
-                    val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                    val dateString = date.format(formatter)
-                    val newAnniversary = Anniversary (
-                        date = dateString,
-                        name = anniversaryName,
-                        gift = selectedGift
-                    )
-                    selectedPerson!!.anniversary.add(newAnniversary)
-
-                    val details = AnniversaryDetails(selectedPerson!!, newAnniversary)
-                    anniversaryMap.getOrPut(date) { mutableListOf() }.add(details)
-
-                    binding.calendarView.notifyDateChanged(date)
-                    updateUIBasedOnSelection()
-
-                    dialog.dismiss()
-                }
-            }
-            dialog.show()
         }
 
         binding.btnManageAnniversaries.setOnClickListener {
