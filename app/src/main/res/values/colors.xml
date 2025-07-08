@@ -22,4 +22,6 @@
     <color name="background">#F7EAFE</color>      <!-- 보라+핑크 섞인 밝은 배경 -->
     <color name="navigation">#D59BEB</color>      <!-- 파스텔 보라, 부드러운 강조 -->
     <color name="ic_background">#FEFAFC</color>      <!-- 파스텔 보라, 부드러운 강조 -->
+    <color name="header">#FFA2F9</color>      <!-- 파스텔 보라, 부드러운 강조 -->
+    <color name="gallery_button">#D474F2</color>
 </resources>
