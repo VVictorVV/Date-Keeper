@@ -43,25 +43,44 @@ class PeopleDetailFragment : Fragment(){
         person?.let { person ->
             binding.textName.text = "${person.name} (${person.nickname})"
             binding.textPhone.text = "${person.phoneNumber}"
+            // 선물 처리
             if (person.giftInfo.isNotEmpty()) {
                 val giftAdapter = GiftAdapter(person.giftInfo)
                 binding.rvGift.apply {
                     layoutManager = LinearLayoutManager(requireContext())
                     adapter = giftAdapter
+                    visibility = View.VISIBLE
                 }
+                binding.tvGiftLabel.visibility = View.VISIBLE
+            } else {
+                binding.rvGift.visibility = View.GONE
+                binding.tvGiftLabel.visibility = View.GONE
             }
 
+            // 기념일 처리
             if (person.anniversary.isNotEmpty()) {
                 val anniversaryDetails = person.anniversary.map { AnniversaryDetails(person, it) }
                 val anniversaryAdapter = AnniversaryAdapter(anniversaryDetails, isCalendarMode = false) {}
-
                 anniversaryAdapter.setDetailViewMode(true)
 
                 binding.rvPersonAnniversaries.apply {
                     layoutManager = LinearLayoutManager(requireContext())
                     adapter = anniversaryAdapter
+                    visibility = View.VISIBLE
                 }
+                binding.tvAnniversaryLabel.visibility = View.VISIBLE
+            } else {
+                binding.rvPersonAnniversaries.visibility = View.GONE
+                binding.tvAnniversaryLabel.visibility = View.GONE
             }
+
+            // 둘 다 없으면 공통 메시지 보여줌
+            if (person.giftInfo.isEmpty() && person.anniversary.isEmpty()) {
+                binding.tvEmptyNotice.visibility = View.VISIBLE
+            } else {
+                binding.tvEmptyNotice.visibility = View.GONE
+            }
+
 
             // 수정 버튼
             binding.btnEdit.setOnClickListener {
