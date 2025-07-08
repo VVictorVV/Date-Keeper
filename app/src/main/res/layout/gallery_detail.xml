@@ -47,8 +47,7 @@
             android:background="@drawable/round_button_background"
             android:src="@drawable/gallery_leftarrow_white"
             android:visibility="gone"
-            android:translationX="20dp"
-            app:tint="#000000" />
+            android:translationX="20dp" />
 
         <ImageButton
             android:id="@+id/btnRight"
@@ -58,8 +57,7 @@
             android:background="@drawable/round_button_background"
             android:src="@drawable/gallery_rightarrow_white"
             android:visibility="gone"
-            android:translationX="-20dp"
-            app:tint="#000000" />
+            android:translationX="-20dp" />
     </FrameLayout>
 
     <!-- 사진 없을 때 표시 -->
