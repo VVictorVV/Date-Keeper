@@ -40,7 +40,8 @@
             android:textColor="#222222"
             android:textSize="22sp"
             android:textStyle="bold"
-            tools:text="홍길동" />
+            tools:text="홍길동"
+            android:textAlignment="center"/>
 
         <!-- 전화번호 -->
         <TextView

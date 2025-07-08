@@ -1,6 +1,7 @@
 package com.example.madcamp.gallery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -79,6 +80,9 @@ class GalleryDetailFragment : Fragment() {
             // ViewPager 페이지 바뀔 때 화살표 보이기 설정
             binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                    Log.v("test", "position: $position")
+
                     updateArrowVisibility(position)
                 }
             })
