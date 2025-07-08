@@ -3,7 +3,9 @@ package com.example.madcamp.gallery
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -15,15 +17,23 @@ import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp.people.Person
 import com.example.madcamp.R
+import com.example.madcamp.calendar.AnniversarySectionAdapter
+import java.io.File
 
 class GalleryDayFragment : Fragment() {
     private var person: Person? = null
 
     private var selectedImageUri: Uri? = null
     private lateinit var dialogImageView: ImageView
+
+    private lateinit var sectionAdapter: AnniversarySectionAdapter
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -49,6 +59,19 @@ class GalleryDayFragment : Fragment() {
         btnAddPhoto.setOnClickListener {
             showAddMemoryDialog()
         }
+
+        val galleryList = person?.memories ?: emptyList()
+
+        // 1. 기념일별로 그룹화
+        val grouped: Map<String, List<Gallery>> = galleryList.groupBy {
+            it.anniversary?.name ?: "해당 없음"
+        }
+
+        // 2. 섹션 어댑터 연결
+        val recyclerView = view.findViewById<RecyclerView>(R.id.rvAnniversarySections)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        sectionAdapter = AnniversarySectionAdapter(grouped)
+        recyclerView.adapter = sectionAdapter
 
         return view
     }
@@ -85,20 +108,25 @@ class GalleryDayFragment : Fragment() {
                     return@setPositiveButton
                 }
 
-                val selectedAnniversary = if (personAnniversaries.isNotEmpty()) {
+                val selectedAnniversary = if (personAnniversaries.isEmpty()) {
                     null
                 } else {
                     val selectedPosition = anniversarySpinner.selectedItemPosition
                     personAnniversaries[selectedPosition]
                 }
 
+                val imageUriToSave = selectedImageUri.toString()
+
                 val newMemory = Gallery(
                     id = System.currentTimeMillis(),
-                    imageUri = selectedImageUri.toString(),
+                    imageUri = imageUriToSave,
                     anniversary = selectedAnniversary
                 )
 
                 person?.memories?.add(newMemory)
+
+                val updatedGrouped = person?.memories?.groupBy { it.anniversary?.name ?: "해당 없음" } ?: emptyMap()
+                sectionAdapter.updateData(updatedGrouped)
             }
             .setNegativeButton("취소",null)
             .show()
