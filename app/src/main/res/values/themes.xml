@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- themes.xml -->
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/background</item>
+
+        <item name="windowSplashScreenAnimatedIcon">@drawable/dogtest</item>
+
+        <item name="postSplashScreenTheme">@style/Theme.MadCamp</item>
+    </style>
+
+
     <style name="Theme.MadCamp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/jua_regular</item>
         <item name="android:textColorHint">@color/hint_text_color</item>
