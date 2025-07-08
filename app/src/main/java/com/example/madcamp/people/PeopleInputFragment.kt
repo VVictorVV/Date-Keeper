@@ -305,12 +305,7 @@ class PeopleInputFragment : Fragment(){
                 }
 
                 deleteButton.setOnClickListener {
-                    binding.giftInput.removeView(rowLayout)
-
-                    // 입력창이 모두 사라졌을 경우 → 숨기기 (선택)
-                    if (binding.giftInput.childCount == 0) {
-                        binding.giftInput.visibility = View.GONE
-                    }
+                    handleGiftDeletion(rowLayout, giftText)
                 }
 
                 rowLayout.removeView(giftEditText)
@@ -371,13 +366,7 @@ class PeopleInputFragment : Fragment(){
         val deleteButton = Button(requireContext()).apply {
             text = "삭제"
             setOnClickListener {
-                binding.giftInput.removeView(rowLayout)
-
-                // 모두 제거되었을 때 giftInput 숨기기 + + 버튼 복원
-                if (binding.giftInput.childCount == 0) {
-                    binding.giftInput.visibility = View.GONE
-                    binding.addGift.text = "+"
-                }
+                handleGiftDeletion(rowLayout, gift)
             }
         }
 
@@ -388,6 +377,47 @@ class PeopleInputFragment : Fragment(){
         binding.giftInput.addView(rowLayout)
         binding.giftInput.visibility = View.VISIBLE
         binding.addGift.text = "+"
+    }
+
+    private fun handleGiftDeletion(rowLayout: ViewGroup, giftText: String) {
+        val person = existingPerson ?: return
+
+        val associatedAnniversaries = person.anniversary.filter { it.gift == giftText }
+
+        if (associatedAnniversaries.isNotEmpty()) {
+            AlertDialog.Builder(requireContext())
+                .setTitle("선물 삭제")
+                .setMessage("선택한 선물과 연관된 기념일이 존재합니다. 정말로 삭제하시겠습니까?")
+                .setPositiveButton("예") { _, _ ->
+                    performCascadingDelete(giftText)
+                    binding.giftInput.removeView(rowLayout)
+                    checkIfGiftListIsEmpty()
+                }
+                .setNegativeButton("아니오", null)
+                .show()
+        } else {
+            performCascadingDelete(giftText)
+            binding.giftInput.removeView(rowLayout)
+            checkIfGiftListIsEmpty()
+        }
+    }
+
+    private fun performCascadingDelete(giftText: String) {
+        existingPerson?.apply {
+            giftInfo.remove(giftText)
+            anniversary.forEach { ann ->
+                if (ann.gift == giftText) {
+                    ann.gift = ""
+                }
+            }
+        }
+    }
+
+    private fun checkIfGiftListIsEmpty() {
+        if (binding.giftInput.childCount == 0) {
+            binding.giftInput.visibility = View.GONE
+            binding.addGift.text = "+"
+        }
     }
 
     override fun onDestroyView() {

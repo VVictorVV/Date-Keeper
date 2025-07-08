@@ -8,5 +8,5 @@ import java.time.LocalDate
 data class Anniversary(
     val date: String, //yyyy-MM-dd
     val name: String,
-    val gift: String
+    var gift: String
 ) : Parcelable
