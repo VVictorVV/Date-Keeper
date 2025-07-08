@@ -13,11 +13,11 @@
     <color name="checkbox_checked_color">#BC84D1</color>
     <color name="checkbox_unchecked_color">#A6A6A6</color>
     <color name="today_background_color">#FFCDD2</color>
-    <color name="fab_background_color">#FF7E57C2</color>
+    <color name="fab_background_color">#3B3B3B</color>
     <color name="today_color">#FF5722</color>
     <color name="default_day_color">#FF000000</color>
     <color name="my_pink">#FAD6EC</color>         <!-- 연한 핑크 -->
     <color name="background">#F7EAFE</color>      <!-- 보라+핑크 섞인 밝은 배경 -->
     <color name="navigation">#D59BEB</color>      <!-- 파스텔 보라, 부드러운 강조 -->
-
+    <color name="ic_background">#FEFAFC</color>      <!-- 파스텔 보라, 부드러운 강조 -->
 </resources>

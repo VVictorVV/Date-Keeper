@@ -45,7 +45,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_vertical|start"
             android:background="@drawable/round_button_background"
-            android:src="@drawable/gallery_leftarrow"
+            android:src="@drawable/gallery_leftarrow_white"
             android:visibility="gone"
             android:translationX="20dp"
             app:tint="#000000" />
@@ -56,7 +56,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_vertical|end"
             android:background="@drawable/round_button_background"
-            android:src="@drawable/gallery_rightarrow"
+            android:src="@drawable/gallery_rightarrow_white"
             android:visibility="gone"
             android:translationX="-20dp"
             app:tint="#000000" />
@@ -67,7 +67,7 @@
         android:id="@+id/tvNoPhotos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="등록된 사진이 없습니다."
+        android:text="소중한 추억을 기록해보세요!"
         android:textSize="16sp"
         android:textColor="#888888"
         android:gravity="center"
