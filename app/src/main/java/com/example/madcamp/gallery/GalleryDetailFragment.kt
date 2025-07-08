@@ -20,30 +20,6 @@ class GalleryDetailFragment : Fragment() {
     private var person: Person? = null
     private lateinit var adapter: GalleryPagerAdapter  // ViewPager2용 어댑터
 
-    private val imagePicker = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
-        uri?.let {
-            val newGallery = Gallery(
-                id = System.currentTimeMillis(),
-                imageUri = uri.toString()
-            )
-            person?.memories?.add(newGallery)
-
-            val updatedList = person?.memories?.toList() ?: emptyList()
-            adapter.submitList(updatedList)
-
-            binding.tvNoPhotos.visibility = View.GONE
-            binding.viewPager.visibility = View.VISIBLE
-
-            // 마지막 페이지로 이동
-            binding.viewPager.setCurrentItem(updatedList.lastIndex, true)
-
-            // 화살표 상태 업데이트
-            updateArrowVisibility(updatedList.lastIndex)
-
-            Toast.makeText(requireContext(), "이미지가 추가되었습니다", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         person = arguments?.getParcelable("person")
@@ -86,7 +62,13 @@ class GalleryDetailFragment : Fragment() {
         } else {
             binding.tvNoPhotos.visibility = View.GONE
             binding.viewPager.visibility = View.VISIBLE
-            person?.memories?.toList()?.let { adapter.submitList(it) }
+            person?.memories?.toList()?.let {
+                val filteredList = person?.memories?.filter {
+                    val anniversaryName = arguments?.getString("anniversaryName")
+                    it.anniversary?.name == anniversaryName
+                }
+                adapter.submitList(filteredList ?: emptyList())
+            }
 
             // ViewPager 페이지 바뀔 때 화살표 보이기 설정
             binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
