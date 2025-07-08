@@ -37,7 +37,7 @@ class GalleryFragment : Fragment() {
             val adapter = GalleryAdapter(peopleList) { person ->
                 val fragment = GalleryDetailFragment.newInstance(person)
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.bottom_layout, fragment)
+                    .replace(R.id.fragment_container_details, fragment)
                     .addToBackStack(null)
                     .commit()
             }

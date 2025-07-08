@@ -67,7 +67,7 @@ class PeopleDetailFragment : Fragment(){
             binding.btnEdit.setOnClickListener {
                 val editFragment = PeopleInputFragment.newInstance(person)
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.bottom_layout, editFragment)
+                    .replace(R.id.fragment_container_details, editFragment)
                     .addToBackStack(null)
                     .commit()
             }
@@ -83,7 +83,7 @@ class PeopleDetailFragment : Fragment(){
                 val fragment = GalleryDetailFragment.newInstance(person)
 
                 parentFragmentManager.beginTransaction()
-                    .replace(R.id.bottom_layout, fragment)
+                    .replace(R.id.fragment_container_details, fragment)
                     .addToBackStack(null)
                     .commit()
             }
