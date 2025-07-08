@@ -17,20 +17,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Button
+        <ImageButton
             android:id="@+id/btnEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:backgroundTint="@color/navigation"
-            android:text="수정" />
+            android:src="@drawable/ic_edit"
+            android:contentDescription="수정"
+            android:scaleType="centerInside" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btnDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_marginStart="8dp"
             android:backgroundTint="@color/navigation"
-            android:text="삭제" />
+            android:src="@drawable/ic_delete"
+            android:contentDescription="삭제"
+            android:scaleType="centerInside" />
+
     </LinearLayout>
 
     <!-- 대표 정보 카드 -->
@@ -58,7 +63,7 @@
             android:layout_height="60dp"
             android:src="@drawable/icon_heart"
             android:background="@drawable/rounded_white_background"
-            android:scaleType="centerInside"
+            android:scaleType="fitCenter"
             android:layout_marginEnd="8dp" />
 
         <!-- 이름 + 전화번호를 세로로 정렬 -->
