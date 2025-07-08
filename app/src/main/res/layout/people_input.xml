@@ -143,6 +143,7 @@
                     android:layout_width="40dp"
                     android:layout_height="wrap_content"
                     android:text="+"
+                    android:backgroundTint="@color/navigation"
                     app:iconTint="#D59BEB" />
             </LinearLayout>
 
@@ -160,7 +161,7 @@
             <Button
                 android:id="@+id/btn_save"
                 android:text="저장"
-                android:background="@color/navigation"
+                android:backgroundTint="@color/navigation"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"/>

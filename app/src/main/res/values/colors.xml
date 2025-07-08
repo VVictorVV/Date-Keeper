@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="gift_register_button_color">#4CAF50</color> <!-- 예시: 초록색 -->
+    <color name="gift_delete_button_color">#F44336</color>   <!-- 예시: 빨간색 -->
     <color name="checkbox_checked_color">#BC84D1</color>
     <color name="checkbox_unchecked_color">#A6A6A6</color>
     <color name="today_background_color">#FFCDD2</color>

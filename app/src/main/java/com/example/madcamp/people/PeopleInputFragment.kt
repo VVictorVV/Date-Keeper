@@ -21,6 +21,7 @@ import android.content.Context
 import android.view.inputmethod.InputMethod
 import android.view.inputmethod.InputMethodManager
 import android.widget.GridView
+import androidx.core.content.ContextCompat
 import androidx.core.widget.doAfterTextChanged
 import com.example.madcamp.R
 
@@ -288,6 +289,8 @@ class PeopleInputFragment : Fragment(){
 
         val registerButton = Button(requireContext()).apply {
             text = "등록"
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gift_register_button_color)
         }
 
         registerButton.setOnClickListener {
@@ -302,6 +305,8 @@ class PeopleInputFragment : Fragment(){
 
                 val deleteButton = Button(requireContext()).apply {
                     text = "삭제"
+                    setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                    backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gift_delete_button_color)
                 }
 
                 deleteButton.setOnClickListener {
@@ -365,6 +370,8 @@ class PeopleInputFragment : Fragment(){
 
         val deleteButton = Button(requireContext()).apply {
             text = "삭제"
+            setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            backgroundTintList = ContextCompat.getColorStateList(requireContext(), R.color.gift_delete_button_color)
             setOnClickListener {
                 handleGiftDeletion(rowLayout, gift)
             }
@@ -380,23 +387,28 @@ class PeopleInputFragment : Fragment(){
     }
 
     private fun handleGiftDeletion(rowLayout: ViewGroup, giftText: String) {
-        val person = existingPerson ?: return
+        if (existingPerson != null) {
+            val person = existingPerson ?: return
 
-        val associatedAnniversaries = person.anniversary.filter { it.gift == giftText }
+            val associatedAnniversaries = person.anniversary.filter { it.gift == giftText }
 
-        if (associatedAnniversaries.isNotEmpty()) {
-            AlertDialog.Builder(requireContext())
-                .setTitle("선물 삭제")
-                .setMessage("선택한 선물과 연관된 기념일이 존재합니다. 정말로 삭제하시겠습니까?")
-                .setPositiveButton("예") { _, _ ->
-                    performCascadingDelete(giftText)
-                    binding.giftInput.removeView(rowLayout)
-                    checkIfGiftListIsEmpty()
-                }
-                .setNegativeButton("아니오", null)
-                .show()
+            if (associatedAnniversaries.isNotEmpty()) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("선물 삭제")
+                    .setMessage("선택한 선물과 연관된 기념일이 존재합니다. 정말로 삭제하시겠습니까?")
+                    .setPositiveButton("예") { _, _ ->
+                        performCascadingDelete(giftText)
+                        binding.giftInput.removeView(rowLayout)
+                        checkIfGiftListIsEmpty()
+                    }
+                    .setNegativeButton("아니오", null)
+                    .show()
+            } else {
+                performCascadingDelete(giftText)
+                binding.giftInput.removeView(rowLayout)
+                checkIfGiftListIsEmpty()
+            }
         } else {
-            performCascadingDelete(giftText)
             binding.giftInput.removeView(rowLayout)
             checkIfGiftListIsEmpty()
         }
