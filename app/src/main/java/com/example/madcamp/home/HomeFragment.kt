@@ -51,7 +51,6 @@ class HomeFragment : Fragment() {
     // 데이터 가져오기
     private fun loadAndSortAnniversaries() {
         val allAnniversaries = loadAllAnniversaryDetails()
-
         val today = LocalDate.now()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
 
@@ -59,13 +58,25 @@ class HomeFragment : Fragment() {
             .mapNotNull { details ->
                 try {
                     val anniversaryDate = LocalDate.parse(details.anniversary.date, formatter)
-                    val daysUntil = ChronoUnit.DAYS.between(today, anniversaryDate)
-                    if (daysUntil >= 0) Pair(details, daysUntil) else null
+                    var daysUntil: Long
+
+                    if (details.anniversary.isYearly) {
+                        var nextAnniversaryDate = anniversaryDate.withYear(today.year)
+                        if (nextAnniversaryDate.isBefore(today)) {
+                            nextAnniversaryDate = nextAnniversaryDate.plusYears(1)
+                        }
+                        daysUntil = ChronoUnit.DAYS.between(today, nextAnniversaryDate)
+                    } else {
+                        daysUntil = ChronoUnit.DAYS.between(today, anniversaryDate)
+                        if (daysUntil < 0) return@mapNotNull null
+                    }
+
+                    Pair(details, daysUntil)
                 } catch (e: Exception) {
                     null
                 }
             }
-            .sortedBy {it.second}
+            .sortedBy {it.second }
             .map {it.first}
 
         if (sortedList.isEmpty()) {

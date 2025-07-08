@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.media.Image
 import android.text.BoringLayout
 import android.text.Spannable
 import android.text.SpannableStringBuilder
@@ -34,6 +35,7 @@ class AnniversaryAdapter(
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val iconContainer: View = view.findViewById(R.id.anniversary_icon_container)
             val icon: ImageView = view.findViewById(R.id.anniversary_icon)
+            val yearlyIcon: ImageView = view.findViewById(R.id.image_yearly_icon)
             val nameText: TextView = view.findViewById(R.id.anniversary_name_text)
             val checkBox: CheckBox = view.findViewById(R.id.checkbox_anniversary_select)
             val ddayText: TextView = view.findViewById(R.id.anniversary_dday_text)
@@ -58,9 +60,10 @@ class AnniversaryAdapter(
             } else {
                 holder.giftText.text = "선물: ${anniversary.gift}"
             }
-            holder.checkBox.visibility = if (isDetailViewMode) View.INVISIBLE else View.VISIBLE
-            holder.checkBox.visibility = if (isCalendarMode) View.VISIBLE else View.INVISIBLE
+            holder.checkBox.visibility = if (isDetailViewMode) View.GONE else View.VISIBLE
+            holder.checkBox.visibility = if (isCalendarMode) View.VISIBLE else View.GONE
             holder.checkBox.isChecked = checkedItems.contains(details)
+            holder.yearlyIcon.visibility = if (anniversary.isYearly) View.VISIBLE else View.INVISIBLE
 
             holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
                 if (isChecked) {
@@ -118,7 +121,17 @@ class AnniversaryAdapter(
                     // 홈 탭에서 D-day vs 날짜 보여주기 선택
                     if (showDday) {
                         val currentDate = LocalDate.now()
-                        val daysUntil = ChronoUnit.DAYS.between(currentDate, anniversaryDate)
+                        val daysUntil: Long
+
+                        if (anniversary.isYearly) {
+                            var nextAnniversaryDate = anniversaryDate.withYear(currentDate.year)
+                            if (nextAnniversaryDate.isBefore(currentDate)) {
+                                nextAnniversaryDate = nextAnniversaryDate.plusYears(1)
+                            }
+                            daysUntil = ChronoUnit.DAYS.between(currentDate, nextAnniversaryDate)
+                        } else {
+                            daysUntil = ChronoUnit.DAYS.between(currentDate, anniversaryDate)
+                        }
 
                         holder.ddayText.text = when {
                             daysUntil > 0 -> "D-$daysUntil"

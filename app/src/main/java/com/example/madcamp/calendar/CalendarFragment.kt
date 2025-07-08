@@ -187,6 +187,8 @@ class CalendarFragment : Fragment() {
 
                 dialog.setOnShowListener {
                     val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+                    val isYearlyCheckbox = dialogView.findViewById<android.widget.CheckBox>(R.id.checkbox_yearly_anniversary)
+
                     positiveButton.setOnClickListener {
                         val anniversaryName = anniversaryNameEdit.text.toString().trim()
                         val selectedGiftItem = giftSpinner.selectedItem?.toString()
@@ -218,7 +220,8 @@ class CalendarFragment : Fragment() {
                         val newAnniversary = Anniversary(
                             date = dateString,
                             name = anniversaryName,
-                            gift = selectedGift
+                            gift = selectedGift,
+                            isYearly = isYearlyCheckbox.isChecked
                         )
                         selectedPerson!!.anniversary.add(newAnniversary)
 

@@ -51,4 +51,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
+    <CheckBox
+        android:id="@+id/checkbox_yearly_anniversary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="매년 돌아오는 기념일인가요?"
+        android:textSize="16sp"/>
+
 </LinearLayout>
