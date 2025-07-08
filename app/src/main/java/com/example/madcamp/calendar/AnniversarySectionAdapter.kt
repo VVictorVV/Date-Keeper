@@ -16,8 +16,7 @@ import com.example.madcamp.people.Person
 
 class AnniversarySectionAdapter(
     private val groupedData: Map<String, List<Gallery>>,
-    private val person: Person,
-    private val fragmentManager: FragmentManager
+    private val onSectionClick: (String) -> Unit
 ) : RecyclerView.Adapter<AnniversarySectionAdapter.SectionViewHolder>() {
 
     private var sectionTitles = groupedData.keys.toList()
@@ -38,19 +37,17 @@ class AnniversarySectionAdapter(
         val photos = groupedData[title] ?: emptyList()
 
         holder.sectionTitle.text = title
-        holder.photoRecyclerView.layoutManager =
-            GridLayoutManager(holder.itemView.context, 3) // 3개씩 한 줄에
+
+        // ✅ 어댑터 연결 (이거 없으면 사진이 안 보임)
+        holder.photoRecyclerView.layoutManager = GridLayoutManager(holder.itemView.context, 3)
+        holder.photoRecyclerView.adapter = GalleryPhotoAdapter(photos)
+
+        // ✅ 클릭 리스너 전달
         holder.sectionTitle.setOnClickListener {
-            val sectionTitle = sectionTitles[position]
-            val fragment = GalleryDetailFragment.newInstance(person, sectionTitle)
-
-            fragmentManager.beginTransaction()
-                .replace(R.id.bottom_layout, fragment)
-                .addToBackStack(null)
-                .commit()
+            onSectionClick(title)
         }
-
     }
+
 
     override fun getItemCount(): Int = sectionTitles.size
 
