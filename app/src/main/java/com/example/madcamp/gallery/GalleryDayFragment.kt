@@ -70,7 +70,7 @@ class GalleryDayFragment : Fragment() {
         // 2. 섹션 어댑터 연결
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvAnniversarySections)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        sectionAdapter = AnniversarySectionAdapter(grouped)
+        sectionAdapter = AnniversarySectionAdapter(grouped, person!!, parentFragmentManager)
         recyclerView.adapter = sectionAdapter
 
         return view

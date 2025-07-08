@@ -57,7 +57,19 @@ class GalleryDetailFragment : Fragment() {
 
         adapter = GalleryPagerAdapter(person!!) { galleryItem ->
             person?.memories?.remove(galleryItem)
-            person?.memories?.toList()?.let { adapter.submitList(it) }  // 갱신
+
+            val anniversaryName = arguments?.getString("anniversaryName")
+            val filteredList = person?.memories?.filter {
+                it.anniversary?.name == anniversaryName
+            } ?: emptyList()
+
+            Log.d("GalleryDebug", "anniversaryName = $anniversaryName")
+            filteredList.forEach {
+                Log.d("GalleryDebug", "item.anniversary?.name = ${it.anniversary?.name}")
+            }
+
+            adapter.submitList(filteredList)
+
             Toast.makeText(requireContext(), "사진이 삭제되었습니다", Toast.LENGTH_SHORT).show()
 
             if (person?.memories.isNullOrEmpty()) {
@@ -107,11 +119,6 @@ class GalleryDetailFragment : Fragment() {
             }
         }
 
-        // + 버튼 동작
-        binding.btnAddPhoto.setOnClickListener {
-            imagePicker.launch("image/*")
-        }
-
         return binding.root
     }
 
@@ -127,12 +134,14 @@ class GalleryDetailFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(person: Person): GalleryDetailFragment {
+        fun newInstance(person: Person, anniversaryName: String): GalleryDetailFragment {
             val fragment = GalleryDetailFragment()
             val args = Bundle()
             args.putParcelable("person", person)
+            args.putString("anniversaryName", anniversaryName)
             fragment.arguments = args
             return fragment
         }
     }
+
 }

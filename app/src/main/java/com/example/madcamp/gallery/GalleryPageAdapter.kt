@@ -3,6 +3,7 @@ package com.example.madcamp.gallery
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,6 +52,8 @@ class GalleryPagerAdapter(
         Glide.with(holder.itemView)
             .load(item.imageUri)
             .into(holder.imageView)
+
+        Log.d("GalleryDebug", "Loading image: ${item.imageUri}")
 
         // 설명 표시
         holder.descriptionInput.setText(item.description)

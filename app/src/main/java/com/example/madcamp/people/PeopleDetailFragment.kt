@@ -108,7 +108,7 @@ class PeopleDetailFragment : Fragment(){
             }
 
             binding.btnViewMemory.setOnClickListener {
-                val fragment = GalleryDetailFragment.newInstance(person)
+                val fragment = GalleryDetailFragment.newInstance(person, "해당 없음")  // 기본값 전달
 
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.bottom_layout, fragment)
@@ -117,7 +117,6 @@ class PeopleDetailFragment : Fragment(){
             }
         }
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()

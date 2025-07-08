@@ -4,15 +4,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.madcamp.gallery.Gallery
 import com.example.madcamp.gallery.GalleryPhotoAdapter
 import com.example.madcamp.R
+import com.example.madcamp.gallery.GalleryDetailFragment
+import com.example.madcamp.people.Person
 
 class AnniversarySectionAdapter(
-    private val groupedData: Map<String, List<Gallery>>
+    private val groupedData: Map<String, List<Gallery>>,
+    private val person: Person,
+    private val fragmentManager: FragmentManager
 ) : RecyclerView.Adapter<AnniversarySectionAdapter.SectionViewHolder>() {
 
     private var sectionTitles = groupedData.keys.toList()
@@ -35,7 +40,16 @@ class AnniversarySectionAdapter(
         holder.sectionTitle.text = title
         holder.photoRecyclerView.layoutManager =
             GridLayoutManager(holder.itemView.context, 3) // 3개씩 한 줄에
-        holder.photoRecyclerView.adapter = GalleryPhotoAdapter(photos)
+        holder.sectionTitle.setOnClickListener {
+            val sectionTitle = sectionTitles[position]
+            val fragment = GalleryDetailFragment.newInstance(person, sectionTitle)
+
+            fragmentManager.beginTransaction()
+                .replace(R.id.bottom_layout, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
+
     }
 
     override fun getItemCount(): Int = sectionTitles.size
