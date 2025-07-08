@@ -47,7 +47,7 @@
             android:id="@+id/empty_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="나만의 기념일을 추가해보세요!"
+            android:text="캘린더 탭에서 챙겨주고 싶은 기념일을 추가해보세요!"
             android:textSize="18sp"
             android:textColor="@android:color/darker_gray"
             android:layout_centerInParent="true"

@@ -131,7 +131,7 @@ class CalendarFragment : Fragment() {
             if (peopleListCheck.isEmpty()){
                 AlertDialog.Builder(requireContext())
                     .setTitle("알림")
-                    .setMessage("사람들 프로필을 등록해주세요!")
+                    .setMessage("사람들 탭에서 소중한 사람을 등록해주세요!")
                     .setPositiveButton("확인") { dialog, _ ->
                         dialog.dismiss()
                     }
