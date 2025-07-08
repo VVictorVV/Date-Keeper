@@ -6,24 +6,18 @@
     android:background="@color/background">
 
     <!-- ViewPager2 (화살표 포함) -->
-    <FrameLayout
-        android:id="@+id/photoContainer"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        >
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginHorizontal="16dp"
             android:background="@color/my_pink"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
 
         <ImageButton
             android:id="@+id/btnLeft"
@@ -33,7 +27,10 @@
             android:background="@drawable/round_button_background"
             android:src="@drawable/gallery_leftarrow_white"
             android:visibility="gone"
-            android:translationX="20dp" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/viewPager"
+            app:layout_constraintBottom_toBottomOf="@id/viewPager"
+            android:layout_marginStart="16dp" />
 
         <ImageButton
             android:id="@+id/btnRight"
@@ -43,8 +40,10 @@
             android:background="@drawable/round_button_background"
             android:src="@drawable/gallery_rightarrow_white"
             android:visibility="gone"
-            android:translationX="-20dp" />
-    </FrameLayout>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/viewPager"
+            app:layout_constraintBottom_toBottomOf="@id/viewPager"
+            android:layout_marginStart="16dp" />
 
     <!-- 사진 없을 때 표시 -->
     <TextView
