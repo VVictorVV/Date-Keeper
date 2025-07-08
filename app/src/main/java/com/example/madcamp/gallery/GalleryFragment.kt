@@ -35,7 +35,7 @@ class GalleryFragment : Fragment() {
             binding.tvEmptyMessage.visibility = View.GONE
 
             val adapter = GalleryAdapter(peopleList) { person ->
-                val fragment = GalleryDetailFragment.newInstance(person)
+                val fragment = GalleryDayFragment.newInstance(person)
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.bottom_layout, fragment)
                     .addToBackStack(null)
