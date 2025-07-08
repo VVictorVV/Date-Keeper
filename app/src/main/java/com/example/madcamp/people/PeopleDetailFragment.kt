@@ -41,6 +41,15 @@ class PeopleDetailFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
         person?.let { person ->
+            // 대표 아이콘 설정
+            val context = requireContext()
+            val resourceId = context.resources.getIdentifier(person.representativeIcon, "drawable", context.packageName)
+            if (resourceId != 0) {
+                binding.cardProfileImage.setImageResource(resourceId)
+            } else {
+                binding.cardProfileImage.setImageResource(R.drawable.icon_heart)
+            }
+
             binding.textName.text = "${person.name} (${person.nickname})"
             binding.textPhone.text = "${person.phoneNumber}"
             // 선물 처리
