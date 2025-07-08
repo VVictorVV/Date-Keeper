@@ -8,6 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="checkbox_checked_color">#BC84D1</color>
+    <color name="checkbox_unchecked_color">#A6A6A6</color>
     <color name="today_background_color">#FFCDD2</color>
     <color name="fab_background_color">#FF7E57C2</color>
     <color name="today_color">#FF5722</color>
