@@ -32,6 +32,7 @@ class AnniversaryAdapter(
         private var isDetailViewMode: Boolean = false
 
         class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val iconContainer: View = view.findViewById(R.id.anniversary_icon_container)
             val icon: ImageView = view.findViewById(R.id.anniversary_icon)
             val nameText: TextView = view.findViewById(R.id.anniversary_name_text)
             val checkBox: CheckBox = view.findViewById(R.id.checkbox_anniversary_select)
@@ -72,8 +73,7 @@ class AnniversaryAdapter(
 
             // 프로필 상세보기에서의 출력
             if (isDetailViewMode) {
-                holder.icon.visibility = View.INVISIBLE
-                holder.icon.layoutParams.width = 0
+                holder.iconContainer.visibility = View.GONE
                 holder.icon.requestLayout()
                 holder.nameText.text = "${anniversary.name}"
                 try {
@@ -137,8 +137,7 @@ class AnniversaryAdapter(
 
                 // 아이콘 설정 로직 추가 가능
                 if (person.representativeIcon.isNotEmpty()) {
-                    holder.icon.visibility = View.VISIBLE
-                    holder.icon.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                    holder.iconContainer.visibility = View.VISIBLE
                     holder.icon.requestLayout()
                     val context = holder.itemView.context
                     val resourceId = context.resources.getIdentifier(

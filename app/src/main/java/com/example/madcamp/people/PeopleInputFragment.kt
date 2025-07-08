@@ -232,7 +232,7 @@ class PeopleInputFragment : Fragment(){
         }
 
         val gridView = GridView(requireContext()).apply {
-            numColumns = 4
+            numColumns = 3
             adapter = IconAdapter(requireContext(), iconList)
             gravity = Gravity.CENTER
         }

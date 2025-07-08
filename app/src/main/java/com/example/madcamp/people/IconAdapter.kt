@@ -18,7 +18,7 @@ class IconAdapter (
         val imageView: ImageView
         if (convertView == null) {
             imageView = ImageView(context)
-            imageView.layoutParams = ViewGroup.LayoutParams(100, 100)
+            imageView.layoutParams = ViewGroup.LayoutParams(150, 150)
             imageView.scaleType = ImageView.ScaleType.CENTER_CROP
             imageView.setPadding(8, 8, 8, 8)
         } else {
