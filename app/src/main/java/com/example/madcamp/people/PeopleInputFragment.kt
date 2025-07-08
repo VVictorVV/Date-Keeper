@@ -17,7 +17,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.madcamp.databinding.PeopleInputBinding
 import android.app.AlertDialog
+import android.content.Context
+import android.view.inputmethod.InputMethod
+import android.view.inputmethod.InputMethodManager
 import android.widget.GridView
+import androidx.core.widget.doAfterTextChanged
 import com.example.madcamp.R
 
 class PeopleInputFragment : Fragment(){
@@ -41,10 +45,13 @@ class PeopleInputFragment : Fragment(){
 
         binding.btnSave.setOnClickListener {
             val personName = binding.editName.text.toString().trim()
-            val phone = binding.editPhone.text.toString().trim()
+            val phone1 = binding.editPhone1.text.toString().trim()
+            val phone2 = binding.editPhone2.text.toString().trim()
+            val phone3 = binding.editPhone3.text.toString().trim()
+            val fullPhoneNumber = "$phone1-$phone2-$phone3"
             val nickName = binding.editNickname.text.toString().trim()
 
-            if (personName.isNotEmpty() && phone.isNotEmpty() && nickName.isNotEmpty()) {
+            if (personName.isNotEmpty() && phone1.isNotEmpty() && phone2.isNotEmpty() && phone3.isNotEmpty() && nickName.isNotEmpty()) {
                 // 아직 등록되지 않은 선물 입력창이 있는지 확인
                 val hasUnregisteredGift = (0 until binding.giftInput.childCount).any { i ->
                     val child = binding.giftInput.getChildAt(i) as? ViewGroup
@@ -77,7 +84,10 @@ class PeopleInputFragment : Fragment(){
                     existingPerson?.apply {
                         name = this@PeopleInputFragment.binding.editName.text.toString().trim()
                         nickname = this@PeopleInputFragment.binding.editNickname.text.toString().trim()
-                        phoneNumber = this@PeopleInputFragment.binding.editPhone.text.toString().trim()
+                        val phone1edit = this@PeopleInputFragment.binding.editPhone1.text.toString().trim()
+                        val phone2edit = this@PeopleInputFragment.binding.editPhone2.text.toString().trim()
+                        val phone3edit = this@PeopleInputFragment.binding.editPhone3.text.toString().trim()
+                        phoneNumber = "$phone1edit-$phone2edit-$phone3edit"
                         giftInfo = giftList
                         representativeIcon = selectedIconName ?: ""
                     }
@@ -90,7 +100,7 @@ class PeopleInputFragment : Fragment(){
                         name = personName,
                         nickname = nickName,
                         representativeIcon = selectedIconName ?: "",
-                        phoneNumber = phone,
+                        phoneNumber = fullPhoneNumber,
                         anniversary = mutableListOf(),
                         giftInfo = giftList,
                         memories = mutableListOf()
@@ -107,7 +117,9 @@ class PeopleInputFragment : Fragment(){
 
                 // 입력칸 초기화
                 binding.editName.text.clear()
-                binding.editPhone.text.clear()
+                binding.editPhone1.text.clear()
+                binding.editPhone2.text.clear()
+                binding.editPhone3.text.clear()
                 binding.editNickname.text.clear()
                 binding.giftInput.removeAllViews()
                 binding.giftInput.visibility = View.GONE
@@ -156,10 +168,19 @@ class PeopleInputFragment : Fragment(){
             }
         }
 
+        setupPhoneNumberAutoMoving()
+
         val existingPerson = arguments?.getSerializable("person") as? Person
         existingPerson?.let {
             binding.editName.setText(it.name)
-            binding.editPhone.setText(it.phoneNumber)
+            val phoneParts = it.phoneNumber.split("-")
+            if (phoneParts.size == 3) {
+                binding.editPhone1.setText(phoneParts[0])
+                binding.editPhone2.setText(phoneParts[1])
+                binding.editPhone3.setText(phoneParts[2])
+            } else {
+                binding.editPhone1.setText(it.phoneNumber)
+            }
             binding.editNickname.setText(it.nickname)
 
             if (it.representativeIcon.isNotEmpty()) {
@@ -172,6 +193,19 @@ class PeopleInputFragment : Fragment(){
 
             it.giftInfo.forEach { gift ->
                 addGiftDisplayRow(gift)
+            }
+        }
+    }
+
+    private fun setupPhoneNumberAutoMoving() {
+        binding.editPhone1.doAfterTextChanged { text ->
+            if (text?.length == 3) {
+                binding.editPhone2.requestFocus()
+            }
+        }
+        binding.editPhone2.doAfterTextChanged { text ->
+            if (text?.length == 4) {
+                binding.editPhone3.requestFocus()
             }
         }
     }
@@ -304,6 +338,11 @@ class PeopleInputFragment : Fragment(){
         binding.giftInput.addView(rowLayout)
         binding.addGift.text = "✕"
         binding.giftInput.visibility = View.VISIBLE
+
+        giftEditText.requestFocus()
+
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(giftEditText, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun addGiftDisplayRow(gift: String) {
