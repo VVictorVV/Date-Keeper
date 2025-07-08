@@ -24,7 +24,7 @@ class PeopleFragment : Fragment() {
         // + 버튼 클릭 시 PeopleInputFragment로 이동
         binding.btnAdd.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_details, PeopleInputFragment())
+                .replace(R.id.bottom_layout, PeopleInputFragment())
                 .addToBackStack(null)
                 .commit()
         }
@@ -39,7 +39,7 @@ class PeopleFragment : Fragment() {
                 }
             }
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_details, fragment)
+                .replace(R.id.bottom_layout, fragment)
                 .addToBackStack(null)
                 .commit()
         }
