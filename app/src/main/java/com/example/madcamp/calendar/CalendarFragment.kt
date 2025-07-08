@@ -41,6 +41,7 @@ class CalendarFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val anniversaryMap = mutableMapOf<LocalDate, MutableList<AnniversaryDetails>>()
+    private val publicHolidayMap = mutableMapOf<LocalDate, String>()
     private var selectedDate: LocalDate? = null
     private var anniversaryAdapter: AnniversaryAdapter? = null
 
@@ -52,6 +53,8 @@ class CalendarFragment : Fragment() {
 
         // 기념일 데이터 가져오기
         loadAnniversaries()
+
+        loadPublicHolidays()
 
         val anniversaryRecyclerView = binding.rvAnniversaryList
         anniversaryRecyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -71,8 +74,11 @@ class CalendarFragment : Fragment() {
                 val textView = container.textView
                 val dotView = container.dotView
                 val todayBackground = container.todayBackground
+                val publicHolidayText = container.publicHolidayText
 
                 textView.text = day.date.dayOfMonth.toString()
+                dotView.visibility = View.INVISIBLE
+                publicHolidayText.visibility = View.GONE
 
                 if (day.date == LocalDate.now()) {
                     textView.setTextColor(ContextCompat.getColor(requireContext(),R.color.today_color))
@@ -104,12 +110,20 @@ class CalendarFragment : Fragment() {
 
                     if (anniversaryMap.containsKey(day.date)) {
                         dotView.visibility = View.VISIBLE
+                    }
+                    val holidayName = publicHolidayMap[day.date]
+                    if (holidayName != null) {
+                        publicHolidayText.text = holidayName
+                        publicHolidayText.visibility = View.VISIBLE
+                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.holiday_text_color))
                     } else {
-                        dotView.visibility = View.INVISIBLE
+                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.default_day_color))
+                    }
+                    if (day.date == LocalDate.now()) {
+                        textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.today_color))
                     }
                 } else {
                     textView.visibility = View.INVISIBLE
-                    dotView.visibility = View.INVISIBLE
                 }
             }
         }
@@ -348,6 +362,19 @@ class CalendarFragment : Fragment() {
         }
     }
 
+    private fun loadPublicHolidays() {
+        publicHolidayMap.clear()
+        val currentYear = LocalDate.now().year
+        PublicHolidays.holidays.forEach { (date, name) ->
+            try {
+                val localDate = LocalDate.parse("$currentYear-$date", DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+                publicHolidayMap[localDate] = name
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -358,5 +385,6 @@ class DayViewContainer(view: View) : ViewContainer(view) {
     val textView = view.findViewById<TextView>(R.id.calendar_day_text)
     val dotView = view.findViewById<View>(R.id.calendar_day_dot)
     val todayBackground = view.findViewById<View>(R.id.today_background_view) // 배경 View 참조 추가
+    val publicHolidayText = view.findViewById<TextView>(R.id.calendar_day_public_holiday_text)
     lateinit var day: CalendarDay
 }

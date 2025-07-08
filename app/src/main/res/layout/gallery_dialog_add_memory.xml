@@ -9,8 +9,7 @@
         android:id="@+id/image_preview"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_add"
+        android:src="@drawable/ic_image_upload"
         android:background="#E0E0E0"
         android:contentDescription="선택된 사진 미리보기" />
 
