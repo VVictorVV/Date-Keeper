@@ -62,11 +62,8 @@
 
 --- 🧑‍💻 팀원 소개 (Team) ---
 
-* 김지민
-  - GitHub: https://github.com/VVictorVV
-  - 학교: KAIST 전산학부 21학번
-
-* 김채현
-  - GitHub: https://github.com/chxxhn
-  - 학교: 부산대학교 정보컴퓨터공학부 21학번
+| 이름     | GitHub                                      | 학교                          |
+|----------|---------------------------------------------|-------------------------------|
+| 김지민   | [VVictorVV](https://github.com/VVictorVV)   | KAIST 전산학부 21학번         |
+| 김채현   | [chxxhn](https://github.com/chxxhn)         | 부산대학교 정보컴퓨터공학부 21학번 |
 
