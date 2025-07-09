@@ -41,7 +41,7 @@
 ---------------
 > 당신의 소중한 사람들을 등록하고, 각 인물과 관련된 모든 정보(기념일, 선물, 추억)를 통합 관리하세요.
 
-> [![시연 영상](https://img.youtube.com/vi/jGn8UlEpFfk/0.jpg)](https://youtube.com/shorts/jGn8UlEpFfk)
+[![시연 영상](https://img.youtube.com/vi/jGn8UlEpFfk/0.jpg)](https://youtube.com/shorts/jGn8UlEpFfk)
 
 
 * 소중한 사람 프로필 생성 및 관리:
@@ -55,6 +55,8 @@
 📸 Tab 4: 추억 보기
 -----------------
 > 소중한 사람들과 함께한 순간들을 기록하고, 기념일과 연결하여 특별한 스토리 앨범을 만들어보세요.
+
+[![시연 영상](https://img.youtube.com/vi/O0NmLjNR42c/0.jpg)](https://youtube.com/shorts/O0NmLjNR42c)
 
 * 추억 앨범:
   - 등록된 사람마다 1개의 개인 앨범이 자동으로 생성됩니다.
