@@ -65,9 +65,10 @@ class GalleryDetailFragment : Fragment() {
 
             Toast.makeText(requireContext(), "사진이 삭제되었습니다", Toast.LENGTH_SHORT).show()
 
-            if (person?.memories.isNullOrEmpty()) {
-                binding.viewPager.visibility = View.GONE
-                binding.tvNoPhotos.visibility = View.VISIBLE
+            if (filteredList.isEmpty()) {
+                parentFragmentManager.popBackStack()
+            } else {
+                updateArrowVisibility(binding.viewPager.currentItem)
             }
         }
 
