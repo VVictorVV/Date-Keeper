@@ -166,7 +166,7 @@ class CalendarFragment : Fragment() {
                     requireContext(),
                     android.R.layout.simple_spinner_item,
                     peopleList.map { it.name })
-                peopleAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                peopleAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item)
                 peopleSpinner.adapter = peopleAdapter
 
                 peopleSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -189,6 +189,7 @@ class CalendarFragment : Fragment() {
                             android.R.layout.simple_spinner_item,
                             displayGiftList
                         )
+                        giftAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_item)
                         giftSpinner.adapter = giftAdapter
 
                     }

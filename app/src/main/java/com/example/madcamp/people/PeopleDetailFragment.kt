@@ -11,6 +11,7 @@ import com.example.madcamp.AnniversaryAdapter
 import com.example.madcamp.R
 import com.example.madcamp.calendar.AnniversaryDetails
 import com.example.madcamp.databinding.PeopleDetailBinding
+import com.example.madcamp.gallery.GalleryDayFragment
 import com.example.madcamp.gallery.GalleryDetailFragment
 
 class PeopleDetailFragment : Fragment(){
@@ -108,7 +109,7 @@ class PeopleDetailFragment : Fragment(){
             }
 
             binding.btnViewMemory.setOnClickListener {
-                val fragment = GalleryDetailFragment.newInstance(person, "해당 없음")  // 기본값 전달
+                val fragment = GalleryDayFragment.newInstance(person)
 
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.bottom_layout, fragment)
