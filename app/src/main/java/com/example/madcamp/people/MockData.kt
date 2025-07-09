@@ -34,7 +34,7 @@ object MockData {
             name = "어머니",
             nickname = "엄마",
             representativeIcon = "icon_smile",
-            phoneNumber = "010-9201-3551",
+            phoneNumber = "010-8282-8282",
             anniversary = mutableListOf(person1Anniversary1, person1Anniversary2),
             memories = person1Memories,
             giftInfo = mutableListOf("제주도 여행 티켓", "생크림 케이크", "조리 도구")
@@ -56,7 +56,7 @@ object MockData {
             name = "넙죽이",
             nickname = "넙치",
             representativeIcon = "icon_skull",
-            phoneNumber = "010-9999-9999",
+            phoneNumber = "010-7979-7979",
             anniversary = mutableListOf(person2Anniversary1, person2Anniversary2, person2Anniversary3),
             memories = person2Memories,
             giftInfo = mutableListOf("치킨 기프티콘","커피 기프티콘","오리 인형")
@@ -74,9 +74,9 @@ object MockData {
         val person3 = Person(
             id = 3L,
             name = "선생님",
-            nickname = "쌤",
+            nickname = "스승님",
             representativeIcon = "icon_sunny",
-            phoneNumber = "010-8282-2828",
+            phoneNumber = "010-1111-1111",
             anniversary = mutableListOf(person3Anniversary1, person3Anniversary2),
             memories = person3Memories,
             giftInfo = mutableListOf("만년필")
@@ -87,8 +87,12 @@ object MockData {
         val person4Anniversary2 = Anniversary(date = "2021-08-12", name = "4주년", gift = "커플링", isYearly = true)
 
         val person4Memories = mutableListOf(
-            Gallery(id = 101, imageUri = getUriForDrawable(context, R.drawable.dogtest), anniversary = person4Anniversary1),
-            Gallery(id = 102, imageUri = getUriForDrawable(context, R.drawable.dogtest), anniversary = person4Anniversary2)
+            Gallery(id = 101, imageUri = getUriForDrawable(context, R.drawable.love1), anniversary = person4Anniversary1),
+            Gallery(id = 102, imageUri = getUriForDrawable(context, R.drawable.love2), anniversary = person4Anniversary1),
+            Gallery(id = 103, imageUri = getUriForDrawable(context, R.drawable.love3), anniversary = person4Anniversary1),
+            Gallery(id = 104, imageUri = getUriForDrawable(context, R.drawable.love4), anniversary = person4Anniversary1),
+            Gallery(id = 105, imageUri = getUriForDrawable(context, R.drawable.love5), anniversary = person4Anniversary2),
+            Gallery(id = 106, imageUri = getUriForDrawable(context, R.drawable.love6), anniversary = person4Anniversary2)
         )
 
         val person4 = Person(
@@ -96,7 +100,7 @@ object MockData {
             name = "안보현",
             nickname = "자기",
             representativeIcon = "icon_heart",
-            phoneNumber = "010-1234-5678",
+            phoneNumber = "010-4848-4848",
             anniversary = mutableListOf(person4Anniversary1, person4Anniversary2),
             memories = person4Memories,
             giftInfo = mutableListOf("향수","커플링","시계")
