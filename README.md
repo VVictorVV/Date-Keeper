@@ -13,7 +13,7 @@
 -----------
 > 등록된 사람들의 기념일을 D-Day 순으로 정렬하여 보여줍니다. 가장 중요한 정보들을 한눈에 확인하고 다가오는 기념일을 놓치지 마세요.
 
-> 👉 [시연 영상 보러 가기]([https://www.youtube.com/watch?v=영상ID](https://youtube.com/shorts/eU7res2bHJw?feature=share))
+[![시연 영상](https://img.youtube.com/vi/eU7res2bHJw/0.jpg)](https://youtube.com/shorts/eU7res2bHJw?feature=share)
 
 * 기념일 알림:
   - 등록된 기념일을 D-Day가 가까운 순서대로 자동 정렬합니다.
