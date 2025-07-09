@@ -143,7 +143,7 @@ class CalendarFragment : Fragment() {
 
             val peopleListCheck = PeopleManager.getPeople()
             if (peopleListCheck.isEmpty()){
-                AlertDialog.Builder(requireContext())
+                AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
                     .setTitle("알림")
                     .setMessage("사람들 탭에서 소중한 사람을 등록해주세요!")
                     .setPositiveButton("확인") { dialog, _ ->
@@ -153,7 +153,7 @@ class CalendarFragment : Fragment() {
             } else {
                 var selectedPerson: Person? = null
 
-                val dialog = AlertDialog.Builder(requireContext())
+                val dialog = AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
                     .setTitle("${date.monthValue}월 ${date.dayOfMonth}일 기념일 등록")
                     .setView(dialogView)
                     .setPositiveButton("저장") { _, _ ->

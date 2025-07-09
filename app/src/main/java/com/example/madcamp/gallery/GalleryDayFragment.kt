@@ -131,7 +131,7 @@ class GalleryDayFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         anniversarySpinner.adapter = adapter
 
-        AlertDialog.Builder(requireContext())
+        AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
             .setTitle("${person?.name}과의 추억 추가")
             .setView(dialogView)
             .setPositiveButton("저장") { _, _ ->

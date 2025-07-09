@@ -237,7 +237,7 @@ class PeopleInputFragment : Fragment(){
             gravity = Gravity.CENTER
         }
 
-        val dialog = AlertDialog.Builder(requireContext())
+        val dialog = AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
             .setTitle("아이콘 선택")
             .setView(gridView)
             .setNegativeButton("취소",null)
@@ -393,7 +393,7 @@ class PeopleInputFragment : Fragment(){
             val associatedAnniversaries = person.anniversary.filter { it.gift == giftText }
 
             if (associatedAnniversaries.isNotEmpty()) {
-                AlertDialog.Builder(requireContext())
+                AlertDialog.Builder(requireContext(), R.style.CustomDialogTheme)
                     .setTitle("선물 삭제")
                     .setMessage("선택한 선물과 연관된 기념일이 존재합니다. 정말로 삭제하시겠습니까?")
                     .setPositiveButton("예") { _, _ ->
