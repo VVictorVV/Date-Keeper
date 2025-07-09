@@ -8,6 +8,24 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="gallery_album_background_color_start">#F5B0DC</color>
+    <color name="gallery_album_background_color_end">#FFE6F3</color>
+    <color name="people_background_color_start">#FAD6EC</color>
+    <color name="people_background_color_end">#FFFFFF</color>
+
+    <color name="text_primary_white">#FFFFFF</color>
+    <color name="text_primary_dark">#222222</color>
+    <color name="image_selection_background">#E0E0E0</color>
+    <color name="text_background_grey">#AAAAAA</color>
+    <color name="button_primary">#D59BEB</color>
+    <color name="anniversary_background">#FAD6EC</color>
+    <color name="icon_color_dark">#000000</color>
+    <color name="icon_color_primary">#D59BEB</color>
+    <color name="icon_color_white">#FFFFFF</color>
+    <color name="people_activated_color">#BE3AF6</color>
+    <color name="people_deactivated_color">#A9A9A9</color>"
+    <color name="menu_icon_color">#FFFFFF</color>
+    <color name="representation_icon_color">#000000</color>
     <color name="holiday_text_color">#F44336</color>
     <color name="bottom_nav_selected_background">#BC6DDB</color>
     <color name="hint_text_color">#9E9E9E</color>

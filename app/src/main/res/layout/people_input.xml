@@ -41,13 +41,14 @@
                 android:layout_gravity="center_horizontal"
                 android:text="클릭해 대표 아이콘을 수정할 수 있어요"
                 android:textSize="12sp"
-                android:textColor="#666666"
+                android:textColor="@color/text_primary_dark"
                 android:layout_marginTop="-20dp" />
 
             <EditText
                 android:id="@+id/edit_name"
                 android:hint="이름"
                 android:singleLine="true"
+                android:textColor="@color/text_primary_dark"
                 android:imeOptions="actionNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,6 +63,7 @@
                 <EditText
                     android:id="@+id/edit_phone_1"
                     android:hint="010"
+                    android:textColor="@color/text_primary_dark"
                     android:inputType="phone"
                     android:maxLength="3"
                     android:gravity="center"
@@ -81,6 +83,7 @@
                 <EditText
                     android:id="@+id/edit_phone_2"
                     android:hint="1234"
+                    android:textColor="@color/text_primary_dark"
                     android:inputType="phone"
                     android:maxLength="4"
                     android:gravity="center"
@@ -100,6 +103,7 @@
                 <EditText
                     android:id="@+id/edit_phone_3"
                     android:hint="5678"
+                    android:textColor="@color/text_primary_dark"
                     android:inputType="phone"
                     android:maxLength="4"
                     android:gravity="center"
@@ -112,6 +116,7 @@
             <EditText
                 android:id="@+id/edit_nickname"
                 android:hint="별명"
+                android:textColor="@color/text_primary_dark"
                 android:singleLine="true"
                 android:imeOptions="actionDone"
                 android:layout_width="match_parent"
@@ -130,6 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="선호하는 선물"
+                    android:textColor="@color/text_primary_dark"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -144,7 +150,7 @@
                     android:layout_height="wrap_content"
                     android:text="+"
                     android:textSize="18sp"
-                    android:backgroundTint="@color/navigation"
+                    android:backgroundTint="@color/button_primary"
                     app:iconTint="#D59BEB" />
             </LinearLayout>
 
@@ -162,7 +168,8 @@
             <Button
                 android:id="@+id/btn_save"
                 android:text="저장"
-                android:backgroundTint="@color/navigation"
+                android:backgroundTint="@color/button_primary"
+                android:textColor="@color/text_primary_white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"/>

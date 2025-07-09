@@ -23,10 +23,10 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
         android:src="@drawable/ic_add"
-        android:background="@color/navigation"
+        android:background="@color/button_primary"
         android:contentDescription="사람 추가"
-        app:tint="@android:color/white"
-        app:backgroundTint="@color/navigation"/>
+        app:tint="@color/icon_color_white"
+        app:backgroundTint="@color/button_primary"/>
 
     <TextView
         android:id="@+id/tv_empty_people"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:text="챙겨주고 싶은 사람을 등록해보세요!"
         android:textSize="18sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/text_background_grey"
         android:layout_centerInParent="true"
         android:visibility="gone"
         android:gravity="center"

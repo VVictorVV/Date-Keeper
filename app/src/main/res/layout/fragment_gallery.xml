@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="사람들 탭에서 소중한 사람을 등록해주세요!"
         android:textSize="18sp"
-        android:textColor="@android:color/darker_gray"
+        android:textColor="@color/text_background_grey"
         android:layout_centerInParent="true"
         android:gravity="center"
         android:layout_gravity="center"

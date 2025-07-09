@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:src="@drawable/ic_image_upload"
-        android:background="#E0E0E0"
+        android:background="@color/image_selection_background"
         android:contentDescription="선택된 사진 미리보기" />
 
     <TextView
