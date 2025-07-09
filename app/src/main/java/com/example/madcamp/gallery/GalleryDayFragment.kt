@@ -8,6 +8,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Spannable
+import android.text.SpannableStringBuilder
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,6 +29,7 @@ import com.example.madcamp.people.Person
 import com.example.madcamp.R
 import com.example.madcamp.calendar.AnniversarySectionAdapter
 import java.io.File
+import android.widget.TextView
 
 class GalleryDayFragment : Fragment() {
     private var person: Person? = null
@@ -67,6 +71,28 @@ class GalleryDayFragment : Fragment() {
             it.anniversary?.name ?: "해당 없음"
         }
 
+        // 별명 매핑
+        val nickname = person?.nickname ?: "이름 없음"
+        val fullText = "${nickname}과의 추억"
+
+        val builder = SpannableStringBuilder(fullText)
+        val nicknameStart = 0
+        val nicknameEnd = nickname.length
+
+        // 원하는 색으로 설정 (예: 보라색)
+        val nicknameColor = ContextCompat.getColor(requireContext(), R.color.navigation) // 또는 원하는 색 리소스
+
+        builder.setSpan(
+            ForegroundColorSpan(nicknameColor),
+            nicknameStart,
+            nicknameEnd,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+        )
+
+        val nicknameTextView = view.findViewById<TextView>(R.id.tvPersonNickname)
+        nicknameTextView.text = builder
+
+
         // 2. 섹션 어댑터 연결
         val recyclerView = view.findViewById<RecyclerView>(R.id.rvAnniversarySections)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -87,14 +113,12 @@ class GalleryDayFragment : Fragment() {
     private fun showAddMemoryDialog() {
         val personAnniversaries = person?.anniversary ?: emptyList()
 
-        val anniversaryDisplayList: List<String>
-        if (personAnniversaries.isEmpty()) {
-            anniversaryDisplayList = listOf("해당 없음")
-        } else {
-            anniversaryDisplayList = personAnniversaries.map { "${it.name} (${it.date})" }
-        }
+        // "해당 없음"을 마지막에 추가
+        val anniversaryDisplayList: List<String> =
+            personAnniversaries.map { "${it.name} (${it.date})" } + "해당 없음"
 
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.gallery_dialog_add_memory, null)
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.gallery_dialog_add_memory, null)
         dialogImageView = dialogView.findViewById(R.id.image_preview)
         val anniversarySpinner = dialogView.findViewById<Spinner>(R.id.spinner_anniversary_selection)
 
@@ -110,35 +134,36 @@ class GalleryDayFragment : Fragment() {
         AlertDialog.Builder(requireContext())
             .setTitle("${person?.name}과의 추억 추가")
             .setView(dialogView)
-            .setPositiveButton("저장") {_,_ ->
+            .setPositiveButton("저장") { _, _ ->
                 if (selectedImageUri == null) {
                     Toast.makeText(requireContext(), "사진을 선택해주세요.", Toast.LENGTH_SHORT).show()
                     return@setPositiveButton
                 }
 
-                val selectedAnniversary = if (personAnniversaries.isEmpty()) {
-                    null
+                val selectedPosition = anniversarySpinner.selectedItemPosition
+                val selectedAnniversary = if (selectedPosition == personAnniversaries.size) {
+                    null  // 마지막 항목이면 "해당 없음"
                 } else {
-                    val selectedPosition = anniversarySpinner.selectedItemPosition
                     personAnniversaries[selectedPosition]
                 }
 
-                val imageUriToSave = selectedImageUri.toString()
-
                 val newMemory = Gallery(
                     id = System.currentTimeMillis(),
-                    imageUri = imageUriToSave,
+                    imageUri = selectedImageUri.toString(),
                     anniversary = selectedAnniversary
                 )
 
                 person?.memories?.add(newMemory)
 
-                val updatedGrouped = person?.memories?.groupBy { it.anniversary?.name ?: "해당 없음" } ?: emptyMap()
+                val updatedGrouped = person?.memories?.groupBy {
+                    it.anniversary?.name ?: "해당 없음"
+                } ?: emptyMap()
                 sectionAdapter.updateData(updatedGrouped)
             }
-            .setNegativeButton("취소",null)
+            .setNegativeButton("취소", null)
             .show()
     }
+
 
     companion object {
         fun newInstance(person: Person): GalleryDayFragment {
