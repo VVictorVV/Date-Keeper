@@ -321,8 +321,18 @@ class CalendarFragment : Fragment() {
         // PeopleManager에서 데이터 삭제
         itemsToDelete.forEach { details ->
             val person = PeopleManager.getPersonById(details.person.id)
-            val anniversary = details.anniversary
-            person?.anniversary?.remove(anniversary)
+            val anniversaryToDelete = details.anniversary
+
+            person?.let {
+                it.memories.forEachIndexed { index, memory ->
+                    if (memory.anniversary == anniversaryToDelete) {
+                        val updatedMemory = memory.copy(anniversary = null)
+                        it.memories[index] = updatedMemory
+                    }
+                }
+
+                it.anniversary.remove(anniversaryToDelete)
+            }
         }
 
         // 데이터 로드

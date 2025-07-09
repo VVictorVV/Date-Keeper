@@ -5,47 +5,72 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <!-- ViewPager2 (화살표 포함) -->
+    <LinearLayout
+        android:id="@+id/gallery_header"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@color/header"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginHorizontal="16dp"
-            android:background="@color/my_pink"
-            android:layout_gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <ImageView
+            android:id="@+id/card_profile_image"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/icon_heart"
+            android:background="@drawable/rounded_white_background"
+            android:scaleType="fitCenter"
+            android:layout_marginEnd="8dp" />
 
-        <ImageButton
-            android:id="@+id/btnLeft"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical|start"
-            android:background="@drawable/round_button_background"
-            android:src="@drawable/gallery_leftarrow_white"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/viewPager"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            android:layout_marginStart="16dp" />
+        <TextView
+            android:id="@+id/tvHeaderTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기념일 이름"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnRight"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical|end"
-            android:background="@drawable/round_button_background"
-            android:src="@drawable/gallery_rightarrow_white"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/viewPager"
-            app:layout_constraintBottom_toBottomOf="@id/viewPager"
-            android:layout_marginStart="16dp" />
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/my_pink"
+        app:layout_constraintTop_toBottomOf="@id/gallery_header"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- 사진 없을 때 표시 -->
+    <ImageButton
+        android:id="@+id/btnLeft"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/round_button_background"
+        android:src="@drawable/gallery_leftarrow_white"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/viewPager"
+        app:layout_constraintBottom_toBottomOf="@id/viewPager"
+        android:layout_marginStart="16dp" />
+
+    <ImageButton
+        android:id="@+id/btnRight"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="@drawable/round_button_background"
+        android:src="@drawable/gallery_rightarrow_white"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/viewPager"
+        app:layout_constraintBottom_toBottomOf="@id/viewPager"
+        android:layout_marginEnd="16dp" />
+
     <TextView
         android:id="@+id/tvNoPhotos"
         android:layout_width="wrap_content"
@@ -54,10 +79,10 @@
         android:textSize="16sp"
         android:textColor="#888888"
         android:gravity="center"
-        android:textAlignment="center"
         android:visibility="gone"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

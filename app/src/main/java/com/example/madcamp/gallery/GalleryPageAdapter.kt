@@ -35,8 +35,6 @@ class GalleryPagerAdapter(
         val imageView: ImageView = view.findViewById(R.id.gallery_image_view)
         val descriptionInput: EditText = view.findViewById(R.id.gallery_description_input)
         val btnDelete: ImageButton = view.findViewById(R.id.btnDelete)  // 삭제 버튼
-        val profileImage: ImageView = view.findViewById(R.id.card_profile_image)
-        val tvNickname: TextView = view.findViewById(R.id.tvNickname)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GalleryViewHolder {
@@ -52,8 +50,6 @@ class GalleryPagerAdapter(
         Glide.with(holder.itemView)
             .load(item.imageUri)
             .into(holder.imageView)
-
-        Log.d("GalleryDebug", "Loading image: ${item.imageUri}")
 
         // 설명 표시
         holder.descriptionInput.setText(item.description)
@@ -71,16 +67,6 @@ class GalleryPagerAdapter(
         holder.btnDelete.setOnClickListener {
             onDelete(item)
         }
-
-        val context = holder.itemView.context
-        val iconName = person.representativeIcon
-        val iconResId = context.resources.getIdentifier(iconName, "drawable", context.packageName)
-        if (iconResId != 0) {
-            holder.profileImage.setImageResource(iconResId)
-        } else {
-            holder.profileImage.setImageResource(R.drawable.icon_heart)
-        }
-        holder.tvNickname.text = person.nickname
     }
 
     override fun getItemCount(): Int = items.size

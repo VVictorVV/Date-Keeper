@@ -5,11 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.example.madcamp.R
 import com.example.madcamp.databinding.GalleryDetailBinding
 import com.example.madcamp.people.Person
 
@@ -31,10 +34,24 @@ class GalleryDetailFragment : Fragment() {
     ): View {
         _binding = GalleryDetailBinding.inflate(inflater, container, false)
 
+        val headerTitle: TextView = binding.galleryHeader.findViewById(R.id.tvHeaderTitle)
+        val headerIcon: ImageView = binding.galleryHeader.findViewById(R.id.card_profile_image)
+
+        val anniversaryName = arguments?.getString("anniversaryName")
+        headerTitle.text = anniversaryName ?: "추억 보기"
+        person?.let {
+            val iconName = it.representativeIcon
+            val iconResId = requireContext().resources.getIdentifier(iconName, "drawable", requireContext().packageName)
+            if (iconResId != 0) {
+                headerIcon.setImageResource(iconResId)
+            } else {
+                headerIcon.setImageResource(R.drawable.icon_heart)
+            }
+        }
+
         adapter = GalleryPagerAdapter(person!!) { galleryItem ->
             person?.memories?.remove(galleryItem)
 
-            val anniversaryName = arguments?.getString("anniversaryName")
             val filteredList = person?.memories?.filter {
                 it.anniversary?.name == anniversaryName
             } ?: emptyList()
