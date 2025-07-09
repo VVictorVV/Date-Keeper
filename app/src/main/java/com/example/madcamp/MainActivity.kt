@@ -69,6 +69,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        supportFragmentManager.beginTransaction().replace(R.id.bottom_layout, fragment).commit()
+        supportFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.fade_in,  // 새로 나타날 프래그먼트 애니메이션
+                R.anim.fade_out, // 사라질 프래그먼트 애니메이션
+                R.anim.fade_in,  // 스택에서 돌아올 때의 애니메이션
+                R.anim.fade_out  // 스택으로 사라질 때의 애니메이션
+            )
+            .replace(R.id.bottom_layout, fragment)
+            .commit()
     }
 }
