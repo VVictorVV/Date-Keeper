@@ -37,7 +37,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="이름(별명)"
-            android:textColor="@color/text_primary_dark"
             android:textSize="22sp"
             android:textStyle="bold"
             tools:text="홍길동"
@@ -50,7 +49,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
             android:text="연락처"
-            android:textColor="@color/text_primary_dark"
             android:textSize="14sp"
             tools:text="010-xxxx-xxxx" />
 
@@ -69,7 +67,7 @@
                 android:layout_height="32dp"
                 android:layout_marginHorizontal="3dp"
                 android:src="@drawable/people_gift"
-                android:background="@drawable/icon_background"
+                android:background="@drawable/ic_background"
                 android:padding="4dp"
                 android:contentDescription="선물 여부" />
 
@@ -79,7 +77,7 @@
                 android:layout_height="32dp"
                 android:layout_marginHorizontal="3dp"
                 android:src="@drawable/people_celebration"
-                android:background="@drawable/icon_background"
+                android:background="@drawable/ic_background"
                 android:padding="4dp"
                 android:contentDescription="기념일 여부" />
 
@@ -89,7 +87,7 @@
                 android:layout_height="32dp"
                 android:layout_marginHorizontal="3dp"
                 android:src="@drawable/people_gallery"
-                android:background="@drawable/icon_background"
+                android:background="@drawable/ic_background"
                 android:padding="4dp"
                 android:contentDescription="추억 여부" />
         </LinearLayout>

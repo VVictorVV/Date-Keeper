@@ -9,10 +9,10 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- 그라데이션 -->
-    <color name="gallery_album_background_color_start">#F5B0DC</color>
-    <color name="gallery_album_background_color_end">#FFE6F3</color>
-    <color name="people_background_color_start">#FAD6EC</color>
-    <color name="people_background_color_end">#FFFFFF</color>
+    <color name="gallery_album_background_color_start">#FFE5E6</color>
+    <color name="gallery_album_background_color_end">#FFB3B4</color>
+    <color name="people_background_color_start">#FFE5E6</color>
+    <color name="people_background_color_end">#FFB3A9</color>
 
     <!-- 홈 전용 -->
 
@@ -20,21 +20,21 @@
     <color name="today_background_color">#FFCDD2</color> <!-- 오늘 표시용 배경 -->
     <color name="today_color">#FF5722</color> <!-- 오늘 표시용 글씨 -->
     <color name="default_day_color">#FF000000</color> <!-- 캘린더 날짜 글자색 -->
-    <color name="selected_day_background_color">#FAD6EC</color> <!-- 선택된 날짜 배경색 -->
-    <color name="anniversary_background">#FAD6EC</color> <!-- 기념일 표시용 배경색 -->
+    <color name="selected_day_background_color">#FFAEA5</color> <!-- 선택된 날짜 배경색 -->
+    <color name="anniversary_background">#FFD2D3</color> <!-- 기념일 표시용 배경색 -->
     <color name="holiday_text_color">#F44336</color> <!-- 캘린더, 공휴일 색상 -->
 
     <!-- 사람들 전용 -->
-    <color name="people_activated_color">#BE3AF6</color> <!-- 프로필 카드 활성화 색상 -->
-    <color name="people_deactivated_color">#A9A9A9</color>" <!-- 프로필 카드 비활성화 색상 -->
+    <color name="people_activated_color">#D84C3F</color> <!-- 프로필 카드 활성화 색상 -->
+    <color name="people_deactivated_color">#D3D3D3</color>" <!-- 프로필 카드 비활성화 색상 -->
     <color name="gift_register_button_color">#4CAF50</color> <!-- 예시: 초록색 -->
     <color name="gift_delete_button_color">#F44336</color>   <!-- 예시: 빨간색 -->
-    <color name="people_header">#FFA2F9</color> <!-- 갤러리 헤더 및 푸터 색상 -->
+    <color name="people_header">#FFD8BE</color> <!-- 사람들 헤더 및 푸터 색상 -->
 
     <!-- 갤러리 전용 -->
     <color name="image_selection_background">#E0E0E0</color> <!-- 이미지 선택 회색 배경 -->
-    <color name="gallery_header">#FFA2F9</color> <!-- 갤러리 헤더 및 푸터 색상 -->
-    <color name="gallery_button">#D474F2</color> <!-- 추억 보러 가기 버튼 색상 -->
+    <color name="gallery_header">#FFD8BE</color> <!-- 갤러리 헤더 및 푸터 색상 -->
+    <color name="gallery_button">#FFB99C</color> <!-- 추억 보러 가기 버튼 색상 -->
 
 
     <!-- 공용 색깔 -->
@@ -45,25 +45,25 @@
     <color name="hint_text_color">#9E9E9E</color> <!-- 입력창 힌트 텍스트 색상 -->
 
         <!-- 버튼 색깔 -->
-    <color name="button_primary">#D59BEB</color> <!-- 주 버튼색 -->
+    <color name="button_primary">#FFAEA5</color> <!-- 주 버튼색 -->
 
         <!-- 아이콘 색깔 -->
     <color name="icon_color_dark">#000000</color> <!-- 어두은 아이콘 색상 -->
     <color name="icon_color_primary">#D59BEB</color> <!-- 주요 아이콘 색상 -->
     <color name="icon_color_white">#FFFFFF</color> <!-- 밝은 아이콘 색상 -->
-    <color name="representation_icon_color">#000000</color> <!-- 대표 아이콘 색상 -->
+    <color name="representation_icon_color">#F77C6F</color> <!-- 대표 아이콘 색상 -->
 
         <!-- 네비게이션 관련 색깔 -->
     <color name="menu_icon_color">#FFFFFF</color> <!-- 하단 네비게이션바 아이콘 색상 -->
-    <color name="bottom_nav_selected_background">#BC6DDB</color> <!-- 선택된 네비게이션 탭 진한 색상 -->
+    <color name="bottom_nav_selected_background">#FF968A</color> <!-- 선택된 네비게이션 탭 진한 색상 -->
 
         <!-- 체크박스 색깔 -->
-    <color name="checkbox_checked_color">#BC84D1</color>
+    <color name="checkbox_checked_color">#FF968A</color>
     <color name="checkbox_unchecked_color">#A6A6A6</color>
 
         <!-- 주 색깔 -->
-    <color name="background">#F7EAFE</color>      <!-- 화면 배경색 -->
-    <color name="navigation">#D59BEB</color>      <!-- 하단 네비게이션 및 상단 바 색상 -->
-    <color name="ic_background">#FEFAFC</color>      <!-- 아이콘 배경 색 -->
+    <color name="background">#FFF0F0</color>      <!-- 화면 배경색 -->
+    <color name="navigation">#FFAEA5</color>      <!-- 하단 네비게이션 및 상단 바 색상 -->
+    <color name="ic_background">#FFE0DB</color>      <!-- 아이콘 배경 색 -->
 
 </resources>

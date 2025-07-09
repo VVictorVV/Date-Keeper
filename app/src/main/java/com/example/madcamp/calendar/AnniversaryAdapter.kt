@@ -93,7 +93,7 @@ class AnniversaryAdapter(
                 val anniversaryName = anniversary.name
                 val fullText = "${personName}님의 ${anniversaryName}"
                 val spannable = SpannableStringBuilder(fullText)
-                val nameColor = Color.parseColor("#7C4DFF")
+                val nameColor = Color.parseColor("#F77C6F")
                 val nameStartIndex = 0
                 val nameEndIndex = personName.length
                 spannable.setSpan(
@@ -102,7 +102,7 @@ class AnniversaryAdapter(
                     nameEndIndex,
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
-                val anniversaryColor = Color.parseColor("#6A1B9A")
+                val anniversaryColor = Color.parseColor("#F77C6F")
                 val anniversaryStartIndex = fullText.indexOf(anniversaryName)
                 val anniversaryEndIndex = anniversaryStartIndex + anniversaryName.length
                 spannable.setSpan(

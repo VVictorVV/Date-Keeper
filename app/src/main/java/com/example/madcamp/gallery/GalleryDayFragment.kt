@@ -80,7 +80,7 @@ class GalleryDayFragment : Fragment() {
         val nicknameEnd = nickname.length
 
         // 원하는 색으로 설정 (예: 보라색)
-        val nicknameColor = ContextCompat.getColor(requireContext(), R.color.navigation) // 또는 원하는 색 리소스
+        val nicknameColor = ContextCompat.getColor(requireContext(), R.color.representation_icon_color) // 또는 원하는 색 리소스
 
         builder.setSpan(
             ForegroundColorSpan(nicknameColor),
