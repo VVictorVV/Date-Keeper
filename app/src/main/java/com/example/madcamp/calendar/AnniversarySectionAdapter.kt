@@ -40,7 +40,9 @@ class AnniversarySectionAdapter(
 
         // ✅ 어댑터 연결 (이거 없으면 사진이 안 보임)
         holder.photoRecyclerView.layoutManager = GridLayoutManager(holder.itemView.context, 3)
-        holder.photoRecyclerView.adapter = GalleryPhotoAdapter(photos)
+        holder.photoRecyclerView.adapter = GalleryPhotoAdapter(photos) {
+            onSectionClick(title)
+        }
 
         // ✅ 클릭 리스너 전달
         holder.sectionTitle.setOnClickListener {

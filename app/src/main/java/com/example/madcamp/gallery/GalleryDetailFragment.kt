@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -34,6 +35,10 @@ class GalleryDetailFragment : Fragment() {
     ): View {
         _binding = GalleryDetailBinding.inflate(inflater, container, false)
 
+        val backButton: ImageButton = binding.galleryHeader.findViewById(R.id.btn_back)
+        backButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
+        }
         val headerTitle: TextView = binding.galleryHeader.findViewById(R.id.tvHeaderTitle)
         val headerIcon: ImageView = binding.galleryHeader.findViewById(R.id.card_profile_image)
 

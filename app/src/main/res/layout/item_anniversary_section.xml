@@ -2,17 +2,21 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="16dp">
+    android:paddingBottom="16dp"
+    android:background="@drawable/gallery_section_background"
+    android:layout_marginHorizontal="8dp"
+    android:layout_marginBottom="8dp"
+    android:padding="8dp">
 
-    <TextView
+<TextView
         android:id="@+id/tvSectionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="기념일"
-        android:textColor="@color/text_primary_dark"
-        android:textSize="16sp"
+        android:textColor="@color/representation_icon_color"
+        android:textSize="20sp"
         android:textStyle="bold"
-        android:paddingBottom="8dp" />
+        android:padding="4dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPhotos"

@@ -12,6 +12,7 @@ import com.example.madcamp.calendar.CalendarFragment
 import com.example.madcamp.gallery.GalleryFragment
 import com.example.madcamp.home.HomeFragment
 import com.example.madcamp.people.PeopleFragment
+import com.example.madcamp.people.PeopleManager
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -31,6 +32,8 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.toolbar)
         supportActionBar?.title = "홈"
         supportFragmentManager.beginTransaction().replace(R.id.bottom_layout, HomeFragment()).commit()
+
+        PeopleManager.initialize(applicationContext)
 
         navigation()
 

@@ -11,11 +11,18 @@ import com.example.madcamp.R
 
 
 class GalleryPhotoAdapter(
-    private val photos: List<Gallery>
+    private val photos: List<Gallery>,
+    private val onPhotoClick: () -> Unit
 ) : RecyclerView.Adapter<GalleryPhotoAdapter.PhotoViewHolder>() {
 
     inner class PhotoViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val imageView: ImageView = view.findViewById(R.id.photoImageView)
+
+        init {
+            itemView.setOnClickListener {
+                onPhotoClick()
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {

@@ -1,8 +1,18 @@
 package com.example.madcamp.people
 
+import android.content.Context
+
 object PeopleManager {
-    private val peopleList = mutableListOf<Person>()
+    private var peopleList = mutableListOf<Person>()
     private var idCounter = 1L;
+    private var isInitialized = false
+
+    fun initialize(context: Context) {
+        if (isInitialized) return
+
+        peopleList = MockData.getMockPeopleList(context).toMutableList()
+        isInitialized = true
+    }
 
     fun getPeople(): List<Person> {
         return peopleList

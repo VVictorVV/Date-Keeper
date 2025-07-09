@@ -355,18 +355,32 @@ class CalendarFragment : Fragment() {
     }
 
     //모든 사람의 모든 기념일 불러오기
-    private fun loadAnniversaries(){
+    private fun loadAnniversaries() {
         anniversaryMap.clear()
         val people = PeopleManager.getPeople()
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val currentYear = LocalDate.now().year
+
         people.forEach { person ->
             person.anniversary.forEach { anniversary ->
                 try {
-                    val date = LocalDate.parse(anniversary.date, formatter)
-                    val details = AnniversaryDetails(person, anniversary)
-                    anniversaryMap.getOrPut(date) { mutableListOf() }.add(details)
+                    val originalDate = LocalDate.parse(anniversary.date, formatter)
+
+                    if (anniversary.isYearly) {
+                        // 매년 반복되는 기념일의 경우, 현재 기준 -5년 ~ +5년 범위의 날짜에 모두 추가
+                        (-5..5).forEach { yearOffset ->
+                            val targetYear = currentYear + yearOffset
+                            val dateInYear = originalDate.withYear(targetYear)
+                            val details = AnniversaryDetails(person, anniversary)
+                            anniversaryMap.getOrPut(dateInYear) { mutableListOf() }.add(details)
+                        }
+                    } else {
+                        // 반복되지 않는 기념일은 해당 날짜에만 추가
+                        val details = AnniversaryDetails(person, anniversary)
+                        anniversaryMap.getOrPut(originalDate) { mutableListOf() }.add(details)
+                    }
                 } catch (e: Exception) {
-                    e.printStackTrace()
+                    Log.e("CalendarFragment", "Failed to parse anniversary date: ${anniversary.date}", e)
                 }
             }
         }
@@ -375,12 +389,19 @@ class CalendarFragment : Fragment() {
     private fun loadPublicHolidays() {
         publicHolidayMap.clear()
         val currentYear = LocalDate.now().year
-        PublicHolidays.holidays.forEach { (date, name) ->
-            try {
-                val localDate = LocalDate.parse("$currentYear-$date", DateTimeFormatter.ofPattern("yyyy-MM-dd"))
-                publicHolidayMap[localDate] = name
-            } catch (e: Exception) {
-                e.printStackTrace()
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+
+        // 현재 기준 -5년 ~ +5년 범위의 공휴일을 모두 추가
+        (-5..5).forEach { yearOffset ->
+            val targetYear = currentYear + yearOffset
+            PublicHolidays.holidays.forEach { (date, name) ->
+                try {
+                    // 'date'는 "MM-dd" 형식이므로, "yyyy-MM-dd"로 만듭니다
+                    val localDate = LocalDate.parse("$targetYear-$date", formatter)
+                    publicHolidayMap[localDate] = name
+                } catch (e: Exception) {
+                    Log.e("CalendarFragment", "Failed to parse public holiday date: $targetYear-$date", e)
+                }
             }
         }
     }

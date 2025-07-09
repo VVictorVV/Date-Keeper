@@ -35,6 +35,19 @@
             android:text="기념일 이름"
             android:textSize="20sp"
             android:textStyle="bold" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_arrow_back"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="뒤로가기" />
     </LinearLayout>
 
     <androidx.viewpager2.widget.ViewPager2

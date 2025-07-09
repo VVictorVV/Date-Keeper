@@ -78,7 +78,18 @@ class AnniversaryAdapter(
             if (isDetailViewMode) {
                 holder.iconContainer.visibility = View.GONE
                 holder.icon.requestLayout()
-                holder.nameText.text = "${anniversary.name}"
+                val fullText = "${anniversary.name}"
+                val spannable = SpannableStringBuilder(fullText)
+                val nameColor = Color.parseColor("#F77C6F")
+                val nameStartIndex = 0
+                val nameEndIndex = fullText.length
+                spannable.setSpan(
+                    ForegroundColorSpan(nameColor),
+                    nameStartIndex,
+                    nameEndIndex,
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
+                )
+                holder.nameText.text = spannable
                 try {
                     val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                     val displayFormatter = DateTimeFormatter.ofPattern("M월 d일")
