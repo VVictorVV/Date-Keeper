@@ -53,7 +53,8 @@ class GalleryDetailFragment : Fragment() {
             person?.memories?.remove(galleryItem)
 
             val filteredList = person?.memories?.filter {
-                it.anniversary?.name == anniversaryName
+                val name = it.anniversary?.name ?: "해당 없음"
+                name == anniversaryName
             } ?: emptyList()
 
             Log.d("GalleryDebug", "anniversaryName = $anniversaryName")
@@ -80,15 +81,20 @@ class GalleryDetailFragment : Fragment() {
         } else {
             binding.tvNoPhotos.visibility = View.GONE
             binding.viewPager.visibility = View.VISIBLE
-            person?.memories?.toList()?.let {
-                val filteredList = person?.memories?.filter {
-                    val anniversaryName = arguments?.getString("anniversaryName")
-                    it.anniversary?.name == anniversaryName
-                }
-                adapter.submitList(filteredList ?: emptyList())
-            }
 
-            // ViewPager 페이지 바뀔 때 화살표 보이기 설정
+            val anniversaryName = arguments?.getString("anniversaryName")
+            Log.d("GalleryDebug", "넘어온 anniversaryName: $anniversaryName")
+
+            val filteredList = person?.memories?.filter {
+                val name = it.anniversary?.name ?: "해당 없음"
+                Log.d("GalleryDebug", "사진: ${it.imageUri}, 기념일: $name")
+                name == anniversaryName
+            } ?: emptyList()
+
+            Log.d("GalleryDebug", "필터된 사진 수: ${filteredList.size}")
+            adapter.submitList(filteredList)
+
+        // ViewPager 페이지 바뀔 때 화살표 보이기 설정
             binding.viewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
                     super.onPageSelected(position)
