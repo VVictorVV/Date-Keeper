@@ -9,7 +9,7 @@
         android:id="@+id/gallery_header"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/header"
+        android:background="@color/gallery_header"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:paddingTop="8dp"
